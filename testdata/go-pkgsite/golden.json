@@ -1,0 +1,963 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Go Pkgsite API",
+    "description": "API for accessing information about Go packages and modules on pkg.go.dev.",
+    "version": "v0.1.0"
+  },
+  "servers": [
+    {
+      "url": "https://pkg.go.dev/v1beta"
+    }
+  ],
+  "paths": {
+    "/imported-by/{path}": {
+      "parameters": [
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Paths of packages importing the package at {path},\nnot including packages in the same module.\nFiltering is applied to the list of paths in the response.\nOnly paths that match the filter query parameter are returned.\nWithin a filter, the variable `path` is set to the import path.",
+        "operationId": "getImported-by",
+        "parameters": [
+          {
+            "name": "module",
+            "in": "query",
+            "description": "Module path.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Max number of items to return.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Where to resume listing.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Include only items matching the regular expression filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackageImportedBy"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/module/{path}": {
+      "parameters": [
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Information about the module at {path}.",
+        "operationId": "getModule",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "query",
+            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "licenses",
+            "in": "query",
+            "description": "Whether to include licenses in the result.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "readme",
+            "in": "query",
+            "description": "Whether to include the README in the result.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Module"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/package/{path}": {
+      "parameters": [
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Information about the package at {path}.",
+        "operationId": "getPackage",
+        "parameters": [
+          {
+            "name": "module",
+            "in": "query",
+            "description": "Module path.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "goos",
+            "in": "query",
+            "description": "GOOS of documentation build context.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "goarch",
+            "in": "query",
+            "description": "GOARCH of documentation build context.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "doc",
+            "in": "query",
+            "description": "Documentation format: text, html, md or markdown.\nIf omitted, documentation is not returned.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "examples",
+            "in": "query",
+            "description": "Whether to include examples with the returned documentation.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "imports",
+            "in": "query",
+            "description": "Whether to include the packages that this one imports.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "licenses",
+            "in": "query",
+            "description": "Whether to include licenses in the result.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Package"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/packages/{path}": {
+      "parameters": [
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Information about packages of the module at {path}.\nFiltering is applied to the list of packages in the response.\nOnly packages that match the filter query parameter are returned.",
+        "operationId": "getPackages",
+        "parameters": [
+          {
+            "name": "version",
+            "in": "query",
+            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Max number of items to return.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Where to resume listing.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Include only items matching the regular expression filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackagesResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "summary": "Search results. Only results that match the filter query parameter are returned.",
+        "operationId": "getSearch",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Find packages matching this query.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "symbol",
+            "in": "query",
+            "description": "If non-empty, find symbols matching this string.\nThe query further restricts the search to matching packages.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Max number of items to return.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Where to resume listing.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Include only items matching the regular expression filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/symbols/{path}": {
+      "parameters": [
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "List of symbols for the package at {path}.\nFiltering is applied to the list of symbols in the response.\nOnly symbols that match the filter query parameter are returned.",
+        "operationId": "getSymbols",
+        "parameters": [
+          {
+            "name": "module",
+            "in": "query",
+            "description": "Module path.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "goos",
+            "in": "query",
+            "description": "GOOS of documentation build context.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "goarch",
+            "in": "query",
+            "description": "GOARCH of documentation build context.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Max number of items to return.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Where to resume listing.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Include only items matching the regular expression filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackageSymbols"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/versions/{path}": {
+      "parameters": [
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Versions of the module at {path}.\nIf there are tagged versions, they are returned.\nOtherwise, the 10 most recent pseudo-versions are returned.\nThe versions are in descending order.\nOnly results that match the filter query parameter are returned.",
+        "operationId": "getVersions",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Max number of items to return.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Where to resume listing.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Include only items matching the regular expression filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vulns/{path}": {
+      "parameters": [
+        {
+          "name": "path",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "summary": "Vulnerabilities of the module or package at {path}, from\nthe Go vulnerability database (https://vuln.go.dev).\nOnly results that match the filter query parameter are returned.",
+        "operationId": "getVulns",
+        "parameters": [
+          {
+            "name": "module",
+            "in": "query",
+            "description": "Module path.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "query",
+            "description": "Module version: semantic version, 'latest', or default branches 'master' or 'main'.\n(Latest if empty).",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Max number of items to return.",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "token",
+            "in": "query",
+            "description": "Where to resume listing.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "Include only items matching the regular expression filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Candidate": {
+        "type": "object",
+        "properties": {
+          "modulePath": {
+            "type": "string"
+          },
+          "packagePath": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "candidates": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Candidate"
+            }
+          },
+          "code": {
+            "description": "HTTP status code",
+            "type": "integer"
+          },
+          "err": {
+            "$ref": "#/components/schemas/Error",
+            "description": "Unexported field for internal tracking"
+          },
+          "fixes": {
+            "description": "suggestions for how to fix",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "License": {
+        "type": "object",
+        "properties": {
+          "contents": {
+            "type": "string"
+          },
+          "filePath": {
+            "type": "string"
+          },
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "Module": {
+        "type": "object",
+        "properties": {
+          "commitTime": {
+            "description": "CommitTime is the timestamp returned by the module proxy's .info endpoint,\nrepresenting the time the version was created.",
+            "type": "string",
+            "format": "date-time"
+          },
+          "goModContents": {
+            "type": "string"
+          },
+          "hasGoMod": {
+            "type": "boolean"
+          },
+          "isLatest": {
+            "type": "boolean"
+          },
+          "isRedistributable": {
+            "type": "boolean"
+          },
+          "isStandardLibrary": {
+            "type": "boolean"
+          },
+          "licenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/License"
+            }
+          },
+          "path": {
+            "type": "string"
+          },
+          "readme": {
+            "$ref": "#/components/schemas/Readme"
+          },
+          "repoUrl": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "ModuleVersion": {
+        "type": "object",
+        "properties": {
+          "commitTime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "deprecated": {
+            "type": "boolean"
+          },
+          "deprecationReason": {
+            "type": "string"
+          },
+          "hasGoMod": {
+            "description": "Whether the module has a go.mod file.",
+            "type": "boolean"
+          },
+          "isRedistributable": {
+            "description": "Whether the license allows distribution.",
+            "type": "boolean"
+          },
+          "latestVersion": {
+            "description": "latest unretracted version",
+            "type": "string"
+          },
+          "modulePath": {
+            "type": "string"
+          },
+          "retracted": {
+            "type": "boolean"
+          },
+          "retractionReason": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "Package": {
+        "type": "object",
+        "properties": {
+          "docs": {
+            "type": "string"
+          },
+          "goarch": {
+            "type": "string",
+            "example": "all"
+          },
+          "goos": {
+            "type": "string",
+            "example": "all"
+          },
+          "imports": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "isLatest": {
+            "type": "boolean"
+          },
+          "isStandardLibrary": {
+            "type": "boolean"
+          },
+          "licenses": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/License"
+            }
+          },
+          "modulePath": {
+            "type": "string",
+            "example": "github.com/google/go-cmp"
+          },
+          "version": {
+            "type": "string",
+            "example": "v0.7.0"
+          },
+          "path": {
+            "type": "string",
+            "example": "github.com/google/go-cmp/cmp"
+          },
+          "name": {
+            "type": "string",
+            "example": "cmp"
+          },
+          "synopsis": {
+            "type": "string",
+            "example": "Package cmp determines equality of values."
+          },
+          "isRedistributable": {
+            "type": "boolean"
+          }
+        }
+      },
+      "PackageImportedBy": {
+        "type": "object",
+        "properties": {
+          "importedBy": {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          },
+          "modulePath": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "PackageInfo": {
+        "type": "object",
+        "properties": {
+          "isRedistributable": {
+            "description": "Whether the license allows distribution.",
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "path": {
+            "type": "string"
+          },
+          "synopsis": {
+            "type": "string"
+          }
+        }
+      },
+      "PackageSymbols": {
+        "type": "object",
+        "properties": {
+          "modulePath": {
+            "type": "string"
+          },
+          "symbols": {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "PackagesResponse": {
+        "type": "object",
+        "properties": {
+          "isStandardLibrary": {
+            "type": "boolean"
+          },
+          "modulePath": {
+            "type": "string"
+          },
+          "packages": {
+            "$ref": "#/components/schemas/PaginatedResponse"
+          },
+          "version": {
+            "type": "string"
+          },
+          "code": {
+            "type": "integer",
+            "example": 400
+          },
+          "message": {
+            "type": "string",
+            "example": "golang.org/x/time/rate is a package, not a module"
+          },
+          "fixes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "example": "retry the call with the containing module: \"golang.org/x/time\""
+            }
+          }
+        }
+      },
+      "PaginatedResponse": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "modulePath": {
+                  "type": "string",
+                  "example": "golang.org/x/time"
+                },
+                "version": {
+                  "type": "string",
+                  "example": "v0.15.0"
+                },
+                "commitTime": {
+                  "type": "string",
+                  "format": "date-time",
+                  "example": "2026-02-11T19:14:29Z"
+                },
+                "isRedistributable": {
+                  "type": "boolean"
+                },
+                "hasGoMod": {
+                  "type": "boolean"
+                },
+                "latestVersion": {
+                  "type": "string",
+                  "example": "v0.15.0"
+                },
+                "deprecated": {
+                  "type": "boolean"
+                },
+                "deprecationReason": {
+                  "type": "string",
+                  "example": ""
+                },
+                "retracted": {
+                  "type": "boolean"
+                },
+                "retractionReason": {
+                  "type": "string",
+                  "example": ""
+                }
+              }
+            }
+          },
+          "nextPageToken": {
+            "type": "string",
+            "example": "c5806e999a87f632c2e6016f77dbf204"
+          },
+          "total": {
+            "type": "integer",
+            "example": 15
+          }
+        }
+      },
+      "Readme": {
+        "type": "object",
+        "properties": {
+          "contents": {
+            "type": "string"
+          },
+          "filepath": {
+            "type": "string"
+          }
+        }
+      },
+      "SearchResult": {
+        "type": "object",
+        "properties": {
+          "modulePath": {
+            "type": "string"
+          },
+          "packagePath": {
+            "type": "string"
+          },
+          "synopsis": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      },
+      "Symbol": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "parent": {
+            "type": "string"
+          },
+          "synopsis": {
+            "type": "string"
+          }
+        }
+      },
+      "Vulnerability": {
+        "type": "object",
+        "properties": {
+          "details": {
+            "type": "string"
+          },
+          "fixedVersion": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

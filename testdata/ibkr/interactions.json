@@ -1,0 +1,50 @@
+[
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://localhost:5000/v1/api/tickle"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Cache-Control": "max-age=0, no-cache, no-store",
+				"Connection": "keep-alive",
+				"Content-Type": "application/json; charset=utf-8",
+				"Date": "Sun, 28 Jun 2026 21:13:04 GMT",
+				"Expires": "Sun, 28 Jun 2026 21:13:04 GMT",
+				"Pragma": "no-cache",
+				"Referrer-Policy": "Origin-when-cross-origin",
+				"Server-Timing": "cdn-cache; desc=MISS",
+				"Set-Cookie": "***********************************************************",
+				"Strict-Transport-Security": "max-age=600 ; includeSubDomains",
+				"Vary": "Accept-Encoding,Origin",
+				"X-Content-Type-Options": "nosniff",
+				"X-Response-Time": "0ms"
+			},
+			"body": {
+				"session": "00000000000000000000000000000000",
+				"ssoExpires": 587636,
+				"collission": false,
+				"userId": 0,
+				"hmds": {
+					"error": "no bridge"
+				},
+				"iserver": {
+					"authStatus": {
+						"authenticated": true,
+						"established": true,
+						"competing": false,
+						"connected": true,
+						"message": "",
+						"MAC": "00:00:00:00:00:00",
+						"serverInfo": {
+							"serverName": "JifZ13017",
+							"serverVersion": "Build 10.46.1m, Jun 16, 2026 4:41:12 PM"
+						},
+						"hardware_info": "**************************"
+					}
+				}
+			}
+		}
+	}
+]

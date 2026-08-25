@@ -1,0 +1,149 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api.retrodiffusion.ai"
+    }
+  ],
+  "paths": {
+    "/v1/styles/selector": {
+      "get": {
+        "operationId": "ListV1StylesSelector",
+        "parameters": [
+          {
+            "name": "model",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "rd_pro"
+            }
+          },
+          {
+            "name": "X-Rd-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "styles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "prompt_style": {
+                            "type": "string",
+                            "example": "rd_animation__8_dir_rotation"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "8 Direction Rotation"
+                          },
+                          "description": {
+                            "type": "string",
+                            "example": "Create 8 direction rotations of anything."
+                          },
+                          "group_id": {
+                            "type": "string",
+                            "example": "RD Animation"
+                          },
+                          "required_model": {
+                            "type": "string",
+                            "example": "rd_pro"
+                          },
+                          "required_tab": {
+                            "type": "string",
+                            "example": "tab:animation"
+                          },
+                          "min_width": {
+                            "type": "integer",
+                            "example": 80
+                          },
+                          "max_width": {
+                            "type": "integer",
+                            "example": 80
+                          },
+                          "min_height": {
+                            "type": "integer",
+                            "example": 80
+                          },
+                          "max_height": {
+                            "type": "integer",
+                            "example": 80
+                          },
+                          "max_number_of_images": {
+                            "type": "integer",
+                            "example": 1
+                          },
+                          "require_input_image": {
+                            "type": "boolean",
+                            "example": null
+                          },
+                          "supports_reference_images": {
+                            "type": "boolean"
+                          },
+                          "example_prompt": {
+                            "type": "string",
+                            "example": "An orange cat playing with a blue ball of yarn"
+                          }
+                        },
+                        "required": [
+                          "prompt_style",
+                          "name",
+                          "description",
+                          "group_id",
+                          "required_model",
+                          "required_tab",
+                          "min_width",
+                          "max_width",
+                          "min_height",
+                          "max_height",
+                          "max_number_of_images",
+                          "require_input_image",
+                          "supports_reference_images",
+                          "example_prompt"
+                        ]
+                      }
+                    },
+                    "models": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "rd_pro"
+                      }
+                    },
+                    "tabs": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "tab:advanced-animation"
+                      }
+                    }
+                  },
+                  "required": [
+                    "styles",
+                    "models",
+                    "tabs"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

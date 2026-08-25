@@ -1,0 +1,217 @@
+[
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.notion.com/v1/pages/96245c8f-1784-44a4-82ad-1941127c3ec3",
+			"header": {
+				"Authorization": "Bearer **************************************************",
+				"Notion-Version": "2026-03-11"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json; charset=utf-8"
+			},
+			"body": {
+				"object": "page",
+				"id": "00000000-0000-0000-0000-000000000000",
+				"created_time": "2022-07-14T05:31:00.000Z",
+				"last_edited_time": "2025-02-02T19:54:00.000Z",
+				"created_by": {
+					"object": "user",
+					"id": "00000000-0000-0000-0000-000000000000"
+				},
+				"last_edited_by": {
+					"object": "user",
+					"id": "00000000-0000-0000-0000-000000000000"
+				},
+				"cover": {
+					"type": "external",
+					"external": {
+						"url": "https://app.notion.com/images/page-cover/nasa_space_shuttle_columbia_and_sunrise.jpg"
+					}
+				},
+				"icon": {
+					"type": "emoji",
+					"emoji": "🌄"
+				},
+				"parent": {
+					"type": "page_id",
+					"page_id": "11f88fcd-daf4-802e-b645-eb2d041a759b"
+				},
+				"in_trash": false,
+				"is_archived": false,
+				"is_locked": false,
+				"properties": {
+					"title": {
+						"id": "title",
+						"type": "title",
+						"title": [
+							{
+								"type": "text",
+								"text": {
+									"content": "Example Page",
+									"link": null
+								},
+								"annotations": {
+									"bold": false,
+									"italic": false,
+									"strikethrough": false,
+									"underline": false,
+									"code": false,
+									"color": "default"
+								},
+								"plain_text": "Example Page",
+								"href": null
+							}
+						]
+					}
+				},
+				"url": "https://app.notion.com/p/Example-Page-96245c8f178444a482ad1941127c3ec3",
+				"public_url": "https://fae-tools.notion.site/Example-Page-96245c8f178444a482ad1941127c3ec3",
+				"request_id": "1cd5f340-41a1-4465-bf0f-d732f1080f7b"
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.notion.com/v1/blocks/96245c8f-1784-44a4-82ad-1941127c3ec3/children?page_size=3",
+			"header": {
+				"Authorization": "Bearer **************************************************",
+				"Notion-Version": "2026-03-11"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json; charset=utf-8"
+			},
+			"body": {
+				"object": "list",
+				"results": [
+					{
+						"object": "block",
+						"id": "00000000-0000-0000-0000-000000000000",
+						"parent": {
+							"type": "page_id",
+							"page_id": "96245c8f-1784-44a4-82ad-1941127c3ec3"
+						},
+						"created_time": "2022-07-14T05:31:00.000Z",
+						"last_edited_time": "2022-07-14T05:33:00.000Z",
+						"created_by": {
+							"object": "user",
+							"id": "00000000-0000-0000-0000-000000000000"
+						},
+						"last_edited_by": {
+							"object": "user",
+							"id": "00000000-0000-0000-0000-000000000000"
+						},
+						"has_children": false,
+						"in_trash": false,
+						"type": "paragraph",
+						"paragraph": {
+							"rich_text": [],
+							"icon": null,
+							"color": "default"
+						}
+					},
+					{
+						"object": "block",
+						"id": "00000000-0000-0000-0000-000000000000",
+						"parent": {
+							"type": "page_id",
+							"page_id": "96245c8f-1784-44a4-82ad-1941127c3ec3"
+						},
+						"created_time": "2022-07-14T05:32:00.000Z",
+						"last_edited_time": "2022-07-14T05:33:00.000Z",
+						"created_by": {
+							"object": "user",
+							"id": "00000000-0000-0000-0000-000000000000"
+						},
+						"last_edited_by": {
+							"object": "user",
+							"id": "00000000-0000-0000-0000-000000000000"
+						},
+						"has_children": false,
+						"in_trash": false,
+						"type": "paragraph",
+						"paragraph": {
+							"rich_text": [
+								{
+									"type": "text",
+									"text": {
+										"content": "This is a simple paragraph.",
+										"link": null
+									},
+									"annotations": {
+										"bold": false,
+										"italic": false,
+										"strikethrough": false,
+										"underline": false,
+										"code": false,
+										"color": "default"
+									},
+									"plain_text": "This is a simple paragraph.",
+									"href": null
+								}
+							],
+							"icon": null,
+							"color": "default"
+						}
+					},
+					{
+						"object": "block",
+						"id": "00000000-0000-0000-0000-000000000000",
+						"parent": {
+							"type": "page_id",
+							"page_id": "96245c8f-1784-44a4-82ad-1941127c3ec3"
+						},
+						"created_time": "2022-07-14T05:33:00.000Z",
+						"last_edited_time": "2022-07-14T05:34:00.000Z",
+						"created_by": {
+							"object": "user",
+							"id": "00000000-0000-0000-0000-000000000000"
+						},
+						"last_edited_by": {
+							"object": "user",
+							"id": "00000000-0000-0000-0000-000000000000"
+						},
+						"has_children": false,
+						"in_trash": false,
+						"type": "paragraph",
+						"paragraph": {
+							"rich_text": [
+								{
+									"type": "text",
+									"text": {
+										"content": "This is a red paragraph.",
+										"link": null
+									},
+									"annotations": {
+										"bold": false,
+										"italic": false,
+										"strikethrough": false,
+										"underline": false,
+										"code": false,
+										"color": "red"
+									},
+									"plain_text": "This is a red paragraph.",
+									"href": null
+								}
+							],
+							"icon": null,
+							"color": "default"
+						}
+					}
+				],
+				"next_cursor": "7f7a2665-50a6-4a33-9ee7-33a93dd3cbd0",
+				"has_more": true,
+				"type": "block",
+				"block": {},
+				"request_id": "ae6bf639-93df-4d73-8e9f-7e349f9c4e23"
+			}
+		}
+	}
+]

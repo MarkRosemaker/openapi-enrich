@@ -1,0 +1,99 @@
+[
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1beta/package/github.com/google/go-cmp/cmp"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"modulePath": "github.com/google/go-cmp",
+				"version": "v0.7.0",
+				"isLatest": true,
+				"isStandardLibrary": false,
+				"goos": "all",
+				"goarch": "all",
+				"path": "github.com/google/go-cmp/cmp",
+				"name": "cmp",
+				"synopsis": "Package cmp determines equality of values.",
+				"isRedistributable": true
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1beta/packages/golang.org/x/time/rate"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"code": 400,
+				"message": "golang.org/x/time/rate is a package, not a module",
+				"fixes": [
+					"retry the call with the containing module: \"golang.org/x/time\""
+				]
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://pkg.go.dev/v1beta/versions/golang.org/x/time?limit=3"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"items": [
+					{
+						"modulePath": "golang.org/x/time",
+						"version": "v0.15.0",
+						"commitTime": "2026-02-11T19:14:29Z",
+						"isRedistributable": true,
+						"hasGoMod": true,
+						"latestVersion": "v0.15.0",
+						"deprecated": false,
+						"deprecationReason": "",
+						"retracted": false,
+						"retractionReason": ""
+					},
+					{
+						"modulePath": "golang.org/x/time",
+						"version": "v0.14.0",
+						"commitTime": "2025-09-16T23:29:52Z",
+						"isRedistributable": true,
+						"hasGoMod": true,
+						"latestVersion": "v0.15.0",
+						"deprecated": false,
+						"deprecationReason": "",
+						"retracted": false,
+						"retractionReason": ""
+					},
+					{
+						"modulePath": "golang.org/x/time",
+						"version": "v0.13.0",
+						"commitTime": "2025-08-13T14:44:00Z",
+						"isRedistributable": true,
+						"hasGoMod": true,
+						"latestVersion": "v0.15.0",
+						"deprecated": false,
+						"deprecationReason": "",
+						"retracted": false,
+						"retractionReason": ""
+					}
+				],
+				"total": 15,
+				"nextPageToken": "c5806e999a87f632c2e6016f77dbf204"
+			}
+		}
+	}
+]

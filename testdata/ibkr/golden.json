@@ -1,0 +1,129 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:5000"
+    }
+  ],
+  "paths": {
+    "/v1/api/tickle": {
+      "get": {
+        "operationId": "ListV1APITickle",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "session": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "ssoExpires": {
+                      "type": "integer",
+                      "example": 587636
+                    },
+                    "collission": {
+                      "type": "boolean"
+                    },
+                    "userId": {
+                      "type": "integer"
+                    },
+                    "hmds": {
+                      "type": "object",
+                      "properties": {
+                        "error": {
+                          "type": "string",
+                          "example": "no bridge"
+                        }
+                      },
+                      "required": [
+                        "error"
+                      ]
+                    },
+                    "iserver": {
+                      "type": "object",
+                      "properties": {
+                        "authStatus": {
+                          "type": "object",
+                          "properties": {
+                            "authenticated": {
+                              "type": "boolean"
+                            },
+                            "established": {
+                              "type": "boolean"
+                            },
+                            "competing": {
+                              "type": "boolean"
+                            },
+                            "connected": {
+                              "type": "boolean"
+                            },
+                            "message": {
+                              "type": "string",
+                              "example": ""
+                            },
+                            "MAC": {
+                              "type": "string"
+                            },
+                            "serverInfo": {
+                              "type": "object",
+                              "properties": {
+                                "serverName": {
+                                  "type": "string",
+                                  "example": "JifZ13017"
+                                },
+                                "serverVersion": {
+                                  "type": "string",
+                                  "example": "Build 10.46.1m, Jun 16, 2026 4:41:12 PM"
+                                }
+                              },
+                              "required": [
+                                "serverName",
+                                "serverVersion"
+                              ]
+                            },
+                            "hardware_info": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "authenticated",
+                            "established",
+                            "competing",
+                            "connected",
+                            "message",
+                            "MAC",
+                            "serverInfo",
+                            "hardware_info"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "authStatus"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "session",
+                    "ssoExpires",
+                    "collission",
+                    "userId",
+                    "hmds",
+                    "iserver"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

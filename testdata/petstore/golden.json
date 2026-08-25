@@ -1,0 +1,283 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api.petstoreapi.com"
+    }
+  ],
+  "paths": {
+    "/v1/pets": {
+      "get": {
+        "operationId": "ListV1Pets",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "OrthoEnumCase"
+                          },
+                          "species": {
+                            "type": "string",
+                            "example": "BIRD"
+                          },
+                          "ageMonths": {
+                            "type": "integer",
+                            "example": 12
+                          },
+                          "size": {
+                            "type": "string",
+                            "example": "MEDIUM"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "PENDING"
+                          },
+                          "price": {
+                            "type": "string",
+                            "example": "100.00"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "example": "USD"
+                          },
+                          "goodWithKids": {
+                            "type": "boolean"
+                          },
+                          "createdAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-01-13T10:40:44.142972Z"
+                          },
+                          "updatedAt": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2026-04-12T18:25:14.019808Z"
+                          },
+                          "breed": {
+                            "type": "string",
+                            "example": "Domestic Shorthair"
+                          },
+                          "medicalInfo": {
+                            "type": "object",
+                            "properties": {
+                              "vaccinated": {
+                                "type": "boolean"
+                              },
+                              "spayedNeutered": {
+                                "type": "boolean"
+                              },
+                              "microchipped": {
+                                "type": "boolean"
+                              },
+                              "specialNeeds": {
+                                "type": "boolean"
+                              },
+                              "healthNotes": {
+                                "type": "string",
+                                "example": "Healthy indoor cat; routine vaccines completed."
+                              }
+                            },
+                            "required": [
+                              "vaccinated",
+                              "spayedNeutered",
+                              "microchipped",
+                              "specialNeeds",
+                              "healthNotes"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "species",
+                          "ageMonths",
+                          "size",
+                          "status",
+                          "price",
+                          "currency",
+                          "goodWithKids",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    },
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "page": {
+                          "type": "integer",
+                          "example": 1
+                        },
+                        "limit": {
+                          "type": "integer",
+                          "example": 20
+                        },
+                        "totalItems": {
+                          "type": "integer",
+                          "example": 3000
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 150
+                        }
+                      },
+                      "required": [
+                        "page",
+                        "limit",
+                        "totalItems",
+                        "totalPages"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "data",
+                    "pagination"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/pets/{petId}": {
+      "parameters": [
+        {
+          "name": "petId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetV1PetByPetID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "StatusCase"
+                    },
+                    "species": {
+                      "type": "string",
+                      "example": "CAT"
+                    },
+                    "breed": {
+                      "type": "string",
+                      "example": "Domestic Shorthair"
+                    },
+                    "ageMonths": {
+                      "type": "integer",
+                      "example": 10
+                    },
+                    "size": {
+                      "type": "string",
+                      "example": "SMALL"
+                    },
+                    "status": {
+                      "type": "string",
+                      "example": "AVAILABLE"
+                    },
+                    "price": {
+                      "type": "string",
+                      "example": "80.00"
+                    },
+                    "currency": {
+                      "type": "string",
+                      "example": "USD"
+                    },
+                    "goodWithKids": {
+                      "type": "boolean"
+                    },
+                    "createdAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-01-13T10:40:45.67439Z"
+                    },
+                    "updatedAt": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-01-13T10:40:45.67439Z"
+                    },
+                    "medicalInfo": {
+                      "type": "object",
+                      "properties": {
+                        "vaccinated": {
+                          "type": "boolean"
+                        },
+                        "spayedNeutered": {
+                          "type": "boolean"
+                        },
+                        "microchipped": {
+                          "type": "boolean"
+                        },
+                        "specialNeeds": {
+                          "type": "boolean"
+                        },
+                        "healthNotes": {
+                          "type": "string",
+                          "example": "Healthy indoor cat; routine vaccines completed."
+                        }
+                      },
+                      "required": [
+                        "vaccinated",
+                        "spayedNeutered",
+                        "microchipped",
+                        "specialNeeds",
+                        "healthNotes"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "species",
+                    "breed",
+                    "ageMonths",
+                    "size",
+                    "status",
+                    "price",
+                    "currency",
+                    "goodWithKids",
+                    "createdAt",
+                    "updatedAt",
+                    "medicalInfo"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

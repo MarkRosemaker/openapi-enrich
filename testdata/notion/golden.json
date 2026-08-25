@@ -1,0 +1,593 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://api.notion.com"
+    }
+  ],
+  "paths": {
+    "/v1/pages/{pageId}": {
+      "parameters": [
+        {
+          "name": "pageId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetV1PageByPageID",
+        "parameters": [
+          {
+            "name": "Notion-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2026-03-11"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "example": "page"
+                    },
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "created_time": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2022-07-14T05:31:00.000Z"
+                    },
+                    "last_edited_time": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2025-02-02T19:54:00.000Z"
+                    },
+                    "created_by": {
+                      "type": "object",
+                      "properties": {
+                        "object": {
+                          "type": "string",
+                          "example": "user"
+                        },
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "object",
+                        "id"
+                      ]
+                    },
+                    "last_edited_by": {
+                      "type": "object",
+                      "properties": {
+                        "object": {
+                          "type": "string",
+                          "example": "user"
+                        },
+                        "id": {
+                          "type": "string",
+                          "format": "uuid"
+                        }
+                      },
+                      "required": [
+                        "object",
+                        "id"
+                      ]
+                    },
+                    "cover": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "external"
+                        },
+                        "external": {
+                          "type": "object",
+                          "properties": {
+                            "url": {
+                              "type": "string",
+                              "format": "uri",
+                              "example": "https://app.notion.com/images/page-cover/nasa_space_shuttle_columbia_and_sunrise.jpg"
+                            }
+                          },
+                          "required": [
+                            "url"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "external"
+                      ]
+                    },
+                    "icon": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "emoji"
+                        },
+                        "emoji": {
+                          "type": "string",
+                          "example": "🌄"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "emoji"
+                      ]
+                    },
+                    "parent": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "example": "page_id"
+                        },
+                        "page_id": {
+                          "type": "string",
+                          "format": "uuid",
+                          "example": "11f88fcd-daf4-802e-b645-eb2d041a759b"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "page_id"
+                      ]
+                    },
+                    "in_trash": {
+                      "type": "boolean"
+                    },
+                    "is_archived": {
+                      "type": "boolean"
+                    },
+                    "is_locked": {
+                      "type": "boolean"
+                    },
+                    "properties": {
+                      "type": "object",
+                      "properties": {
+                        "title": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "example": "title"
+                            },
+                            "type": {
+                              "type": "string",
+                              "example": "title"
+                            },
+                            "title": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "type": {
+                                    "type": "string",
+                                    "example": "text"
+                                  },
+                                  "text": {
+                                    "type": "object",
+                                    "properties": {
+                                      "content": {
+                                        "type": "string",
+                                        "example": "Example Page"
+                                      },
+                                      "link": {
+                                        "type": "object",
+                                        "example": null
+                                      }
+                                    },
+                                    "required": [
+                                      "content",
+                                      "link"
+                                    ]
+                                  },
+                                  "annotations": {
+                                    "type": "object",
+                                    "properties": {
+                                      "bold": {
+                                        "type": "boolean"
+                                      },
+                                      "italic": {
+                                        "type": "boolean"
+                                      },
+                                      "strikethrough": {
+                                        "type": "boolean"
+                                      },
+                                      "underline": {
+                                        "type": "boolean"
+                                      },
+                                      "code": {
+                                        "type": "boolean"
+                                      },
+                                      "color": {
+                                        "type": "string",
+                                        "example": "default"
+                                      }
+                                    },
+                                    "required": [
+                                      "bold",
+                                      "italic",
+                                      "strikethrough",
+                                      "underline",
+                                      "code",
+                                      "color"
+                                    ]
+                                  },
+                                  "plain_text": {
+                                    "type": "string",
+                                    "example": "Example Page"
+                                  },
+                                  "href": {
+                                    "type": "object",
+                                    "example": null
+                                  }
+                                },
+                                "required": [
+                                  "type",
+                                  "text",
+                                  "annotations",
+                                  "plain_text",
+                                  "href"
+                                ]
+                              }
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "type",
+                            "title"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "title"
+                      ]
+                    },
+                    "url": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://app.notion.com/p/Example-Page-96245c8f178444a482ad1941127c3ec3"
+                    },
+                    "public_url": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://fae-tools.notion.site/Example-Page-96245c8f178444a482ad1941127c3ec3"
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "1cd5f340-41a1-4465-bf0f-d732f1080f7b"
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "id",
+                    "created_time",
+                    "last_edited_time",
+                    "created_by",
+                    "last_edited_by",
+                    "cover",
+                    "icon",
+                    "parent",
+                    "in_trash",
+                    "is_archived",
+                    "is_locked",
+                    "properties",
+                    "url",
+                    "public_url",
+                    "request_id"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/blocks/{blockId}/children": {
+      "parameters": [
+        {
+          "name": "blockId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "ListV1BlockChildren",
+        "parameters": [
+          {
+            "name": "page_size",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "Notion-Version",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "2026-03-11"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "example": "list"
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "object": {
+                            "type": "string",
+                            "example": "block"
+                          },
+                          "id": {
+                            "type": "string",
+                            "format": "uuid"
+                          },
+                          "parent": {
+                            "type": "object",
+                            "properties": {
+                              "type": {
+                                "type": "string",
+                                "example": "page_id"
+                              },
+                              "page_id": {
+                                "type": "string",
+                                "format": "uuid",
+                                "example": "96245c8f-1784-44a4-82ad-1941127c3ec3"
+                              }
+                            },
+                            "required": [
+                              "type",
+                              "page_id"
+                            ]
+                          },
+                          "created_time": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2022-07-14T05:31:00.000Z"
+                          },
+                          "last_edited_time": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2022-07-14T05:33:00.000Z"
+                          },
+                          "created_by": {
+                            "type": "object",
+                            "properties": {
+                              "object": {
+                                "type": "string",
+                                "example": "user"
+                              },
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              }
+                            },
+                            "required": [
+                              "object",
+                              "id"
+                            ]
+                          },
+                          "last_edited_by": {
+                            "type": "object",
+                            "properties": {
+                              "object": {
+                                "type": "string",
+                                "example": "user"
+                              },
+                              "id": {
+                                "type": "string",
+                                "format": "uuid"
+                              }
+                            },
+                            "required": [
+                              "object",
+                              "id"
+                            ]
+                          },
+                          "has_children": {
+                            "type": "boolean"
+                          },
+                          "in_trash": {
+                            "type": "boolean"
+                          },
+                          "type": {
+                            "type": "string",
+                            "example": "paragraph"
+                          },
+                          "paragraph": {
+                            "type": "object",
+                            "properties": {
+                              "rich_text": {
+                                "type": "array",
+                                "items": {
+                                  "type": "object",
+                                  "properties": {
+                                    "type": {
+                                      "type": "string",
+                                      "example": "text"
+                                    },
+                                    "text": {
+                                      "type": "object",
+                                      "properties": {
+                                        "content": {
+                                          "type": "string",
+                                          "example": "This is a simple paragraph."
+                                        },
+                                        "link": {
+                                          "type": "object",
+                                          "example": null
+                                        }
+                                      },
+                                      "required": [
+                                        "content",
+                                        "link"
+                                      ]
+                                    },
+                                    "annotations": {
+                                      "type": "object",
+                                      "properties": {
+                                        "bold": {
+                                          "type": "boolean"
+                                        },
+                                        "italic": {
+                                          "type": "boolean"
+                                        },
+                                        "strikethrough": {
+                                          "type": "boolean"
+                                        },
+                                        "underline": {
+                                          "type": "boolean"
+                                        },
+                                        "code": {
+                                          "type": "boolean"
+                                        },
+                                        "color": {
+                                          "type": "string",
+                                          "example": "default"
+                                        }
+                                      },
+                                      "required": [
+                                        "bold",
+                                        "italic",
+                                        "strikethrough",
+                                        "underline",
+                                        "code",
+                                        "color"
+                                      ]
+                                    },
+                                    "plain_text": {
+                                      "type": "string",
+                                      "example": "This is a simple paragraph."
+                                    },
+                                    "href": {
+                                      "type": "object",
+                                      "example": null
+                                    }
+                                  },
+                                  "example": null
+                                }
+                              },
+                              "icon": {
+                                "type": "object",
+                                "example": null
+                              },
+                              "color": {
+                                "type": "string",
+                                "example": "default"
+                              }
+                            },
+                            "required": [
+                              "rich_text",
+                              "icon",
+                              "color"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "object",
+                          "id",
+                          "parent",
+                          "created_time",
+                          "last_edited_time",
+                          "created_by",
+                          "last_edited_by",
+                          "has_children",
+                          "in_trash",
+                          "type",
+                          "paragraph"
+                        ]
+                      }
+                    },
+                    "next_cursor": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "7f7a2665-50a6-4a33-9ee7-33a93dd3cbd0"
+                    },
+                    "has_more": {
+                      "type": "boolean"
+                    },
+                    "type": {
+                      "type": "string",
+                      "example": "block"
+                    },
+                    "block": {
+                      "type": "object"
+                    },
+                    "request_id": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "ae6bf639-93df-4d73-8e9f-7e349f9c4e23"
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "results",
+                    "next_cursor",
+                    "has_more",
+                    "type",
+                    "block",
+                    "request_id"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}

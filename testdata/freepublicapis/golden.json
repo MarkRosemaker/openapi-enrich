@@ -1,0 +1,87 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://www.freepublicapis.com"
+    }
+  ],
+  "paths": {
+    "/api/apis/{apiId}": {
+      "parameters": [
+        {
+          "name": "apiId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetAPIAPIByAPIID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 275
+                    },
+                    "emoji": {
+                      "type": "string",
+                      "example": "🤯"
+                    },
+                    "title": {
+                      "type": "string",
+                      "example": "Free Public APIs API"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "FreePublicAPIs now has a free public API! The Free Public APIs API provides up-to-date information on every free public API listed on freepublicapis.com. Perfect for developers, students and hobbyists. It is limited to 1000 requests a day, if you need more, feel free to reach out. Also if you build something with this API, make sure to add it as a showcase project here."
+                    },
+                    "documentation": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://www.freepublicapis.com/api"
+                    },
+                    "methods": {
+                      "type": "integer",
+                      "example": 4
+                    },
+                    "health": {
+                      "type": "integer",
+                      "example": 90
+                    },
+                    "source": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://freepublicapis.com/api"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "emoji",
+                    "title",
+                    "description",
+                    "documentation",
+                    "methods",
+                    "health",
+                    "source"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
