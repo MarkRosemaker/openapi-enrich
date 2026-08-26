@@ -8,7 +8,7 @@
 </div>
 
 <p align="center">
-  <img alt="A gopher clicking two incomplete jigsaw pieces together into one complete piece" src=openapi-merge.jpg width=500>
+  <img alt="A gopher clicking two incomplete jigsaw pieces together into one complete piece" src="openapi-merge.jpg" width=500>
 </p>
 
 <h3 align="center">
