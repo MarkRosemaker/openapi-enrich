@@ -305,7 +305,11 @@ func processRequestBody(op *openapi.Operation, body []byte, contentType string) 
 	rb := op.RequestBody.Value
 	if existing, ok := rb.Content[mr]; ok {
 		if existing.Schema != nil {
-			return merge.Schema(existing.Schema.Value, schema, false)
+			if err := merge.Schema(existing.Schema.Value, schema, false); err != nil {
+				return err
+			}
+
+			return growEnums(existing.Schema.Value, body)
 		}
 		existing.Schema = &openapi.SchemaRef{Value: schema}
 		return nil
@@ -332,7 +336,21 @@ func processResponse(op *openapi.Operation, resp *cassette.Response) error {
 		return nil
 	}
 
-	return merge.Response(existing.Value, incoming)
+	if err := merge.Response(existing.Value, incoming); err != nil {
+		return err
+	}
+
+	for _, mt := range existing.Value.Content {
+		if mt.Schema == nil {
+			continue
+		}
+
+		if err := growEnums(mt.Schema.Value, resp.Body); err != nil {
+			return fmt.Errorf("content: %w", err)
+		}
+	}
+
+	return nil
 }
 
 // findParam finds a parameter by name and location in a ParameterList.
