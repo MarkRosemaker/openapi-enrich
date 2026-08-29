@@ -107,8 +107,8 @@ func TestAnalyzeInteraction_QueryParam(t *testing.T) {
 	if offsetParam == nil {
 		t.Error("expected offset param")
 	}
-	if limitParam != nil && limitParam.Schema.Type != openapi.TypeInteger {
-		t.Errorf("limit type: got %q, want integer", limitParam.Schema.Type)
+	if limitParam != nil && limitParam.Schema.Value.Type != openapi.TypeInteger {
+		t.Errorf("limit type: got %q, want integer", limitParam.Schema.Value.Type)
 	}
 }
 
@@ -138,8 +138,8 @@ func TestAnalyzeInteraction_CommaSeparatedParam(t *testing.T) {
 	if tagsParam == nil {
 		t.Fatal("expected tags param")
 	}
-	if tagsParam.Schema.Type != openapi.TypeArray {
-		t.Errorf("tags type: got %q, want array", tagsParam.Schema.Type)
+	if tagsParam.Schema.Value.Type != openapi.TypeArray {
+		t.Errorf("tags type: got %q, want array", tagsParam.Schema.Value.Type)
 	}
 	if tagsParam.Explode == nil || *tagsParam.Explode {
 		t.Error("expected explode=false for comma-separated param")
@@ -294,7 +294,7 @@ func TestAnalyzeInteraction_PathParamDetection(t *testing.T) {
 	if !idParam.Required {
 		t.Error("path parameter must be required")
 	}
-	if idParam.Schema == nil || idParam.Schema.Type != openapi.TypeInteger {
+	if idParam.Schema == nil || idParam.Schema.Value.Type != openapi.TypeInteger {
 		t.Errorf("userId schema: got %v, want integer", idParam.Schema)
 	}
 }
@@ -329,8 +329,8 @@ func TestAnalyzeInteraction_UUIDPathParam(t *testing.T) {
 		t.Fatal("expected path parameter")
 	}
 	// UUID segment is not numeric, so schema should be string
-	if idParam.Schema.Type != openapi.TypeString {
-		t.Errorf("UUID param schema: got %q, want string", idParam.Schema.Type)
+	if idParam.Schema.Value.Type != openapi.TypeString {
+		t.Errorf("UUID param schema: got %q, want string", idParam.Schema.Value.Type)
 	}
 }
 
@@ -625,11 +625,11 @@ func TestAnalyzeInteraction_CommaSeparatedIntParams(t *testing.T) {
 	if idsParam == nil {
 		t.Fatal("expected ids param")
 	}
-	if idsParam.Schema.Type != openapi.TypeArray {
-		t.Errorf("type: got %q, want array", idsParam.Schema.Type)
+	if idsParam.Schema.Value.Type != openapi.TypeArray {
+		t.Errorf("type: got %q, want array", idsParam.Schema.Value.Type)
 	}
-	if idsParam.Schema.Items.Value.Type != openapi.TypeInteger {
-		t.Errorf("items type: got %q, want integer", idsParam.Schema.Items.Value.Type)
+	if idsParam.Schema.Value.Items.Value.Type != openapi.TypeInteger {
+		t.Errorf("items type: got %q, want integer", idsParam.Schema.Value.Items.Value.Type)
 	}
 }
 

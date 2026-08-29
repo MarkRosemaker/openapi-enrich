@@ -223,10 +223,10 @@ func TestEnrich_ExistingParameter(t *testing.T) {
 		Name:     "Notion-Version",
 		In:       openapi.ParameterLocationHeader,
 		Required: true,
-		Schema: &openapi.Schema{
+		Schema: &openapi.SchemaRef{Value: &openapi.Schema{
 			Type:    openapi.TypeString,
 			Example: jsontext.Value(`"2026-03-11"`),
-		},
+		}},
 	}
 	doc.Components.Parameters.Set("NotionVersionHeader", &openapi.ParameterRef{
 		Value: header,
@@ -241,10 +241,10 @@ func TestEnrich_ExistingParameter(t *testing.T) {
 				Name:     "id",
 				In:       openapi.ParameterLocationPath,
 				Required: true,
-				Schema: &openapi.Schema{
+				Schema: &openapi.SchemaRef{Value: &openapi.Schema{
 					Type:   openapi.TypeString,
 					Format: openapi.FormatUUID,
-				},
+				}},
 			}},
 		},
 		Get: &openapi.Operation{

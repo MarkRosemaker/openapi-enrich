@@ -6,10 +6,10 @@ github.com/MarkRosemaker/json2yaml v0.0.0-20260827160130-e13d71a9e20f h1:Jcmvg7z
 github.com/MarkRosemaker/json2yaml v0.0.0-20260827160130-e13d71a9e20f/go.mod h1:eUwIjjooIESK1Ymw4bbMdSDF6feAblyZjxyoo5o/W6U=
 github.com/MarkRosemaker/jsonutil v0.0.0-20260827160132-fe5e496a04a0 h1:QfUI1Ru+lXcqu/CB7aKTiHRDTGCiLOkmpk4hJvPqSwA=
 github.com/MarkRosemaker/jsonutil v0.0.0-20260827160132-fe5e496a04a0/go.mod h1:SzjJlgYFlzpbFGvUUoQgfEsWlbai63bvhDPK8J0MNYM=
-github.com/MarkRosemaker/openapi v0.0.0-20260827160410-baabf06a3288 h1:PQTXNr/T1DyhfS1VcmstwznzHLcz14R7nSlsE/OtCMg=
-github.com/MarkRosemaker/openapi v0.0.0-20260827160410-baabf06a3288/go.mod h1:RLNx3/H3c9ciQZFo3Hui6boPFetBFbTTLogvK97jkC4=
-github.com/MarkRosemaker/openapi-merge v0.0.0-20260827160554-180c3d697667 h1:sYX29mt8EYYpM9EvLIBlpGhxlFThvJftGpkHIetQ+Os=
-github.com/MarkRosemaker/openapi-merge v0.0.0-20260827160554-180c3d697667/go.mod h1:n5QSrFsnX5QKjYg86Cw06xMUUsUhU+VQM21PvAhIf/4=
+github.com/MarkRosemaker/openapi v0.0.0-20260828173639-2eb9293069d5 h1:pWVWN37gAi5p01TxgMDPssJJnxVjx4CC/3tWRIWP9PM=
+github.com/MarkRosemaker/openapi v0.0.0-20260828173639-2eb9293069d5/go.mod h1:RLNx3/H3c9ciQZFo3Hui6boPFetBFbTTLogvK97jkC4=
+github.com/MarkRosemaker/openapi-merge v0.0.0-20260829103842-1c2b2540f717 h1:pZUnJ5IqFORm7h/Olju5ohUT7QF+sMwKLoXp0e+gEfM=
+github.com/MarkRosemaker/openapi-merge v0.0.0-20260829103842-1c2b2540f717/go.mod h1:lN6/iqTAKo+DFy+lkpmZbT5Dp6LPHbnxs4Vc+bN4lgc=
 github.com/MarkRosemaker/ordmap v0.0.0-20260827160235-3615cea69fee h1:2yMuKjDHVdNqdgvHobP1CAk0yPNu20HYb0FHKoaAZqA=
 github.com/MarkRosemaker/ordmap v0.0.0-20260827160235-3615cea69fee/go.mod h1:YKKsjG6E//LbZrKodmO4gfx3pYtSp0QaYhOnqfoc5vE=
 github.com/MarkRosemaker/yaml v0.0.0-20260827160238-8e7ad4112fde h1:62XRZFb7FYCadW43oZN5yCjU4tHv2CwsViXaFr2m0iE=

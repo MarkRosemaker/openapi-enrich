@@ -4,8 +4,8 @@ go 1.27
 
 require (
 	github.com/MarkRosemaker/jsonutil v0.0.0-20260827160132-fe5e496a04a0
-	github.com/MarkRosemaker/openapi v0.0.0-20260827160410-baabf06a3288
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20260827160554-180c3d697667
+	github.com/MarkRosemaker/openapi v0.0.0-20260828173639-2eb9293069d5
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20260829103842-1c2b2540f717
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 	github.com/google/uuid v1.6.0
