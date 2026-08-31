@@ -144,6 +144,168 @@
           }
         }
       }
+    },
+    "/v1/inferences": {
+      "post": {
+        "operationId": "PostV1Inferences",
+        "parameters": [
+          {
+            "name": "X-Rd-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "prompt": {
+                    "type": "string",
+                    "example": "security officer (a soldier). A 34-year-old male human. Lean and wiry, with a posture that suggests he's always expecting something to break. He wears the standard grey-blue security fatigues, kept meticulously clean despite the dust of the colony. A thin, jagged scar running through his left eyebrow. He has a habit of clicking his tongue when he's impatient."
+                  },
+                  "prompt_style": {
+                    "type": "string",
+                    "example": "rd_pro__topdown"
+                  },
+                  "width": {
+                    "type": "integer",
+                    "example": 128
+                  },
+                  "height": {
+                    "type": "integer",
+                    "example": 128
+                  },
+                  "num_images": {
+                    "type": "integer",
+                    "example": 1
+                  },
+                  "remove_bg": {
+                    "type": "boolean"
+                  },
+                  "tile_x": {
+                    "type": "boolean"
+                  },
+                  "tile_y": {
+                    "type": "boolean"
+                  },
+                  "return_spritesheet": {
+                    "type": "boolean"
+                  },
+                  "bypass_prompt_expansion": {
+                    "type": "boolean"
+                  },
+                  "include_downloadable_data": {
+                    "type": "boolean"
+                  },
+                  "check_cost": {
+                    "type": "boolean"
+                  },
+                  "async": {
+                    "type": "boolean"
+                  },
+                  "upload_outputs": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "prompt",
+                  "prompt_style",
+                  "width",
+                  "height",
+                  "num_images",
+                  "remove_bg",
+                  "tile_x",
+                  "tile_y",
+                  "return_spritesheet",
+                  "bypass_prompt_expansion",
+                  "include_downloadable_data",
+                  "check_cost",
+                  "async",
+                  "upload_outputs"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "created_at": {
+                      "type": "integer",
+                      "example": 1788096424
+                    },
+                    "credit_cost": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "balance_cost": {
+                      "type": "number",
+                      "format": "double",
+                      "example": 0.18
+                    },
+                    "output_images": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "example": null
+                      }
+                    },
+                    "base64_images": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "example": null
+                      }
+                    },
+                    "output_urls": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "example": null
+                      }
+                    },
+                    "model": {
+                      "type": "string",
+                      "example": "check_cost"
+                    },
+                    "remaining_credits": {
+                      "type": "integer",
+                      "example": 0
+                    },
+                    "remaining_balance": {
+                      "type": "number",
+                      "format": "double",
+                      "example": 0.5
+                    }
+                  },
+                  "required": [
+                    "created_at",
+                    "credit_cost",
+                    "balance_cost",
+                    "output_images",
+                    "base64_images",
+                    "output_urls",
+                    "model",
+                    "remaining_credits",
+                    "remaining_balance"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
