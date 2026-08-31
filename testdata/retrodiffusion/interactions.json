@@ -2281,5 +2281,49 @@
 				]
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "POST",
+			"url": "https://api.retrodiffusion.ai/v1/inferences",
+			"header": {
+				"Content-Type": "application/json",
+				"User-Agent": "Retro Diffusion API",
+				"X-Rd-Token": "************************************************"
+			},
+			"body": {
+				"prompt": "security officer (a soldier). A 34-year-old male human. Lean and wiry, with a posture that suggests he's always expecting something to break. He wears the standard grey-blue security fatigues, kept meticulously clean despite the dust of the colony. A thin, jagged scar running through his left eyebrow. He has a habit of clicking his tongue when he's impatient.",
+				"prompt_style": "rd_pro__topdown",
+				"width": 128,
+				"height": 128,
+				"num_images": 1,
+				"remove_bg": true,
+				"tile_x": false,
+				"tile_y": false,
+				"return_spritesheet": false,
+				"bypass_prompt_expansion": false,
+				"include_downloadable_data": false,
+				"check_cost": true,
+				"async": false,
+				"upload_outputs": false
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"created_at": 1788096424,
+				"credit_cost": 0,
+				"balance_cost": 0.18,
+				"output_images": [],
+				"base64_images": [],
+				"output_urls": [],
+				"model": "check_cost",
+				"remaining_credits": 0,
+				"remaining_balance": 0.5
+			}
+		}
 	}
 ]
