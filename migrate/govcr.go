@@ -5,9 +5,8 @@ package migrate
 import (
 	"strings"
 
-	govcr "gopkg.in/dnaeon/go-vcr.v3/cassette"
-
 	"github.com/MarkRosemaker/openapi-enrich/cassette"
+	govcr "gopkg.in/dnaeon/go-vcr.v3/cassette"
 )
 
 // FromGoVCRFile reads a go-vcr cassette YAML file using go-vcr's native
