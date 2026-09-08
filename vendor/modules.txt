@@ -10,13 +10,13 @@ github.com/MarkRosemaker/json2yaml
 # github.com/MarkRosemaker/jsonutil v0.0.0-20260908160045-7e280e06ea7c
 ## explicit; go 1.27
 github.com/MarkRosemaker/jsonutil
-# github.com/MarkRosemaker/openapi v0.0.0-20260908160126-ac1ed10e1e23
+# github.com/MarkRosemaker/openapi v0.0.0-20260908220143-35d94718777e
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20260908160154-71cc4cd42727
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20260908220206-8d95751a93bd
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-merge
-# github.com/MarkRosemaker/ordmap v0.0.0-20260908160056-ecd5c9eeefde
+# github.com/MarkRosemaker/ordmap v0.0.0-20260908220128-3774a569a402
 ## explicit; go 1.27
 github.com/MarkRosemaker/ordmap
 # github.com/MarkRosemaker/yaml v0.0.0-20260908160059-d407f389fd7b
@@ -34,7 +34,7 @@ github.com/go-api-libs/types
 # github.com/google/uuid v1.6.0
 ## explicit
 github.com/google/uuid
-# golang.org/x/exp v0.0.0-20260824195058-e88cd73687aa
+# golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba
 ## explicit; go 1.26.0
 golang.org/x/exp/maps
 # gopkg.in/dnaeon/go-vcr.v3 v3.2.0
