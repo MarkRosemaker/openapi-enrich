@@ -248,9 +248,9 @@ func TestRecordingTransport_DifferentHeadersSameURL_Cached(t *testing.T) {
 		}),
 	}
 
-	req1, _ := http.NewRequest(http.MethodGet, "https://api.example.com/me", nil)
+	req1, _ := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://api.example.com/me", nil)
 	req1.Header.Set("Foo", "Bar")
-	req2, _ := http.NewRequest(http.MethodGet, "https://api.example.com/me", nil)
+	req2, _ := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://api.example.com/me", nil)
 	req2.Header.Set("Foo", "Baz")
 
 	rt.RoundTrip(req1) //nolint
@@ -342,7 +342,7 @@ func TestRecordingTransport_UnderlyingError(t *testing.T) {
 
 func TestRecordingTransport_RequestBodyError(t *testing.T) {
 	rt := &Transport{Transport: fakeTransport(200, `{}`, nil)}
-	req, _ := http.NewRequest(http.MethodPost, "https://api.example.com/users",
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "https://api.example.com/users",
 		io.NopCloser(errReader{}))
 	_, err := rt.RoundTrip(req)
 	if err == nil {
@@ -371,7 +371,7 @@ func TestRecordingTransport_RequestHeadersRecorded(t *testing.T) {
 	rt := &Transport{Transport: fakeTransport(200, `{}`, nil)}
 	client := &http.Client{Transport: rt}
 
-	req, _ := http.NewRequest(http.MethodGet, "https://api.example.com/me", nil)
+	req, _ := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://api.example.com/me", nil)
 	req.Header.Set("Authorization", "Bearer secret")
 	resp, err := client.Do(req)
 	if err != nil {
