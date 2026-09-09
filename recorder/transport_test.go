@@ -45,7 +45,7 @@ func get(t *testing.T, client *http.Client, url string) (*http.Response, error) 
 	return client.Do(req)
 }
 
-func post(t *testing.T, client *http.Client, url string, contentType string, body io.Reader) (*http.Response, error) {
+func post(t *testing.T, client *http.Client, url, contentType string, body io.Reader) (*http.Response, error) {
 	t.Helper()
 
 	req, err := http.NewRequestWithContext(t.Context(), http.MethodPost, url, body)
