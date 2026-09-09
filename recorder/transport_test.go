@@ -34,6 +34,17 @@ func fakeTransport(statusCode int, body string, headers http.Header) http.RoundT
 	})
 }
 
+func get(t *testing.T, client *http.Client, url string) (*http.Response, error) {
+	t.Helper()
+
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodGet, url, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	return client.Do(req)
+}
+
 func TestRecordingTransport_RecordsInteraction(t *testing.T) {
 	rt := &Transport{
 		Transport: fakeTransport(200, `{"ok":true}`,
@@ -41,7 +52,7 @@ func TestRecordingTransport_RecordsInteraction(t *testing.T) {
 	}
 	client := &http.Client{Transport: rt}
 
-	resp, err := client.Get("https://api.example.com/users")
+	resp, err := get(t, client, "https://api.example.com/users")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -92,7 +103,7 @@ func TestRecordingTransport_CallerCanStillReadBody(t *testing.T) {
 	}
 	client := &http.Client{Transport: rt}
 
-	resp, err := client.Get("https://api.example.com/ping")
+	resp, err := get(t, client, "https://api.example.com/ping")
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
 	}
@@ -124,7 +135,7 @@ func TestRecordingTransport_ReplaysCachedResponse(t *testing.T) {
 
 	// Three identical requests.
 	for i := range 3 {
-		resp, err := client.Get("https://api.example.com/users")
+		resp, err := get(t, client, "https://api.example.com/users")
 		if err != nil {
 			t.Fatalf("call %d: %v", i, err)
 		}
@@ -160,13 +171,13 @@ func TestRecordingTransport_DifferentURLsNotCached(t *testing.T) {
 	}
 	client := &http.Client{Transport: rt}
 
-	if _, err := client.Get("https://api.example.com/a"); err != nil {
+	if _, err := get(t, client, "https://api.example.com/a"); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := client.Get("https://api.example.com/b"); err != nil {
+	if _, err := get(t, client, "https://api.example.com/b"); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := client.Get("https://api.example.com/a"); err != nil { // replay
+	if _, err := get(t, client, "https://api.example.com/a"); err != nil { // replay
 		t.Fatal(err)
 	}
 
@@ -252,7 +263,7 @@ func TestRecordingTransport_ReplayedBodyReadableByCallerEachTime(t *testing.T) {
 	client := &http.Client{Transport: rt}
 
 	for i := range 3 {
-		resp, err := client.Get("https://api.example.com/data")
+		resp, err := get(t, client, "https://api.example.com/data")
 		if err != nil {
 			t.Fatalf("call %d: %v", i, err)
 		}
@@ -277,7 +288,7 @@ func TestRecordingTransport_MultipleRequests(t *testing.T) {
 		"https://api.example.com/c",
 	}
 	for _, u := range urls {
-		resp, err := client.Get(u)
+		resp, err := get(t, client, u)
 		if err != nil {
 			t.Fatalf("GET %s: %v", u, err)
 		}
@@ -309,8 +320,7 @@ func TestRecordingTransport_UnderlyingError(t *testing.T) {
 	}
 	client := &http.Client{Transport: rt}
 
-	_, err := client.Get("https://api.example.com/err")
-	if err == nil {
+	if _, err := get(t, client, "https://api.example.com/err"); err == nil {
 		t.Fatal("expected error, got nil")
 	}
 	if len(rt.Interactions) != 0 {
@@ -340,8 +350,7 @@ func TestRecordingTransport_ResponseBodyError(t *testing.T) {
 	}
 	client := &http.Client{Transport: rt}
 
-	_, err := client.Get("https://api.example.com/badbody")
-	if err == nil {
+	if _, err := get(t, client, "https://api.example.com/badbody"); err == nil {
 		t.Fatal("expected error from body read failure")
 	}
 }
