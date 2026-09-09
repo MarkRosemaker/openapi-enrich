@@ -45,6 +45,18 @@ func get(t *testing.T, client *http.Client, url string) (*http.Response, error) 
 	return client.Do(req)
 }
 
+func post(t *testing.T, client *http.Client, url string, contentType string, body io.Reader) (*http.Response, error) {
+	t.Helper()
+
+	req, err := http.NewRequestWithContext(t.Context(), http.MethodPost, url, body)
+	if err != nil {
+		t.Fatal(err)
+	}
+	req.Header.Set("Content-Type", contentType)
+
+	return client.Do(req)
+}
+
 func TestRecordingTransport_RecordsInteraction(t *testing.T) {
 	rt := &Transport{
 		Transport: fakeTransport(200, `{"ok":true}`,
@@ -84,7 +96,7 @@ func TestRecordingTransport_RequestBodyRecorded(t *testing.T) {
 	client := &http.Client{Transport: rt}
 
 	reqBody := []byte(`{"name":"Alice"}`)
-	resp, err := client.Post("https://api.example.com/users",
+	resp, err := post(t, client, "https://api.example.com/users",
 		"application/json", bytes.NewReader(reqBody))
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)
@@ -203,13 +215,13 @@ func TestRecordingTransport_DifferentBodiesNotCached(t *testing.T) {
 	}
 	client := &http.Client{Transport: rt}
 
-	if _, err := client.Post("https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"a":1}`))); err != nil {
+	if _, err := post(t, client, "https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"a":1}`))); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := client.Post("https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"b":2}`))); err != nil {
+	if _, err := post(t, client, "https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"b":2}`))); err != nil {
 		t.Fatal(err)
 	}
-	if _, err := client.Post("https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"a":1}`))); err != nil { // replay
+	if _, err := post(t, client, "https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"a":1}`))); err != nil { // replay
 		t.Fatal(err)
 	}
 
