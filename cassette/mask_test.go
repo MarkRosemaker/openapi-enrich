@@ -32,6 +32,7 @@ func TestMask_Headers(t *testing.T) {
 	if got := req.Get("X-Api-User"); got != "00000000-0000-0000-0000-000000000000" {
 		t.Errorf("X-Api-User = %q", got)
 	}
+
 	if got := req.Get("Accept"); got != "application/json" {
 		t.Errorf("Accept should be untouched, got %q", got)
 	}
@@ -39,6 +40,7 @@ func TestMask_Headers(t *testing.T) {
 	if got := resp.Get("Set-Cookie"); got == "sess=0.11111111.2222222222.abcdef0; secure" {
 		t.Error("Set-Cookie was not masked")
 	}
+
 	if got := resp.Get("Content-Type"); got != "application/json" {
 		t.Errorf("Content-Type should be untouched, got %q", got)
 	}
@@ -363,6 +365,7 @@ func TestIsMasked_Personas(t *testing.T) {
 			t.Errorf("IsMasked(%q) = false, want true", s)
 		}
 	}
+
 	for _, s := range []string{"john", "doe", "John Doe Smith Jones Brown"} {
 		if cassette.IsMasked(s) {
 			t.Errorf("IsMasked(%q) = true, want false", s)
@@ -386,9 +389,11 @@ func TestMask_RdToken(t *testing.T) {
 	if got == "rd_live_9f8e7d6c5b4a3210" {
 		t.Fatal("X-Rd-Token was not masked")
 	}
+
 	if !cassette.IsMasked(got) {
 		t.Errorf("X-Rd-Token = %q, want a masked value", got)
 	}
+
 	if got := ias[0].Request.Headers.Get("Accept"); got != "application/json" {
 		t.Errorf("Accept should be untouched, got %q", got)
 	}

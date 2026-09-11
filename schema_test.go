@@ -39,9 +39,11 @@ func TestNewSchemaFromJSON(t *testing.T) {
 			if err != nil {
 				t.Fatalf("unexpected error: %v", err)
 			}
+
 			if s.Type != tc.wantTyp {
 				t.Errorf("type: got %q, want %q", s.Type, tc.wantTyp)
 			}
+
 			if s.Format != tc.wantFmt {
 				t.Errorf("format: got %q, want %q", s.Format, tc.wantFmt)
 			}
@@ -54,21 +56,27 @@ func TestNewSchemaFromJSON_Object(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if s.Type != openapi.TypeObject {
 		t.Fatalf("type: got %q, want object", s.Type)
 	}
+
 	if len(s.Properties) != 3 {
 		t.Fatalf("properties: got %d, want 3", len(s.Properties))
 	}
+
 	if len(s.Required) != 3 {
 		t.Fatalf("required: got %d, want 3", len(s.Required))
 	}
+
 	if s.Properties["id"].Value.Type != openapi.TypeInteger {
 		t.Errorf("id type: got %q, want integer", s.Properties["id"].Value.Type)
 	}
+
 	if s.Properties["name"].Value.Type != openapi.TypeString {
 		t.Errorf("name type: got %q, want string", s.Properties["name"].Value.Type)
 	}
+
 	if s.Properties["active"].Value.Type != openapi.TypeBoolean {
 		t.Errorf("active type: got %q, want boolean", s.Properties["active"].Value.Type)
 	}
@@ -79,12 +87,15 @@ func TestNewSchemaFromJSON_Array(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if s.Type != openapi.TypeArray {
 		t.Fatalf("type: got %q, want array", s.Type)
 	}
+
 	if s.Items == nil {
 		t.Fatal("items is nil")
 	}
+
 	if s.Items.Value.Type != openapi.TypeInteger {
 		t.Errorf("items type: got %q, want integer", s.Items.Value.Type)
 	}
@@ -95,12 +106,15 @@ func TestNewSchemaFromJSON_EmptyArray(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if s.Type != openapi.TypeArray {
 		t.Fatalf("type: got %q, want array", s.Type)
 	}
+
 	if s.Items == nil {
 		t.Fatal("items is nil for empty array")
 	}
+
 	if s.Items.Value.Type != openapi.TypeObject {
 		t.Errorf("items type for empty array: got %q, want object", s.Items.Value.Type)
 	}
@@ -113,15 +127,19 @@ func TestNewSchemaFromJSON_NumericKeyObject(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if s.Type != openapi.TypeObject {
 		t.Fatalf("type: got %q, want object", s.Type)
 	}
+
 	if s.AdditionalProperties == nil {
 		t.Fatal("expected additionalProperties to be set for numeric-keyed object")
 	}
+
 	if s.Properties != nil {
 		t.Error("expected no explicit properties for numeric-keyed object")
 	}
+
 	if s.Required != nil {
 		t.Error("expected no required for numeric-keyed object")
 	}
@@ -130,6 +148,7 @@ func TestNewSchemaFromJSON_NumericKeyObject(t *testing.T) {
 	if v.Type != openapi.TypeObject {
 		t.Errorf("additionalProperties type: got %q, want object", v.Type)
 	}
+
 	if v.Properties["ticker"] == nil || v.Properties["ticker"].Value.Type != openapi.TypeString {
 		t.Error("expected ticker:string in additionalProperties value schema")
 	}
@@ -160,6 +179,7 @@ func TestNewSchemaFromJSON_NullExample(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if string(s.Example) != "null" {
 		t.Errorf("null schema example: got %q, want \"null\"", string(s.Example))
 	}

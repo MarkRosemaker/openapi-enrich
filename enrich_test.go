@@ -26,6 +26,7 @@ func TestEnrich_TestData(t *testing.T) {
 	for _, tc := range entries {
 		t.Run(tc.Name(), func(t *testing.T) {
 			path := filepath.Join("testdata", tc.Name(), "interactions.json")
+
 			f, err := testdata.Open(path)
 			if err != nil {
 				t.Fatal(err)
@@ -67,6 +68,7 @@ func TestEnrich_TestData(t *testing.T) {
 							op.Responses.Sort()
 						}
 					}
+
 					doc.Components.SortMaps()
 
 					gotDoc, err := doc.ToJSON()
@@ -163,9 +165,11 @@ func TestEnrich_Basic(t *testing.T) {
 	if users == nil {
 		t.Fatal("expected /users path")
 	}
+
 	if users.Get == nil {
 		t.Error("expected GET /users")
 	}
+
 	if users.Post == nil {
 		t.Error("expected POST /users")
 	}
@@ -178,6 +182,7 @@ func TestEnrich_Basic(t *testing.T) {
 			break
 		}
 	}
+
 	if !found {
 		t.Error("expected a parametric path for /users/{id}")
 	}
@@ -188,6 +193,7 @@ func TestEnrich_Empty(t *testing.T) {
 	if err := enrich.Enrich(doc, nil); err != nil {
 		t.Fatalf("Enrich(nil) error: %v", err)
 	}
+
 	if err := enrich.Enrich(doc, cassette.Interactions{}); err != nil {
 		t.Fatalf("Enrich(empty) error: %v", err)
 	}

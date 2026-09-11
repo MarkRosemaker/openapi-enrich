@@ -63,6 +63,7 @@ func TestAnalyzeInteraction_AltHostPathLevelServer(t *testing.T) {
 	if pi == nil {
 		t.Fatal("expected /tickers path")
 	}
+
 	if len(pi.Servers) != 1 || pi.Servers[0].URL != "https://other.example.com" {
 		t.Errorf("/tickers: expected servers [{https://other.example.com}], got %v", pi.Servers)
 	}
@@ -87,6 +88,7 @@ func TestAnalyzeInteraction_QueryParam(t *testing.T) {
 	if pi == nil {
 		t.Fatal("expected /users path")
 	}
+
 	op := pi.Get
 	if op == nil {
 		t.Fatal("expected GET operation")
@@ -101,12 +103,15 @@ func TestAnalyzeInteraction_QueryParam(t *testing.T) {
 			offsetParam = p.Value
 		}
 	}
+
 	if limitParam == nil {
 		t.Error("expected limit param")
 	}
+
 	if offsetParam == nil {
 		t.Error("expected offset param")
 	}
+
 	if limitParam != nil && limitParam.Schema.Value.Type != openapi.TypeInteger {
 		t.Errorf("limit type: got %q, want integer", limitParam.Schema.Value.Type)
 	}
@@ -128,6 +133,7 @@ func TestAnalyzeInteraction_CommaSeparatedParam(t *testing.T) {
 	}
 
 	op := doc.Paths["/items"].Get
+
 	var tagsParam *openapi.Parameter
 	for _, p := range op.Parameters {
 		if p.Value.Name == "tags" {
@@ -135,12 +141,15 @@ func TestAnalyzeInteraction_CommaSeparatedParam(t *testing.T) {
 			break
 		}
 	}
+
 	if tagsParam == nil {
 		t.Fatal("expected tags param")
 	}
+
 	if tagsParam.Schema.Value.Type != openapi.TypeArray {
 		t.Errorf("tags type: got %q, want array", tagsParam.Schema.Value.Type)
 	}
+
 	if tagsParam.Explode == nil || *tagsParam.Explode {
 		t.Error("expected explode=false for comma-separated param")
 	}
@@ -166,10 +175,12 @@ func TestAnalyzeInteraction_BearerAuth(t *testing.T) {
 	if doc.Components.SecuritySchemes == nil {
 		t.Fatal("expected security schemes")
 	}
+
 	scheme := doc.Components.SecuritySchemes["bearerAuth"]
 	if scheme == nil {
 		t.Fatal("expected bearerAuth security scheme")
 	}
+
 	if scheme.Value.Scheme != openapi.SecuritySchemeBearer {
 		t.Errorf("scheme: got %q, want bearer", scheme.Value.Scheme)
 	}
@@ -202,17 +213,21 @@ func TestAnalyzeInteraction_RequestBody(t *testing.T) {
 	if op == nil {
 		t.Fatal("expected POST operation")
 	}
+
 	if op.RequestBody == nil {
 		t.Fatal("expected request body")
 	}
+
 	mt := op.RequestBody.Value.Content["application/json"]
 	if mt == nil || mt.Schema == nil {
 		t.Fatal("expected JSON schema in request body")
 	}
+
 	schema := mt.Schema.Value
 	if schema.Type != openapi.TypeObject {
 		t.Errorf("schema type: got %q, want object", schema.Type)
 	}
+
 	if len(schema.Properties) != 2 {
 		t.Errorf("properties: got %d, want 2", len(schema.Properties))
 	}
@@ -238,14 +253,17 @@ func TestAnalyzeInteraction_Response(t *testing.T) {
 	}
 
 	op := doc.Paths["/users"].Get
+
 	resp := op.Responses["200"]
 	if resp == nil {
 		t.Fatal("expected 200 response")
 	}
+
 	mt := resp.Value.Content["application/json"]
 	if mt == nil || mt.Schema == nil {
 		t.Fatal("expected JSON schema in response")
 	}
+
 	if mt.Schema.Value.Type != openapi.TypeArray {
 		t.Errorf("response schema type: got %q, want array", mt.Schema.Value.Type)
 	}
@@ -269,6 +287,7 @@ func TestAnalyzeInteraction_PathParamDetection(t *testing.T) {
 	if _, ok := doc.Paths["/users/42"]; ok {
 		t.Error("literal /users/42 should not be in paths")
 	}
+
 	pi := doc.Paths["/users/{userId}"]
 	if pi == nil {
 		t.Fatalf("expected /users/{userId} path, got paths: %v", func() []string {
@@ -276,6 +295,7 @@ func TestAnalyzeInteraction_PathParamDetection(t *testing.T) {
 			for k := range doc.Paths {
 				keys = append(keys, string(k))
 			}
+
 			return keys
 		}())
 	}
@@ -288,12 +308,15 @@ func TestAnalyzeInteraction_PathParamDetection(t *testing.T) {
 			break
 		}
 	}
+
 	if idParam == nil {
 		t.Fatal("expected userId path parameter on PathItem")
 	}
+
 	if !idParam.Required {
 		t.Error("path parameter must be required")
 	}
+
 	if idParam.Schema == nil || idParam.Schema.Value.Type != openapi.TypeInteger {
 		t.Errorf("userId schema: got %v, want integer", idParam.Schema)
 	}
@@ -325,6 +348,7 @@ func TestAnalyzeInteraction_UUIDPathParam(t *testing.T) {
 			break
 		}
 	}
+
 	if idParam == nil {
 		t.Fatal("expected path parameter")
 	}
@@ -361,6 +385,7 @@ func TestAnalyzeInteraction_SecondRequestReusesParametricPath(t *testing.T) {
 			for k := range doc.Paths {
 				keys = append(keys, string(k))
 			}
+
 			return keys
 		}())
 	}
@@ -405,6 +430,7 @@ func TestAnalyzeInteraction_CustomHeader(t *testing.T) {
 	}
 
 	op := doc.Paths["/data"].Get
+
 	var apiKeyParam *openapi.Parameter
 	for _, p := range op.Parameters {
 		if p.Value.Name == "X-Api-Key" {
@@ -412,12 +438,15 @@ func TestAnalyzeInteraction_CustomHeader(t *testing.T) {
 			break
 		}
 	}
+
 	if apiKeyParam == nil {
 		t.Fatal("expected X-Api-Key header parameter")
 	}
+
 	if apiKeyParam.In != openapi.ParameterLocationHeader {
 		t.Errorf("in: got %q, want header", apiKeyParam.In)
 	}
+
 	if !apiKeyParam.Required {
 		t.Error("expected custom header to be required")
 	}
@@ -482,10 +511,12 @@ func TestAnalyzeInteraction_RequestBodyExistingPath(t *testing.T) {
 	}
 
 	op := doc.Paths["/items"].Post
+
 	rb := op.RequestBody
 	if rb == nil {
 		t.Fatal("expected request body")
 	}
+
 	mt := rb.Value.Content["application/json"]
 	if mt == nil {
 		t.Fatal("expected application/json content")
@@ -518,13 +549,16 @@ func TestAnalyzeInteraction_MergeCustomHeaders(t *testing.T) {
 	if err := analyzeInteraction(doc, ia2); err != nil {
 		t.Fatal(err)
 	}
+
 	op := doc.Paths["/data"].Get
+
 	var count int
 	for _, p := range op.Parameters {
 		if p.Value.Name == "X-Api-Key" {
 			count++
 		}
 	}
+
 	if count != 1 {
 		t.Errorf("expected 1 X-Api-Key param, got %d", count)
 	}
@@ -558,6 +592,7 @@ func TestAnalyzeInteraction_RequestBodyNewMediaType(t *testing.T) {
 	if err := analyzeInteraction(doc, ia2); err != nil {
 		t.Fatal(err)
 	}
+
 	rb := doc.Paths["/upload"].Post.RequestBody
 	if len(rb.Value.Content) < 2 {
 		t.Errorf("expected at least 2 content types, got %d", len(rb.Value.Content))
@@ -571,6 +606,7 @@ func TestIsCustomHeader(t *testing.T) {
 			t.Errorf("expected %q to be custom header", h)
 		}
 	}
+
 	notCustom := []string{"Accept", "Host", "Connection", "Cache-Control", "Accept-Language"}
 	for _, h := range notCustom {
 		if isCustomHeader(h) {
@@ -595,6 +631,7 @@ func TestAnalyzeInteraction_ContentTypeWithCharset(t *testing.T) {
 	if err := analyzeInteraction(doc, ia); err != nil {
 		t.Fatal(err)
 	}
+
 	op := doc.Paths["/data"].Post
 	if op.RequestBody == nil {
 		t.Error("expected request body")
@@ -614,7 +651,9 @@ func TestAnalyzeInteraction_CommaSeparatedIntParams(t *testing.T) {
 	if err := analyzeInteraction(doc, ia); err != nil {
 		t.Fatal(err)
 	}
+
 	op := doc.Paths["/items"].Get
+
 	var idsParam *openapi.Parameter
 	for _, p := range op.Parameters {
 		if p.Value.Name == "ids" {
@@ -622,12 +661,15 @@ func TestAnalyzeInteraction_CommaSeparatedIntParams(t *testing.T) {
 			break
 		}
 	}
+
 	if idsParam == nil {
 		t.Fatal("expected ids param")
 	}
+
 	if idsParam.Schema.Value.Type != openapi.TypeArray {
 		t.Errorf("type: got %q, want array", idsParam.Schema.Value.Type)
 	}
+
 	if idsParam.Schema.Value.Items.Value.Type != openapi.TypeInteger {
 		t.Errorf("items type: got %q, want integer", idsParam.Schema.Value.Items.Value.Type)
 	}
@@ -651,6 +693,7 @@ func TestAnalyzeInteraction_IgnoredHeaders(t *testing.T) {
 	if err := analyzeInteraction(doc, ia); err != nil {
 		t.Fatal(err)
 	}
+
 	op := doc.Paths["/data"].Get
 	if len(op.Parameters) != 0 {
 		t.Errorf("expected no parameters from ignored headers, got %d", len(op.Parameters))
@@ -684,13 +727,16 @@ func TestAnalyzeInteraction_MergeQueryParams(t *testing.T) {
 	if err := analyzeInteraction(doc, ia2); err != nil {
 		t.Fatal(err)
 	}
+
 	op := doc.Paths["/search"].Get
+
 	var count int
 	for _, p := range op.Parameters {
 		if p.Value.Name == "q" {
 			count++
 		}
 	}
+
 	if count != 1 {
 		t.Errorf("expected 1 q param, got %d", count)
 	}
@@ -734,13 +780,16 @@ func TestAnalyzeInteraction_MergeResponses(t *testing.T) {
 	for _, pi := range doc.Paths {
 		matched = pi
 	}
+
 	if matched == nil {
 		t.Fatal("expected a path item")
 	}
+
 	op := matched.Get
 	if op == nil {
 		t.Fatal("expected GET operation")
 	}
+
 	resp := op.Responses["200"]
 	if resp == nil {
 		t.Fatal("expected 200 response")

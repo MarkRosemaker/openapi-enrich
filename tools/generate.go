@@ -35,6 +35,7 @@ func run(ctx context.Context) error {
 		dir := filepath.Join("testdata", entry.Name())
 
 		path := filepath.Join(dir, "interactions.json")
+
 		ias, err := cassette.InteractionsReadFile(path)
 		if err != nil {
 			return err
@@ -95,6 +96,7 @@ func run(ctx context.Context) error {
 				op.Responses.Sort()
 			}
 		}
+
 		doc.Components.SortMaps()
 
 		if err := doc.WriteToFile(filepath.Join(dir, "golden.json")); err != nil {

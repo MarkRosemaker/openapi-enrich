@@ -19,19 +19,24 @@ func TestBuildResponse_JSON(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if r.Description != "OK" {
 		t.Errorf("description: got %q, want OK", r.Description)
 	}
+
 	if len(r.Content) == 0 {
 		t.Fatal("expected content")
 	}
+
 	mt := r.Content["application/json"]
 	if mt == nil {
 		t.Fatal("expected application/json content")
 	}
+
 	if mt.Schema == nil || mt.Schema.Value == nil {
 		t.Fatal("expected schema")
 	}
+
 	if mt.Schema.Value.Type != openapi.TypeObject {
 		t.Errorf("schema type: got %q, want object", mt.Schema.Value.Type)
 	}
@@ -48,9 +53,11 @@ func TestBuildResponse_NoBody(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if r.Description != "No Content" {
 		t.Errorf("description: got %q, want No Content", r.Description)
 	}
+
 	if len(r.Content) != 0 {
 		t.Errorf("expected no content for 204 with no body, got %d entries", len(r.Content))
 	}
@@ -67,13 +74,16 @@ func TestBuildResponse_TextPlain(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if len(r.Content) == 0 {
 		t.Fatal("expected content for text/plain")
 	}
+
 	mt := r.Content["text/plain"]
 	if mt == nil || mt.Schema == nil {
 		t.Fatal("expected text/plain schema")
 	}
+
 	if mt.Schema.Value.Type != openapi.TypeString {
 		t.Errorf("schema type: got %q, want string", mt.Schema.Value.Type)
 	}
@@ -107,6 +117,7 @@ func TestBuildResponse_HTML(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	mt := r.Content["text/html"]
 	if mt == nil {
 		t.Fatal("expected text/html entry")
@@ -122,10 +133,12 @@ func TestBuildResponse_UnknownStatus(t *testing.T) {
 		StatusCode: 599,
 		Headers:    http.Header{},
 	}
+
 	r, err := buildResponse(resp)
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	if r.Description == "" {
 		t.Error("expected non-empty description for unknown status code")
 	}
@@ -138,6 +151,7 @@ func TestIsJSONMediaType(t *testing.T) {
 			t.Errorf("expected %q to be JSON media type", mt)
 		}
 	}
+
 	no := []string{"text/plain", "text/html", "application/xml", "multipart/form-data"}
 	for _, mt := range no {
 		if isJSONMediaType(mt) {

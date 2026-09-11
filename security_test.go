@@ -64,6 +64,7 @@ func TestHoistSecurity_MultipleReqs_OnlyCommonHoisted(t *testing.T) {
 	if !doc.Security.Contains(bearer) {
 		t.Error("expected bearerAuth hoisted to doc level")
 	}
+
 	if doc.Security.Contains(apiKey) {
 		t.Error("apiKey should NOT be hoisted (not on all ops)")
 	}
@@ -75,6 +76,7 @@ func TestHoistSecurity_MultipleReqs_OnlyCommonHoisted(t *testing.T) {
 			found = true
 		}
 	}
+
 	if !found {
 		t.Error("apiKey should remain on the op that originally had it")
 	}
@@ -83,6 +85,7 @@ func TestHoistSecurity_MultipleReqs_OnlyCommonHoisted(t *testing.T) {
 func TestHoistSecurity_NoOps(t *testing.T) {
 	doc := NewDocument()
 	hoistSecurity(doc) // must not panic
+
 	if doc.Security != nil {
 		t.Error("expected no security on empty doc")
 	}
@@ -94,6 +97,7 @@ func TestHoistSecurity_NoSecurity(t *testing.T) {
 		opWithSecurity(),
 	)
 	hoistSecurity(doc)
+
 	if doc.Security != nil {
 		t.Error("expected no hoisting when ops have no security")
 	}
@@ -136,6 +140,7 @@ func TestEnrich_SecurityHoisted(t *testing.T) {
 	if !doc.Security.Contains(openapi.SecurityRequirement{"bearerAuth": {}}) {
 		t.Error("expected bearerAuth at doc level")
 	}
+
 	for _, pi := range doc.Paths {
 		for _, op := range pi.Operations {
 			if len(op.Security) != 0 {
@@ -155,6 +160,7 @@ func docWithOps(ops ...*openapi.Operation) *openapi.Document {
 		pi.SetOperation(http.MethodGet, op)
 		doc.Paths.Set(openapi.Path("/"+string(rune('a'+i))), pi)
 	}
+
 	return doc
 }
 
@@ -171,5 +177,6 @@ func allOperations(doc *openapi.Document) []*openapi.Operation {
 			ops = append(ops, op)
 		}
 	}
+
 	return ops
 }

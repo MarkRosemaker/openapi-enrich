@@ -26,6 +26,7 @@ func fakeTransport(statusCode int, body string, headers http.Header) http.RoundT
 		if h == nil {
 			h = http.Header{}
 		}
+
 		return &http.Response{
 			StatusCode: statusCode,
 			Header:     h,
@@ -52,6 +53,7 @@ func post(t *testing.T, client *http.Client, url, contentType string, body io.Re
 	if err != nil {
 		t.Fatal(err)
 	}
+
 	req.Header.Set("Content-Type", contentType)
 
 	return client.Do(req)
@@ -73,16 +75,20 @@ func TestRecordingTransport_RecordsInteraction(t *testing.T) {
 	if len(rt.Interactions) != 1 {
 		t.Fatalf("expected 1 interaction, got %d", len(rt.Interactions))
 	}
+
 	ia := rt.Interactions[0]
 	if ia.Request.Method != http.MethodGet {
 		t.Errorf("method: got %q, want GET", ia.Request.Method)
 	}
+
 	if ia.Request.URL != "https://api.example.com/users" {
 		t.Errorf("URL: got %q", ia.Request.URL)
 	}
+
 	if ia.Response.StatusCode != 200 {
 		t.Errorf("status: got %d, want 200", ia.Response.StatusCode)
 	}
+
 	if string(ia.Response.Body) != `{"ok":true}` {
 		t.Errorf("body: got %q", ia.Response.Body)
 	}
@@ -96,6 +102,7 @@ func TestRecordingTransport_RequestBodyRecorded(t *testing.T) {
 	client := &http.Client{Transport: rt}
 
 	reqBody := []byte(`{"name":"Alice"}`)
+
 	resp, err := post(t, client, "https://api.example.com/users",
 		"application/json", bytes.NewReader(reqBody))
 	if err != nil {
@@ -125,6 +132,7 @@ func TestRecordingTransport_CallerCanStillReadBody(t *testing.T) {
 	if err != nil {
 		t.Fatalf("reading body: %v", err)
 	}
+
 	if string(got) != "hello" {
 		t.Errorf("caller body: got %q, want %q", got, "hello")
 	}
@@ -136,6 +144,7 @@ func TestRecordingTransport_ReplaysCachedResponse(t *testing.T) {
 	rt := &Transport{
 		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 			calls++
+
 			return &http.Response{
 				StatusCode: http.StatusOK,
 				Header:     http.Header{"Content-Type": {"application/json"}},
@@ -151,6 +160,7 @@ func TestRecordingTransport_ReplaysCachedResponse(t *testing.T) {
 		if err != nil {
 			t.Fatalf("call %d: %v", i, err)
 		}
+
 		resp.Body.Close()
 	}
 
@@ -174,6 +184,7 @@ func TestRecordingTransport_DifferentURLsNotCached(t *testing.T) {
 	rt := &Transport{
 		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 			calls++
+
 			return &http.Response{
 				StatusCode: http.StatusOK,
 				Header:     http.Header{},
@@ -186,9 +197,11 @@ func TestRecordingTransport_DifferentURLsNotCached(t *testing.T) {
 	if _, err := get(t, client, "https://api.example.com/a"); err != nil {
 		t.Fatal(err)
 	}
+
 	if _, err := get(t, client, "https://api.example.com/b"); err != nil {
 		t.Fatal(err)
 	}
+
 	if _, err := get(t, client, "https://api.example.com/a"); err != nil { // replay
 		t.Fatal(err)
 	}
@@ -196,6 +209,7 @@ func TestRecordingTransport_DifferentURLsNotCached(t *testing.T) {
 	if calls != 2 {
 		t.Errorf("underlying transport called %d times, want 2", calls)
 	}
+
 	if len(rt.Interactions) != 2 {
 		t.Errorf("got %d interactions, want 2", len(rt.Interactions))
 	}
@@ -206,6 +220,7 @@ func TestRecordingTransport_DifferentBodiesNotCached(t *testing.T) {
 	rt := &Transport{
 		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 			calls++
+
 			return &http.Response{
 				StatusCode: 201,
 				Header:     http.Header{},
@@ -218,9 +233,11 @@ func TestRecordingTransport_DifferentBodiesNotCached(t *testing.T) {
 	if _, err := post(t, client, "https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"a":1}`))); err != nil {
 		t.Fatal(err)
 	}
+
 	if _, err := post(t, client, "https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"b":2}`))); err != nil {
 		t.Fatal(err)
 	}
+
 	if _, err := post(t, client, "https://api.example.com/items", "application/json", bytes.NewReader([]byte(`{"a":1}`))); err != nil { // replay
 		t.Fatal(err)
 	}
@@ -228,6 +245,7 @@ func TestRecordingTransport_DifferentBodiesNotCached(t *testing.T) {
 	if calls != 2 {
 		t.Errorf("underlying transport called %d times, want 2", calls)
 	}
+
 	if len(rt.Interactions) != 2 {
 		t.Errorf("got %d interactions, want 2", len(rt.Interactions))
 	}
@@ -240,6 +258,7 @@ func TestRecordingTransport_DifferentHeadersSameURL_Cached(t *testing.T) {
 	rt := &Transport{
 		Transport: roundTripFunc(func(r *http.Request) (*http.Response, error) {
 			calls++
+
 			return &http.Response{
 				StatusCode: http.StatusOK,
 				Header:     http.Header{},
@@ -250,6 +269,7 @@ func TestRecordingTransport_DifferentHeadersSameURL_Cached(t *testing.T) {
 
 	req1, _ := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://api.example.com/me", nil)
 	req1.Header.Set("Foo", "Bar")
+
 	req2, _ := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://api.example.com/me", nil)
 	req2.Header.Set("Foo", "Baz")
 
@@ -259,6 +279,7 @@ func TestRecordingTransport_DifferentHeadersSameURL_Cached(t *testing.T) {
 	if calls != 2 {
 		t.Errorf("underlying transport called %d times, want 2", calls)
 	}
+
 	if len(rt.Interactions) != 2 {
 		t.Fatalf("got %d interactions, want 2", len(rt.Interactions))
 	}
@@ -279,8 +300,10 @@ func TestRecordingTransport_ReplayedBodyReadableByCallerEachTime(t *testing.T) {
 		if err != nil {
 			t.Fatalf("call %d: %v", i, err)
 		}
+
 		got, _ := io.ReadAll(resp.Body)
 		resp.Body.Close()
+
 		if string(got) != "data" {
 			t.Errorf("call %d: body got %q, want %q", i, got, "data")
 		}
@@ -304,12 +327,14 @@ func TestRecordingTransport_MultipleRequests(t *testing.T) {
 		if err != nil {
 			t.Fatalf("GET %s: %v", u, err)
 		}
+
 		resp.Body.Close()
 	}
 
 	if len(rt.Interactions) != len(urls) {
 		t.Errorf("got %d interactions, want %d", len(rt.Interactions), len(urls))
 	}
+
 	for i, ia := range rt.Interactions {
 		if ia.Request.URL != urls[i] {
 			t.Errorf("[%d] URL: got %q, want %q", i, ia.Request.URL, urls[i])
@@ -335,6 +360,7 @@ func TestRecordingTransport_UnderlyingError(t *testing.T) {
 	if _, err := get(t, client, "https://api.example.com/err"); err == nil {
 		t.Fatal("expected error, got nil")
 	}
+
 	if len(rt.Interactions) != 0 {
 		t.Error("expected no interaction recorded on transport error")
 	}
@@ -344,6 +370,7 @@ func TestRecordingTransport_RequestBodyError(t *testing.T) {
 	rt := &Transport{Transport: fakeTransport(200, `{}`, nil)}
 	req, _ := http.NewRequestWithContext(t.Context(), http.MethodPost, "https://api.example.com/users",
 		io.NopCloser(errReader{}))
+
 	_, err := rt.RoundTrip(req)
 	if err == nil {
 		t.Fatal("expected error from request body read failure")
@@ -373,6 +400,7 @@ func TestRecordingTransport_RequestHeadersRecorded(t *testing.T) {
 
 	req, _ := http.NewRequestWithContext(t.Context(), http.MethodGet, "https://api.example.com/me", nil)
 	req.Header.Set("Authorization", "Bearer secret")
+
 	resp, err := client.Do(req)
 	if err != nil {
 		t.Fatalf("unexpected error: %v", err)

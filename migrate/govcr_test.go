@@ -150,18 +150,23 @@ func TestFromGoVCRFile_MultipleInteractions(t *testing.T) {
 	if ia0.Request.Method != http.MethodGet {
 		t.Errorf("method: got %q, want GET", ia0.Request.Method)
 	}
+
 	if ia0.Request.URL != "https://api.example.com/users" {
 		t.Errorf("url: got %q", ia0.Request.URL)
 	}
+
 	if ia0.Request.Body != nil {
 		t.Errorf("body: expected nil for empty body, got %q", ia0.Request.Body)
 	}
+
 	if ia0.Response.StatusCode != 200 {
 		t.Errorf("status: got %d, want 200", ia0.Response.StatusCode)
 	}
+
 	if string(ia0.Response.Body) != `[{"id":1,"name":"Alice"}]` {
 		t.Errorf("response body: got %q", ia0.Response.Body)
 	}
+
 	if ia0.Response.Headers.Get("Content-Type") != "application/json" {
 		t.Errorf("content-type: got %q", ia0.Response.Headers.Get("Content-Type"))
 	}
@@ -171,9 +176,11 @@ func TestFromGoVCRFile_MultipleInteractions(t *testing.T) {
 	if ia1.Request.Method != http.MethodPost {
 		t.Errorf("method: got %q, want POST", ia1.Request.Method)
 	}
+
 	if string(ia1.Request.Body) != `{"name":"Bob"}` {
 		t.Errorf("request body: got %q", ia1.Request.Body)
 	}
+
 	if ia1.Response.StatusCode != 201 {
 		t.Errorf("status: got %d, want 201", ia1.Response.StatusCode)
 	}
@@ -193,12 +200,15 @@ func TestFromGoVCRFile_PlainTextBody(t *testing.T) {
 	if ia.Request.Method != http.MethodGet {
 		t.Errorf("method: got %q, want GET", ia.Request.Method)
 	}
+
 	if ia.Request.URL != "https://api.example.com/ping" {
 		t.Errorf("url: got %q", ia.Request.URL)
 	}
+
 	if ia.Request.Body != nil {
 		t.Errorf("body: expected nil for empty body")
 	}
+
 	if ia.Response.StatusCode != 200 {
 		t.Errorf("status: got %d, want 200", ia.Response.StatusCode)
 	}
@@ -242,6 +252,7 @@ interactions:
     code: 204
     duration: 1ms
 `
+
 	ias, err := migrate.FromGoVCRFile(writeCassette(t, input))
 	if err != nil {
 		t.Fatalf("FromGoVCRFile: %v", err)
@@ -255,15 +266,19 @@ interactions:
 	if ia.Request.Headers != nil {
 		t.Errorf("request headers: expected nil for empty map, got %v", ia.Request.Headers)
 	}
+
 	if ia.Response.Headers != nil {
 		t.Errorf("response headers: expected nil for empty map, got %v", ia.Response.Headers)
 	}
+
 	if ia.Request.Body != nil {
 		t.Errorf("request body: expected nil for empty string")
 	}
+
 	if ia.Response.Body != nil {
 		t.Errorf("response body: expected nil for empty string")
 	}
+
 	if ia.Response.StatusCode != 204 {
 		t.Errorf("status: got %d, want 204", ia.Response.StatusCode)
 	}

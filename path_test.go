@@ -42,16 +42,20 @@ func TestParsePath(t *testing.T) {
 			if len(pp) != tc.wantLen {
 				t.Fatalf("len=%d, want %d", len(pp), tc.wantLen)
 			}
+
 			for i, el := range pp {
 				if el.isParam != tc.wantParam[i] {
 					t.Errorf("[%d] isParam=%v, want %v", i, el.isParam, tc.wantParam[i])
 				}
+
 				if el.name != tc.wantName[i] {
 					t.Errorf("[%d] name=%q, want %q", i, el.name, tc.wantName[i])
 				}
+
 				if el.prefix != tc.wantPrefix[i] {
 					t.Errorf("[%d] prefix=%q, want %q", i, el.prefix, tc.wantPrefix[i])
 				}
+
 				if el.suffix != tc.wantSuffix[i] {
 					t.Errorf("[%d] suffix=%q, want %q", i, el.suffix, tc.wantSuffix[i])
 				}
@@ -129,6 +133,7 @@ func TestFindPathItem_ExactMatch(t *testing.T) {
 	if gotPath != "/users" {
 		t.Errorf("path: got %q, want /users", gotPath)
 	}
+
 	if gotPI != pi {
 		t.Error("expected exact PathItem match")
 	}
@@ -147,6 +152,7 @@ func TestFindPathItem_ParametricMatch(t *testing.T) {
 	if gotPath != "/users/{id}" {
 		t.Errorf("path: got %q, want /users/{id}", gotPath)
 	}
+
 	if gotPI != pi {
 		t.Error("expected parametric PathItem match")
 	}
@@ -163,6 +169,7 @@ func TestFindPathItem_NoMatch(t *testing.T) {
 	if gotPath != "/users/42" {
 		t.Errorf("path: got %q, want /users/42", gotPath)
 	}
+
 	if gotPI != nil {
 		t.Error("expected nil PathItem for no match")
 	}
@@ -191,12 +198,15 @@ func TestExtractEmbeddedParam(t *testing.T) {
 			if ok != tc.wantOK {
 				t.Errorf("ok=%v, want %v", ok, tc.wantOK)
 			}
+
 			if prefix != tc.wantPrefix {
 				t.Errorf("prefix=%q, want %q", prefix, tc.wantPrefix)
 			}
+
 			if paramName != tc.wantParam {
 				t.Errorf("paramName=%q, want %q", paramName, tc.wantParam)
 			}
+
 			if suffix != tc.wantSuffix {
 				t.Errorf("suffix=%q, want %q", suffix, tc.wantSuffix)
 			}
@@ -272,10 +282,12 @@ func TestFindPathItem_NoServers(t *testing.T) {
 	doc := NewDocument()
 	doc.Paths = openapi.Paths{}
 	reqURL, _ := url.Parse("https://api.example.com/users")
+
 	gotPath, gotPI := findPathItem(doc, reqURL)
 	if gotPath != "" {
 		t.Errorf("expected empty path when no servers, got %q", gotPath)
 	}
+
 	if gotPI != nil {
 		t.Error("expected nil PathItem when no servers")
 	}
