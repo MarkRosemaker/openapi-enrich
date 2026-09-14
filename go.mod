@@ -3,9 +3,9 @@ module github.com/MarkRosemaker/openapi-enrich
 go 1.27
 
 require (
-	github.com/MarkRosemaker/jsonutil v0.0.0-20260913220107-791f7c6e5447
-	github.com/MarkRosemaker/openapi v0.0.0-20260913220141-a5e6a7a0a06a
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20260913220210-680524586e23
+	github.com/MarkRosemaker/jsonutil v0.0.0-20260914100058-af056825f80b
+	github.com/MarkRosemaker/openapi v0.0.0-20260914100138-5f6ae1e75c16
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20260914100210-5f8b2802a6bc
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 	github.com/google/uuid v1.6.0
@@ -14,11 +14,11 @@ require (
 
 require (
 	cloud.google.com/go v0.123.0 // indirect
-	github.com/MarkRosemaker/errpath v0.0.0-20260913220104-8bf223e76717 // indirect
-	github.com/MarkRosemaker/json2yaml v0.0.0-20260913220104-353188c1bab5 // indirect
-	github.com/MarkRosemaker/ordmap v0.0.0-20260913220124-3cae4943f2f2 // indirect
-	github.com/MarkRosemaker/yaml v0.0.0-20260913220126-bf0d40f37c85 // indirect
-	github.com/MarkRosemaker/yaml2json v0.0.0-20260913220103-c44b5e466910 // indirect
+	github.com/MarkRosemaker/errpath v0.0.0-20260914100054-1f54aabc2bca // indirect
+	github.com/MarkRosemaker/json2yaml v0.0.0-20260914100056-fea7b8a89419 // indirect
+	github.com/MarkRosemaker/ordmap v0.0.0-20260914100116-b9c47d269b4c // indirect
+	github.com/MarkRosemaker/yaml v0.0.0-20260914100121-d3f9c225178d // indirect
+	github.com/MarkRosemaker/yaml2json v0.0.0-20260914100055-dc38984d01e3 // indirect
 	golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
