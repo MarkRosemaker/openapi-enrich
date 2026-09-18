@@ -26,6 +26,7 @@ func TestEnrich_TestData(t *testing.T) {
 	for _, tc := range entries {
 		t.Run(tc.Name(), func(t *testing.T) {
 			t.Parallel()
+
 			path := filepath.Join("testdata", tc.Name(), "interactions.json")
 
 			f, err := testdata.Open(path)
