@@ -8,7 +8,6 @@ require (
 	github.com/MarkRosemaker/openapi-merge v0.0.0-20260919112433-1a489fdc23a6
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
-	github.com/google/uuid v1.6.0
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
 )
 
