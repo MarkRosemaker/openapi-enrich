@@ -1,7 +1,7 @@
 # cloud.google.com/go v0.123.0
 ## explicit; go 1.24.0
 cloud.google.com/go/civil
-# github.com/MarkRosemaker/errpath v0.0.0-20260920104944-9de8ba79be18
+# github.com/MarkRosemaker/errpath v0.0.0-20260920105750-ecc3a0fa028d
 ## explicit; go 1.23.2
 github.com/MarkRosemaker/errpath
 # github.com/MarkRosemaker/json2yaml v0.0.0-20260920104944-bbfc9b6648b0
@@ -13,10 +13,10 @@ github.com/MarkRosemaker/jsonutil
 # github.com/MarkRosemaker/openapi v0.0.0-20260919112358-1dc07f1fec35
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20260920105109-853831a3d554
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20260920112441-36daf7842623
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-merge
-# github.com/MarkRosemaker/ordmap v0.0.0-20260920105004-95e6a702ad57
+# github.com/MarkRosemaker/ordmap v0.0.0-20260920112340-841d22da417a
 ## explicit; go 1.27
 github.com/MarkRosemaker/ordmap
 # github.com/MarkRosemaker/yaml v0.0.0-20260920105018-6263ee74cfdf
