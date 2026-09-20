@@ -1,7 +1,7 @@
 # cloud.google.com/go v0.123.0
 ## explicit; go 1.24.0
 cloud.google.com/go/civil
-# github.com/MarkRosemaker/errpath v0.0.0-20260919112307-d5c7994551ff
+# github.com/MarkRosemaker/errpath v0.0.0-20260920102609-6bbbef58c580
 ## explicit; go 1.23.2
 github.com/MarkRosemaker/errpath
 # github.com/MarkRosemaker/json2yaml v0.0.0-20260919112308-a1b4c0dc8893
@@ -13,7 +13,7 @@ github.com/MarkRosemaker/jsonutil
 # github.com/MarkRosemaker/openapi v0.0.0-20260919112358-1dc07f1fec35
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20260919112433-1a489fdc23a6
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20260920102740-b20f8f48b193
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-merge
 # github.com/MarkRosemaker/ordmap v0.0.0-20260919112328-2dcdc20e6b15
@@ -22,7 +22,7 @@ github.com/MarkRosemaker/ordmap
 # github.com/MarkRosemaker/yaml v0.0.0-20260919112332-c1f014ebc24b
 ## explicit; go 1.27
 github.com/MarkRosemaker/yaml
-# github.com/MarkRosemaker/yaml2json v0.0.0-20260919112308-cbb7454d758e
+# github.com/MarkRosemaker/yaml2json v0.0.0-20260920102556-6618502a7bf5
 ## explicit; go 1.27
 github.com/MarkRosemaker/yaml2json
 # github.com/ettle/strcase v0.2.0
