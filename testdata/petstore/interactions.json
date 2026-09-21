@@ -44,20 +44,6 @@
 							"specialNeeds": false,
 							"healthNotes": "Healthy indoor cat; routine vaccines completed."
 						}
-					},
-					{
-						"id": "00000000-0000-0000-0000-000000000000",
-						"name": "GenderCase",
-						"species": "RABBIT",
-						"breed": "Holland Lop",
-						"ageMonths": 8,
-						"size": "SMALL",
-						"status": "ADOPTED",
-						"price": "60.00",
-						"currency": "USD",
-						"goodWithKids": true,
-						"createdAt": "2026-01-13T10:40:47.123523Z",
-						"updatedAt": "2026-04-23T23:11:49.806793Z"
 					}
 				],
 				"pagination": {
