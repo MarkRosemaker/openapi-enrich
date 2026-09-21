@@ -145,10 +145,6 @@
 						{
 							"value": 1.9747,
 							"date": 1484252965224
-						},
-						{
-							"value": 2.9253562257358428,
-							"date": 1484252966902
 						}
 					],
 					"down": false,
@@ -362,10 +358,6 @@
 							{
 								"date": 1514788282362,
 								"value": -6452.468798127855
-							},
-							{
-								"date": 1546323543885,
-								"value": -8816.218202059035
 							}
 						],
 						"exp": [
@@ -376,10 +368,6 @@
 							{
 								"date": 1514788282362,
 								"value": 12143.040122377623
-							},
-							{
-								"date": 1546323543885,
-								"value": 15093.715
 							}
 						]
 					},
@@ -1070,18 +1058,15 @@
 						],
 						"todos": [
 							"9b2cf3d7-dd77-4444-93c6-6af45448acff",
-							"294a147a-e084-4bc4-aea4-d9ab6f2f5089",
-							"730d2303-2ccf-43ed-8492-fcb9e88ede2c"
+							"294a147a-e084-4bc4-aea4-d9ab6f2f5089"
 						],
 						"dailys": [
 							"91cf329e-0d0a-4c15-92a0-2e6748a470c9",
-							"e8b371c0-9eaf-4129-b4cf-f45ba71d2810",
-							"bb049c63-ce13-483c-b9bc-403829e4b8d5"
+							"e8b371c0-9eaf-4129-b4cf-f45ba71d2810"
 						],
 						"habits": [
 							"15fef52f-ce1b-4c54-b3f0-58b5047f4a47",
-							"3ddd048c-7940-40c8-8891-6cceba0b3452",
-							"a237ab25-c7f8-4ebb-9205-5d17154d08a0"
+							"3ddd048c-7940-40c8-8891-6cceba0b3452"
 						]
 					},
 					"_id": "00000000-0000-0000-0000-000000000000",
@@ -1100,22 +1085,12 @@
 							"type": "android",
 							"updatedAt": "2026-07-05T12:10:06.710Z",
 							"createdAt": "2017-07-06T11:59:08.302Z"
-						},
-						{
-							"regId": "fqmBZ0fTFu0:APA91bHHaWKfRtgoH8IEbH72_l5vgMfw9TwBh8x1T9w9lAD-Ticr3G2xBlT4p9gUNz_UcQ4kFh1IQxdHn70IQq3lSVFsSh-fcao_szA0qSIqkW_z3PYNTR9bR6X0oEqo_0VvqFSz5Xh3",
-							"type": "android",
-							"updatedAt": "2026-07-05T12:10:06.710Z",
-							"createdAt": "2017-11-05T01:26:36.928Z"
 						}
 					],
 					"extra": {},
 					"tags": [
 						{
 							"name": "Training",
-							"id": "00000000-0000-0000-0000-000000000000"
-						},
-						{
-							"name": "Gesundheit + Wohlbefinden",
 							"id": "00000000-0000-0000-0000-000000000000"
 						},
 						{
