@@ -46,6 +46,23 @@ func TestMask_Headers(t *testing.T) {
 	}
 }
 
+// TestMask_HeadersBasicAuth covers that Basic keeps its scheme visible on
+// masking, the same way Bearer already does.
+func TestMask_HeadersBasicAuth(t *testing.T) {
+	ias := cassette.Interactions{{
+		Request: cassette.Request{Headers: http.Header{
+			"Authorization": {"Basic dXNlcjpwYXNz"},
+		}},
+	}}
+
+	ias.Mask()
+
+	want := "Basic " + strings.Repeat("*", len("dXNlcjpwYXNz"))
+	if got := ias[0].Request.Headers.Get("Authorization"); got != want {
+		t.Errorf("Authorization = %q, want %q", got, want)
+	}
+}
+
 func TestMask_Body(t *testing.T) {
 	for _, tc := range []struct {
 		name string
@@ -217,6 +234,7 @@ func TestIsMasked(t *testing.T) {
 		{"00:00:00:00:00:00", true},
 		{"*****", true},
 		{"Bearer ******", true},
+		{"Basic ******", true},
 		{"", false},
 		{"title", false},
 		{"someone@personal.test", false},
