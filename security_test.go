@@ -12,8 +12,8 @@ func TestHoistSecurity_AllOpsHaveSameReq(t *testing.T) {
 	// When every operation has the same security requirement it should be
 	// hoisted to document level and removed from the operations.
 	doc := docWithOps(
-		opWithSecurity(openapi.SecurityRequirement{"bearerAuth": {}}),
-		opWithSecurity(openapi.SecurityRequirement{"bearerAuth": {}}),
+		opWithSecurity(openapi.SecurityRequirement{schemeNameBearer: {}}),
+		opWithSecurity(openapi.SecurityRequirement{schemeNameBearer: {}}),
 	)
 
 	hoistSecurity(doc)
@@ -21,7 +21,7 @@ func TestHoistSecurity_AllOpsHaveSameReq(t *testing.T) {
 	// expect bearerAuth hoisted to doc level
 	if got, want := len(doc.Security), 1; got != want {
 		t.Errorf("len(doc.Security)=%d, want=%d", got, want)
-	} else if got, want := doc.Security[0], (openapi.SecurityRequirement{"bearerAuth": {}}); !got.Equals(want) {
+	} else if got, want := doc.Security[0], (openapi.SecurityRequirement{schemeNameBearer: {}}); !got.Equals(want) {
 		t.Errorf("doc.Security[0]=%v, want=%v", got, want)
 	}
 
@@ -37,7 +37,7 @@ func TestHoistSecurity_AllOpsHaveSameReq(t *testing.T) {
 func TestHoistSecurity_NotAllOpsHaveReq(t *testing.T) {
 	// If not every operation carries a requirement it must NOT be hoisted.
 	doc := docWithOps(
-		opWithSecurity(openapi.SecurityRequirement{"bearerAuth": {}}),
+		opWithSecurity(openapi.SecurityRequirement{schemeNameBearer: {}}),
 		opWithSecurity(), // no security
 	)
 
@@ -51,7 +51,7 @@ func TestHoistSecurity_NotAllOpsHaveReq(t *testing.T) {
 func TestHoistSecurity_MultipleReqs_OnlyCommonHoisted(t *testing.T) {
 	// bearerAuth is on both ops; apiKey is only on one.
 	// Only bearerAuth should be hoisted.
-	bearer := openapi.SecurityRequirement{"bearerAuth": {}}
+	bearer := openapi.SecurityRequirement{schemeNameBearer: {}}
 	apiKey := openapi.SecurityRequirement{"apiKey": {}}
 
 	doc := docWithOps(
@@ -62,7 +62,7 @@ func TestHoistSecurity_MultipleReqs_OnlyCommonHoisted(t *testing.T) {
 	hoistSecurity(doc)
 
 	if !doc.Security.Contains(bearer) {
-		t.Error("expected bearerAuth hoisted to doc level")
+		t.Fatalf("expected %s hoisted to doc level", schemeNameBearer)
 	}
 
 	if doc.Security.Contains(apiKey) {
@@ -137,8 +137,8 @@ func TestEnrich_SecurityHoisted(t *testing.T) {
 		t.Fatalf("Enrich error: %v", err)
 	}
 
-	if !doc.Security.Contains(openapi.SecurityRequirement{"bearerAuth": {}}) {
-		t.Error("expected bearerAuth at doc level")
+	if !doc.Security.Contains(openapi.SecurityRequirement{schemeNameBearer: {}}) {
+		t.Fatalf("expected %s at doc level", schemeNameBearer)
 	}
 
 	for _, pi := range doc.Paths {

@@ -17,6 +17,11 @@ import (
 	merge "github.com/MarkRosemaker/openapi-merge"
 )
 
+const (
+	schemeNameBearer = "bearerAuth"
+	schemeNameBasic  = "BasicAuth"
+)
+
 func analyzeInteraction(doc *openapi.Document, ia *cassette.Interaction) error {
 	reqURL, err := url.Parse(ia.Request.URL)
 	if err != nil {
@@ -243,10 +248,10 @@ func processAuth(doc *openapi.Document, op *openapi.Operation, v string) error {
 	switch {
 	case strings.HasPrefix(v, "Bearer "):
 		scheme = openapi.SecuritySchemeBearer
-		schemeName = "bearerAuth"
+		schemeName = schemeNameBearer
 	case strings.HasPrefix(v, "Basic "):
 		scheme = openapi.SecuritySchemeBasic
-		schemeName = "BasicAuth"
+		schemeName = schemeNameBasic
 
 		// Validate it is either masked or actually base64
 		encoded := strings.TrimPrefix(v, "Basic ")

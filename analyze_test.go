@@ -176,13 +176,13 @@ func TestAnalyzeInteraction_BearerAuth(t *testing.T) {
 		t.Fatal("expected security schemes")
 	}
 
-	scheme := doc.Components.SecuritySchemes["bearerAuth"]
+	scheme := doc.Components.SecuritySchemes[schemeNameBearer]
 	if scheme == nil {
-		t.Fatal("expected bearerAuth security scheme")
+		t.Fatalf("expected %s security scheme", schemeNameBearer)
 	}
 
 	if scheme.Value.Scheme != openapi.SecuritySchemeBearer {
-		t.Errorf("scheme: got %q, want bearer", scheme.Value.Scheme)
+		t.Fatalf("scheme: got %q, want bearer", scheme.Value.Scheme)
 	}
 
 	op := doc.Paths["/me"].Get
@@ -471,8 +471,8 @@ func TestAnalyzeInteraction_BasicAuth(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if doc.Components.SecuritySchemes["basicAuth"] == nil {
-		t.Error("expected basicAuth security scheme")
+	if doc.Components.SecuritySchemes[schemeNameBasic] == nil {
+		t.Fatalf("expected %s security scheme", schemeNameBasic)
 	}
 }
 
