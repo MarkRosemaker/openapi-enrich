@@ -7,19 +7,7 @@
 		"response": {
 			"statusCode": 200,
 			"header": {
-				"Cache-Control": "max-age=0, no-cache, no-store",
-				"Connection": "keep-alive",
-				"Content-Type": "application/json; charset=utf-8",
-				"Date": "Sun, 28 Jun 2026 21:13:04 GMT",
-				"Expires": "Sun, 28 Jun 2026 21:13:04 GMT",
-				"Pragma": "no-cache",
-				"Referrer-Policy": "Origin-when-cross-origin",
-				"Server-Timing": "cdn-cache; desc=MISS",
-				"Set-Cookie": "***********************************************************",
-				"Strict-Transport-Security": "max-age=600 ; includeSubDomains",
-				"Vary": "Accept-Encoding,Origin",
-				"X-Content-Type-Options": "nosniff",
-				"X-Response-Time": "0ms"
+				"Content-Type": "application/json; charset=utf-8"
 			},
 			"body": {
 				"session": "00000000000000000000000000000000",
