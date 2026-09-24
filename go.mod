@@ -4,9 +4,9 @@ go 1.27
 
 require (
 	github.com/MarkRosemaker/jsonutil v0.0.0-20260920172211-f6e22a1a8311
-	github.com/MarkRosemaker/openapi v0.0.0-20260922040130-e048f24d28df
-	github.com/MarkRosemaker/openapi-edit v0.0.0-20260922040148-826faf96f38a
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20260922040148-04478f0d766e
+	github.com/MarkRosemaker/openapi v0.0.0-20260924204055-ab21ca1ec2da
+	github.com/MarkRosemaker/openapi-edit v0.0.0-20260924204333-5d7e8653d08b
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20260924204333-85780a400025
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
