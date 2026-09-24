@@ -257,7 +257,7 @@ func TestEnrich_ExistingParameter(t *testing.T) {
 		},
 		Get: &openapi.Operation{
 			OperationID: "GetPage",
-			Responses: openapi.OperationResponses{
+			Responses: openapi.OperationResponses{ //nolint:exhaustive
 				"200": &openapi.ResponseRef{
 					Value: &openapi.Response{
 						Description: "some description",
