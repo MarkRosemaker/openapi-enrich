@@ -1,0 +1,63 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API",
+    "version": "0.0.1"
+  },
+  "servers": [
+    {
+      "url": "https://opensky-network.org"
+    }
+  ],
+  "paths": {
+    "/api/states/all": {
+      "get": {
+        "operationId": "ListAPIStatesAll",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "time": {
+                      "type": "integer",
+                      "example": 1790341107
+                    },
+                    "states": {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "items": {
+                          "oneOf": [
+                            {
+                              "type": "string",
+                              "example": "39de4f"
+                            },
+                            {
+                              "type": "number",
+                              "format": "double",
+                              "example": 2.3604
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "time",
+                    "states"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

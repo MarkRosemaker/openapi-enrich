@@ -173,34 +173,59 @@ func isNumericKey(s string) bool {
 func decodeArraySchema(dec *jsontext.Decoder) (*openapi.Schema, error) {
 	s := &openapi.Schema{Type: openapi.TypeArray}
 
-	var itemSchema *openapi.Schema
+	var groups []*openapi.Schema
 	for dec.PeekKind() != ']' {
 		elem, err := decodeSchema(dec)
 		if err != nil {
 			return nil, err
 		}
 
-		if itemSchema == nil {
-			itemSchema = elem
-		} else {
-			if err := merge.Schema(itemSchema, elem, false); err != nil {
-				return nil, fmt.Errorf("merging array items: %w", err)
-			}
-		}
+		groups = mergeIntoGroups(groups, elem)
 	}
 
 	if _, err := dec.ReadToken(); err != nil { // consume ']'
 		return nil, err
 	}
 
-	if itemSchema == nil {
-		// empty array → placeholder object items, refined on non-empty array
-		itemSchema = &openapi.Schema{Type: openapi.TypeObject, Example: jsontext.Value("null")}
-	}
-
-	s.Items = &openapi.SchemaRef{Value: itemSchema}
+	s.Items = &openapi.SchemaRef{Value: itemsSchemaFromGroups(groups)}
 
 	return s, nil
+}
+
+// mergeIntoGroups merges elem into the first of groups it can be merged
+// with, or appends it as a new group when it can be merged with none of
+// them: a fixed-size, positionally-typed array (e.g. OpenSky's state
+// vectors: [icao24 string, ..., time_position int, ..., on_ground bool,
+// ...]) mixes types no single merged item schema can represent.
+func mergeIntoGroups(groups []*openapi.Schema, elem *openapi.Schema) []*openapi.Schema {
+	for _, g := range groups {
+		if err := merge.Schema(g, elem, false); err == nil {
+			return groups
+		}
+	}
+
+	return append(groups, elem)
+}
+
+// itemsSchemaFromGroups turns the distinct type groups found in an array
+// into its items schema: the group itself when there is only one, or --
+// for a tuple-shaped array -- a oneOf of every group observed, since this
+// package has no positional (prefixItems) schema to fall back on.
+func itemsSchemaFromGroups(groups []*openapi.Schema) *openapi.Schema {
+	switch len(groups) {
+	case 0:
+		// empty array → placeholder object items, refined on non-empty array
+		return &openapi.Schema{Type: openapi.TypeObject, Example: jsontext.Value("null")}
+	case 1:
+		return groups[0]
+	default:
+		alternatives := make(openapi.SchemaRefList, len(groups))
+		for i, g := range groups {
+			alternatives[i] = &openapi.SchemaRef{Value: g}
+		}
+
+		return &openapi.Schema{OneOf: alternatives}
+	}
 }
 
 // stringFormat detects the special format for a string value.

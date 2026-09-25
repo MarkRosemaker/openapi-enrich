@@ -120,6 +120,39 @@ func TestNewSchemaFromJSON_EmptyArray(t *testing.T) {
 	}
 }
 
+// TestNewSchemaFromJSON_TupleArray covers a fixed-size, positionally-typed
+// array (e.g. OpenSky Network's state vectors: [icao24 string, callsign
+// string, ..., time_position int, ..., on_ground bool, ...]): merging every
+// element into one item schema fails outright on the first type mismatch, so
+// mismatched elements must fall back to a oneOf of the distinct types
+// observed instead.
+func TestNewSchemaFromJSON_TupleArray(t *testing.T) {
+	s, err := newSchemaFromJSON([]byte(`["39de4f", 1790341107, 48.7239, true, null]`))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if s.Type != openapi.TypeArray {
+		t.Fatalf("type: got %q, want array", s.Type)
+	}
+
+	items := s.Items.Value
+	if items.Type != "" {
+		t.Errorf("items type: got %q, want unset (a oneOf)", items.Type)
+	}
+
+	if len(items.OneOf) != 3 {
+		t.Fatalf("items oneOf: got %d alternatives, want 3 (string, number, boolean)", len(items.OneOf))
+	}
+
+	wantTypes := []openapi.DataType{openapi.TypeString, openapi.TypeNumber, openapi.TypeBoolean}
+	for i, alt := range items.OneOf {
+		if alt.Value.Type != wantTypes[i] {
+			t.Errorf("oneOf[%d] type: got %q, want %q", i, alt.Value.Type, wantTypes[i])
+		}
+	}
+}
+
 func TestNewSchemaFromJSON_NumericKeyObject(t *testing.T) {
 	// Objects whose keys are all stringified integers should be inferred as
 	// additionalProperties maps, not explicit properties.
