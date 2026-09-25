@@ -124,10 +124,10 @@ func TestNewSchemaFromJSON_EmptyArray(t *testing.T) {
 // array (e.g. OpenSky Network's state vectors: [icao24 string, callsign
 // string, ..., time_position int, ..., on_ground bool, ...]): merging every
 // element into one item schema fails outright on the first type mismatch, so
-// mismatched elements must fall back to a oneOf of the distinct types
-// observed instead.
+// mismatched elements must fall back to prefixItems -- one schema per
+// position, exactly as this one occurrence showed it -- instead.
 func TestNewSchemaFromJSON_TupleArray(t *testing.T) {
-	s, err := newSchemaFromJSON([]byte(`["39de4f", 1790341107, 48.7239, true, null]`))
+	s, err := newSchemaFromJSON([]byte(`["39de4f", 1790341107, 48.7239, true]`))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -136,20 +136,50 @@ func TestNewSchemaFromJSON_TupleArray(t *testing.T) {
 		t.Fatalf("type: got %q, want array", s.Type)
 	}
 
-	items := s.Items.Value
-	if items.Type != "" {
-		t.Errorf("items type: got %q, want unset (a oneOf)", items.Type)
+	if s.Items != nil {
+		t.Errorf("items: got %+v, want unset (a tuple)", s.Items)
 	}
 
-	if len(items.OneOf) != 3 {
-		t.Fatalf("items oneOf: got %d alternatives, want 3 (string, number, boolean)", len(items.OneOf))
+	wantTypes := []openapi.DataType{openapi.TypeString, openapi.TypeInteger, openapi.TypeNumber, openapi.TypeBoolean}
+	if len(s.PrefixItems) != len(wantTypes) {
+		t.Fatalf("prefixItems: got %d entries, want %d", len(s.PrefixItems), len(wantTypes))
 	}
 
-	wantTypes := []openapi.DataType{openapi.TypeString, openapi.TypeNumber, openapi.TypeBoolean}
-	for i, alt := range items.OneOf {
-		if alt.Value.Type != wantTypes[i] {
-			t.Errorf("oneOf[%d] type: got %q, want %q", i, alt.Value.Type, wantTypes[i])
+	for i, want := range wantTypes {
+		if got := s.PrefixItems[i].Value.Type; got != want {
+			t.Errorf("prefixItems[%d] type: got %q, want %q", i, got, want)
 		}
+	}
+}
+
+// TestNewSchemaFromJSON_TupleArray_NoPartialMutation covers a tuple whose
+// first two elements merge successfully with each other (integer widening to
+// number) before the third breaks the merge attempt outright: the abandoned
+// attempt must not leave its partial work behind on the first position, since
+// prefixItems then falls back to every element exactly as it was decoded.
+func TestNewSchemaFromJSON_TupleArray_NoPartialMutation(t *testing.T) {
+	s, err := newSchemaFromJSON([]byte(`[5, 5.5, "x"]`))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if len(s.PrefixItems) != 3 {
+		t.Fatalf("prefixItems: got %d entries, want 3", len(s.PrefixItems))
+	}
+
+	// position 0 must still be the plain integer it was decoded as, not the
+	// number it would have widened to had the merge attempt's mutation of it
+	// leaked out of the abandoned attempt.
+	if got, want := s.PrefixItems[0].Value.Type, openapi.TypeInteger; got != want {
+		t.Errorf("prefixItems[0] type: got %q, want %q", got, want)
+	}
+
+	if got, want := s.PrefixItems[1].Value.Type, openapi.TypeNumber; got != want {
+		t.Errorf("prefixItems[1] type: got %q, want %q", got, want)
+	}
+
+	if got, want := s.PrefixItems[2].Value.Type, openapi.TypeString; got != want {
+		t.Errorf("prefixItems[2] type: got %q, want %q", got, want)
 	}
 }
 

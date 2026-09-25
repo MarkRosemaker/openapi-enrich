@@ -29,22 +29,81 @@
                       "type": "array",
                       "items": {
                         "type": "array",
-                        "items": {
-                          "oneOf": [
-                            {
-                              "type": "string",
-                              "example": "39de4f"
-                            },
-                            {
-                              "type": "number",
-                              "format": "double",
-                              "example": 2.3604
-                            },
-                            {
-                              "type": "boolean"
-                            }
-                          ]
-                        }
+                        "prefixItems": [
+                          {
+                            "type": "string",
+                            "example": "39de4f"
+                          },
+                          {
+                            "type": "string",
+                            "example": "TVF42VD "
+                          },
+                          {
+                            "type": "string",
+                            "example": "France"
+                          },
+                          {
+                            "type": "integer",
+                            "example": 1790341107
+                          },
+                          {
+                            "type": "integer",
+                            "example": 1790341107
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 2.3604
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 48.7239
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 792.48
+                          },
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 3.09
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 255.94
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 3.9
+                          },
+                          {
+                            "type": "object",
+                            "example": null
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 868.68
+                          },
+                          {
+                            "type": "string",
+                            "example": "1000"
+                          },
+                          {
+                            "type": "boolean"
+                          },
+                          {
+                            "type": "integer",
+                            "example": 0
+                          }
+                        ]
                       }
                     }
                   },
