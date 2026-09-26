@@ -3,6 +3,7 @@ module github.com/MarkRosemaker/openapi-enrich
 go 1.27
 
 require (
+	github.com/MarkRosemaker/errpath v0.0.0-20260920172209-24fb928433b3
 	github.com/MarkRosemaker/jsonutil v0.0.0-20260920172211-f6e22a1a8311
 	github.com/MarkRosemaker/openapi v0.0.0-20260925151750-5adf9ba8ff6b
 	github.com/MarkRosemaker/openapi-edit v0.0.0-20260925152014-db661384fb81
@@ -14,7 +15,6 @@ require (
 
 require (
 	cloud.google.com/go v0.123.0 // indirect
-	github.com/MarkRosemaker/errpath v0.0.0-20260920172209-24fb928433b3 // indirect
 	github.com/MarkRosemaker/json2yaml v0.0.0-20260920172209-522898d8cbe9 // indirect
 	github.com/MarkRosemaker/ordmap v0.0.0-20260920172223-2eab4db34adb // indirect
 	github.com/MarkRosemaker/yaml v0.0.0-20260920172227-27bebaf02fb5 // indirect
