@@ -47,8 +47,7 @@
           {
             "type": "array",
             "items": {
-              "type": "integer",
-              "example": null
+              "type": "integer"
             },
             "example": null
           },
