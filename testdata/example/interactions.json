@@ -1,0 +1,24 @@
+[
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://opensky-network.org/api/states/all"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"time": 1790341107,
+				"states": [
+					[
+						null,
+						false,
+						0
+					]
+				]
+			}
+		}
+	}
+]
