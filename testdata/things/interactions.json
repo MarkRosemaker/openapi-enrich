@@ -1,0 +1,32 @@
+[
+	{
+		"request": {
+			"method": "POST",
+			"url": "http://localhost:8083/api/things/a/start"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"id": "a"
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "http://localhost:8083/api/things/running"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"status": "ok"
+			}
+		}
+	}
+]

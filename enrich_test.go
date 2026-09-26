@@ -300,3 +300,57 @@ func TestEnrich_ExistingParameter(t *testing.T) {
 
 	compareBytes(t, wantDoc, gotDoc)
 }
+
+// TestEnrich_PathTemplateSegmentMatch_Deterministic guards against a
+// regression where a request could match a shorter path template with a
+// trailing {param} absorbing extra segments (e.g. /things/{thingID}
+// swallowing "a/start"), instead of the same-length template that actually
+// describes it (/things/{thingID}/start). Since that choice used to fall out
+// of map iteration order, it only failed some of the time -- so this rebuilds
+// the document from scratch and re-runs Enrich many times, fresh each time,
+// to make the flakiness reliably visible if the matching logic regresses.
+func TestEnrich_PathTemplateSegmentMatch_Deterministic(t *testing.T) {
+	specData, err := testdata.ReadFile(filepath.Join("testdata", "things", "openapi.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	iaData, err := testdata.ReadFile(filepath.Join("testdata", "things", "interactions.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	wantDoc, err := testdata.ReadFile(filepath.Join("testdata", "things", "golden.json"))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	for i := range 200 {
+		doc, err := openapi.LoadFromDataJSON(specData)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		interactions, err := cassette.InteractionsUnmarshalRead(bytes.NewReader(iaData))
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if err := enrich.Enrich(doc, interactions); err != nil {
+			t.Fatalf("run %d: Enrich error: %v", i, err)
+		}
+
+		if err := doc.Validate(); err != nil {
+			t.Fatalf("run %d: %v", i, err)
+		}
+
+		gotDoc, err := doc.ToJSON()
+		if err != nil {
+			t.Fatalf("run %d: %v", i, err)
+		}
+
+		if !bytes.Equal(wantDoc, gotDoc) {
+			t.Fatalf("run %d: result differs from golden.json (nondeterministic path match)", i)
+		}
+	}
+}
