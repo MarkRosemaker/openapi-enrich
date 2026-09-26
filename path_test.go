@@ -158,6 +158,62 @@ func TestFindPathItem_ParametricMatch(t *testing.T) {
 	}
 }
 
+// TestFindPathItem_ExactLengthBeatsGreedy guards against a request matching a
+// shorter template whose trailing {param} greedily absorbs extra segments,
+// when a same-length template actually describes the request. Both
+// "/things/{thingID}" and "/things/{thingID}/start" match
+// "/things/a/start" under the old logic -- non-deterministically, since the
+// choice fell out of map iteration order -- so this runs many times to make
+// sure the same-length template always wins.
+func TestFindPathItem_ExactLengthBeatsGreedy(t *testing.T) {
+	doc := NewDocument()
+	doc.Servers = openapi.Servers{{URL: "http://localhost:8083/api"}}
+	shortPI := &openapi.PathItem{}
+	longPI := &openapi.PathItem{}
+	doc.Paths = openapi.Paths{}
+	doc.Paths.Set("/things/{thingID}", shortPI)
+	doc.Paths.Set("/things/{thingID}/start", longPI)
+
+	reqURL, _ := url.Parse("http://localhost:8083/api/things/a/start")
+
+	for i := range 200 {
+		gotPath, gotPI := findPathItem(doc, reqURL)
+		if gotPath != "/things/{thingID}/start" {
+			t.Fatalf("run %d: path: got %q, want /things/{thingID}/start", i, gotPath)
+		}
+
+		if gotPI != longPI {
+			t.Fatalf("run %d: expected match on the same-length template, not the greedy one", i)
+		}
+	}
+}
+
+// TestFindPathItem_LiteralBeatsParam covers the same-length case: a literal
+// segment is more specific than a parameter in the same position, the way
+// net/http's ServeMux prefers a fixed pattern over a wildcard one.
+func TestFindPathItem_LiteralBeatsParam(t *testing.T) {
+	doc := NewDocument()
+	doc.Servers = openapi.Servers{{URL: "http://localhost:8083/api"}}
+	paramPI := &openapi.PathItem{}
+	literalPI := &openapi.PathItem{}
+	doc.Paths = openapi.Paths{}
+	doc.Paths.Set("/things/{thingID}", paramPI)
+	doc.Paths.Set("/things/running", literalPI)
+
+	reqURL, _ := url.Parse("http://localhost:8083/api/things/running")
+
+	for i := range 200 {
+		gotPath, gotPI := findPathItem(doc, reqURL)
+		if gotPath != "/things/running" {
+			t.Fatalf("run %d: path: got %q, want /things/running", i, gotPath)
+		}
+
+		if gotPI != literalPI {
+			t.Fatalf("run %d: expected match on the literal template, not the parametric one", i)
+		}
+	}
+}
+
 func TestFindPathItem_NoMatch(t *testing.T) {
 	doc := NewDocument()
 	doc.Servers = openapi.Servers{{URL: "https://api.example.com"}}
