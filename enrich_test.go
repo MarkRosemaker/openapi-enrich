@@ -354,3 +354,87 @@ func TestEnrich_PathTemplateSegmentMatch_Deterministic(t *testing.T) {
 		}
 	}
 }
+
+// TestEnrich_ReusesComponentParameter covers a header (and a query param)
+// that the specification already declares under components.parameters, keyed
+// by a name other than the parameter's own (NotionVersionHeader for
+// Notion-Version). A request to an endpoint the specification doesn't know yet
+// must reference that component, not declare a second, inline Notion-Version.
+func TestEnrich_ReusesComponentParameter(t *testing.T) {
+	doc, err := openapi.LoadFromDataJSON([]byte(`{
+		"openapi": "3.1.0",
+		"info": {"title": "Notion", "version": "1"},
+		"servers": [{"url": "https://api.notion.com/v1"}],
+		"paths": {
+			"/users": {
+				"get": {
+					"operationId": "ListUsers",
+					"parameters": [{"$ref": "#/components/parameters/NotionVersionHeader"}],
+					"responses": {"200": {"description": "OK"}}
+				}
+			}
+		},
+		"components": {
+			"parameters": {
+				"NotionVersionHeader": {
+					"name": "Notion-Version",
+					"in": "header",
+					"description": "Specifies the Notion API version",
+					"required": true,
+					"schema": {"type": "string", "example": "2026-03-11"}
+				},
+				"PageSize": {
+					"name": "page_size",
+					"in": "query",
+					"schema": {"type": "integer"}
+				}
+			}
+		}
+	}`))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if err := enrich.Enrich(doc, cassette.Interactions{{
+		Request: cassette.Request{
+			Method:  http.MethodGet,
+			URL:     "https://api.notion.com/v1/pages?page_size=10",
+			Headers: http.Header{"Notion-Version": {"2026-03-11"}},
+		},
+		Response: cassette.Response{StatusCode: http.StatusOK},
+	}}); err != nil {
+		t.Fatal(err)
+	}
+
+	if err := doc.Validate(); err != nil {
+		t.Fatal(err)
+	}
+
+	op := doc.Paths["/pages"].Get
+	if op == nil {
+		t.Fatal("GET /pages was not added")
+	}
+
+	want := map[string]string{
+		"Notion-Version": "#/components/parameters/NotionVersionHeader",
+		"page_size":      "#/components/parameters/PageSize",
+	}
+	if len(op.Parameters) != len(want) {
+		t.Fatalf("got %d parameters, want %d", len(op.Parameters), len(want))
+	}
+
+	for _, p := range op.Parameters {
+		if p.Ref == nil {
+			t.Errorf("%s: declared inline, want a $ref to %s", p.Value.Name, want[p.Value.Name])
+			continue
+		}
+
+		if p.Ref.Identifier != want[p.Value.Name] {
+			t.Errorf("%s: $ref %q, want %q", p.Value.Name, p.Ref.Identifier, want[p.Value.Name])
+		}
+	}
+
+	if n := len(doc.Components.Parameters); n != 2 {
+		t.Errorf("got %d component parameters, want the original 2", n)
+	}
+}
