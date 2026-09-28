@@ -207,7 +207,7 @@ func TestNewSchemaFromJSON_NumericKeyObject(t *testing.T) {
 		t.Error("expected no required for numeric-keyed object")
 	}
 	// The value schema should be the merged entry schema.
-	v := s.AdditionalProperties.Value
+	v := s.AdditionalProperties.Schema.Value
 	if v.Type != openapi.TypeObject {
 		t.Errorf("additionalProperties type: got %q, want object", v.Type)
 	}
