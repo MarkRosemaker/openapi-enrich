@@ -341,7 +341,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
+                  "$ref": "#/components/schemas/PaginatedSearchResult"
                 }
               }
             },
@@ -471,7 +471,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
+                  "$ref": "#/components/schemas/PaginatedModuleVersion"
                 }
               }
             },
@@ -541,7 +541,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
+                  "$ref": "#/components/schemas/PaginatedVulnerability"
                 }
               }
             },
@@ -744,7 +744,7 @@
       "PackageImportedBy": {
         "properties": {
           "importedBy": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedString"
           },
           "modulePath": {
             "type": "string"
@@ -779,7 +779,7 @@
             "type": "string"
           },
           "symbols": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedSymbol"
           },
           "version": {
             "type": "string"
@@ -796,7 +796,7 @@
             "type": "string"
           },
           "packages": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedPackageInfo"
           },
           "version": {
             "type": "string"
@@ -804,11 +804,96 @@
         },
         "type": "object"
       },
-      "PaginatedResponse": {
+      "PaginatedModuleVersion": {
         "properties": {
           "items": {
             "items": {
-              "type": "object"
+              "$ref": "#/components/schemas/ModuleVersion"
+            },
+            "type": "array"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "PaginatedPackageInfo": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PackageInfo"
+            },
+            "type": "array"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "PaginatedSearchResult": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            },
+            "type": "array"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "PaginatedString": {
+        "properties": {
+          "items": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "PaginatedSymbol": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Symbol"
+            },
+            "type": "array"
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        },
+        "type": "object"
+      },
+      "PaginatedVulnerability": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/Vulnerability"
             },
             "type": "array"
           },
