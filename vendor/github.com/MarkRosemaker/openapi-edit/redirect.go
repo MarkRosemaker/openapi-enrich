@@ -42,6 +42,8 @@ func RedirectSchema(doc *openapi.Document, oldName, newName, description string)
 		return nil
 	}
 
+	keepImplicitMappings(doc, schemas[oldName], oldName, newName)
+
 	old, new := schemaRefPrefix+oldName, schemaRefPrefix+newName
 
 	target := schemas[newName]
@@ -57,6 +59,8 @@ func RedirectSchema(doc *openapi.Document, oldName, newName, description string)
 
 		s.Ref.Identifier, s.Ref.Value = new, target
 	})
+
+	rewriteMappings(doc, oldName, newName)
 
 	delete(schemas, oldName)
 

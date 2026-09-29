@@ -59,6 +59,8 @@ type Schema struct {
 	ExclusiveMin *float64 `json:"exclusiveMinimum,omitzero" yaml:"exclusiveMinimum,omitempty"`
 	// A value the number must be less than.
 	ExclusiveMax *float64 `json:"exclusiveMaximum,omitzero" yaml:"exclusiveMaximum,omitempty"`
+	// A number the value must be a multiple of.
+	MultipleOf *float64 `json:"multipleOf,omitzero" yaml:"multipleOf,omitempty"`
 
 	// String
 
@@ -100,6 +102,8 @@ type Schema struct {
 	AdditionalProperties *AdditionalProperties `json:"additionalProperties,omitzero" yaml:"additionalProperties,omitempty"`
 	// The maximum number of properties of the object.
 	MaxProperties *uint `json:"maxProperties,omitzero" yaml:"maxProperties,omitempty"`
+	// A schema every property name of the object must match.
+	PropertyNames *Schema `json:"propertyNames,omitzero" yaml:"propertyNames,omitempty"`
 	// Tells which of the composed schemas a payload is, by the value of one of its properties.
 	Discriminator *Discriminator `json:"discriminator,omitzero" yaml:"discriminator,omitempty"`
 
@@ -145,14 +149,18 @@ func (s *Schema) Replace(v *Schema) {
 func getIndexSchema(s *Schema) int              { return s.idx }
 func setIndexSchema(s *Schema, idx int) *Schema { s.idx = idx; return s }
 
-func (s *Schema) Validate() error {
+// Validate checks the schema for correctness.
+func (s *Schema) Validate() error { return s.validate(false) }
+
+// validate checks the schema; extended says another component schema builds on it through allOf.
+func (s *Schema) validate(extended bool) error {
 	s.Description = strings.TrimSpace(s.Description)
 
 	if s.Ref != nil && s.Ref.Value == nil {
 		return &errpath.ErrField{Field: "$ref", Err: fmt.Errorf("%q was not resolved", s.Ref.Identifier)}
 	}
 
-	// type is optional (JSON Schema 2020-12); keywords tied to one type still require it, below.
+	// type is optional (JSON Schema 2020-12): without one, every type's keywords apply, each to instances of its type.
 	if s.Type != "" {
 		if err := s.Type.Validate(); err != nil {
 			return &errpath.ErrField{Field: "type", Err: err}
@@ -169,14 +177,14 @@ func (s *Schema) Validate() error {
 	switch s.Format {
 	case "": // no format
 	case FormatInt32, FormatInt64, FormatUint, FormatUint32, FormatUint64:
-		if s.Type != TypeInteger {
+		if !s.allows(TypeInteger) {
 			return &errpath.ErrField{Field: "format", Err: &errpath.ErrInvalid[Format]{
 				Value:   s.Format,
 				Message: fmt.Sprintf("only valid for integer type, got %s", s.typeOrNone()),
 			}}
 		}
 	case FormatFloat, FormatDouble:
-		if s.Type != TypeNumber {
+		if !s.allows(TypeNumber) {
 			return &errpath.ErrField{Field: "format", Err: &errpath.ErrInvalid[Format]{
 				Value:   s.Format,
 				Message: fmt.Sprintf("only valid for number type, got %s", s.typeOrNone()),
@@ -185,7 +193,7 @@ func (s *Schema) Validate() error {
 	case FormatEmail, FormatPassword,
 		FormatUUID, FormatURI, FormatURIRef, FormatZipCode,
 		FormatIPv4, FormatIPv6:
-		if s.Type != TypeString {
+		if !s.allows(TypeString) {
 			return &errpath.ErrField{Field: "format", Err: &errpath.ErrInvalid[Format]{
 				Value:   s.Format,
 				Message: fmt.Sprintf("only valid for string type, got %s", s.typeOrNone()),
@@ -193,7 +201,7 @@ func (s *Schema) Validate() error {
 		}
 	case FormatDuration, FormatDate, FormatDateTime:
 		switch s.Type {
-		case TypeInteger, TypeString:
+		case "", TypeInteger, TypeString:
 		default:
 			return &errpath.ErrField{Field: "format", Err: &errpath.ErrInvalid[Format]{
 				Value:   s.Format,
@@ -202,7 +210,7 @@ func (s *Schema) Validate() error {
 		}
 	case FormatByte, FormatBinary:
 		switch s.Type {
-		case TypeString:
+		case "", TypeString:
 		default:
 			return &errpath.ErrField{Field: "format", Err: &errpath.ErrInvalid[Format]{
 				Value:   s.Format,
@@ -215,7 +223,7 @@ func (s *Schema) Validate() error {
 
 	// String
 
-	if s.Type != TypeString {
+	if !s.allows(TypeString) {
 		for _, kw := range []struct {
 			field string
 			set   bool
@@ -305,9 +313,16 @@ func (s *Schema) Validate() error {
 				Message: "not an integer",
 			}}
 		}
+
+		if s.MultipleOf != nil && *s.MultipleOf != float64(int(*s.MultipleOf)) {
+			return &errpath.ErrField{Field: "multipleOf", Err: &errpath.ErrInvalid[float64]{
+				Value:   *s.MultipleOf,
+				Message: "not an integer",
+			}}
+		}
 	}
 
-	if s.Type == TypeNumber || s.Type == TypeInteger {
+	if s.allows(TypeNumber) || s.allows(TypeInteger) {
 		if s.Min != nil && s.Max != nil && *s.Min > *s.Max {
 			return &errpath.ErrField{Field: "minimum", Err: &errpath.ErrInvalid[float64]{
 				Value:   *s.Min,
@@ -355,6 +370,18 @@ func (s *Schema) Validate() error {
 			Value:   *s.ExclusiveMax,
 			Message: fmt.Sprintf("only valid for number type, got %s", s.typeOrNone()),
 		}}
+	} else if s.MultipleOf != nil {
+		return &errpath.ErrField{Field: "multipleOf", Err: &errpath.ErrInvalid[float64]{
+			Value:   *s.MultipleOf,
+			Message: fmt.Sprintf("only valid for number type, got %s", s.typeOrNone()),
+		}}
+	}
+
+	if s.MultipleOf != nil && *s.MultipleOf <= 0 {
+		return &errpath.ErrField{Field: "multipleOf", Err: &errpath.ErrInvalid[float64]{
+			Value:   *s.MultipleOf,
+			Message: "must be greater than 0",
+		}}
 	}
 
 	// String / Enum
@@ -397,7 +424,7 @@ func (s *Schema) Validate() error {
 	// Array
 
 	// validate min and max items
-	if s.Type == TypeArray {
+	if s.allows(TypeArray) {
 		if s.MaxItems != nil && s.MinItems > *s.MaxItems {
 			return &errpath.ErrField{Field: "minItems", Err: &errpath.ErrInvalid[uint]{
 				Value:   s.MinItems,
@@ -447,13 +474,14 @@ func (s *Schema) Validate() error {
 
 	// Object
 
-	if s.Type == TypeObject {
+	if s.allows(TypeObject) {
 		if err := s.Properties.Validate(); err != nil {
 			return &errpath.ErrField{Field: "properties", Err: err}
 		}
 
 		for i, r := range s.Required {
-			if _, ok := s.Properties[r]; ok {
+			// without a type, required is a constraint on whatever object properties hold
+			if _, ok := s.Properties[r]; ok || s.Type == "" {
 				continue
 			}
 
@@ -469,6 +497,12 @@ func (s *Schema) Validate() error {
 		if s.AdditionalProperties != nil {
 			if err := s.AdditionalProperties.Validate(); err != nil {
 				return &errpath.ErrField{Field: "additionalProperties", Err: err}
+			}
+		}
+
+		if s.PropertyNames != nil {
+			if err := s.PropertyNames.Validate(); err != nil {
+				return &errpath.ErrField{Field: "propertyNames", Err: err}
 			}
 		}
 
@@ -495,12 +529,17 @@ func (s *Schema) Validate() error {
 			Value:   *s.MaxProperties,
 			Message: fmt.Sprintf("only valid for object type, got %s", s.typeOrNone()),
 		}}
+	} else if s.PropertyNames != nil {
+		return &errpath.ErrField{Field: "propertyNames", Err: &errpath.ErrInvalid[string]{
+			Message: fmt.Sprintf("only valid for object type, got %s", s.typeOrNone()),
+		}}
 	}
 
 	if s.Discriminator != nil {
-		if len(s.OneOf) == 0 && len(s.AnyOf) == 0 && len(s.AllOf) == 0 {
+		// a parent schema may carry the discriminator for the schemas extending it through allOf
+		if len(s.OneOf) == 0 && len(s.AnyOf) == 0 && len(s.AllOf) == 0 && !extended {
 			return &errpath.ErrField{Field: "discriminator", Err: &errpath.ErrInvalid[string]{
-				Message: "only valid with oneOf, anyOf or allOf",
+				Message: "only valid with oneOf, anyOf or allOf, or on a component schema another extends through allOf",
 			}}
 		}
 
@@ -574,6 +613,9 @@ func (s *Schema) Validate() error {
 
 	return validateExtensions(s.Extensions)
 }
+
+// allows reports whether the schema's keywords for type t apply: it is of type t, or of no type at all.
+func (s *Schema) allows(t DataType) bool { return s.Type == "" || s.Type == t }
 
 // typeOrNone names the schema's type for error messages.
 func (s *Schema) typeOrNone() string {
@@ -695,6 +737,18 @@ func (l *loader) resolveSchema(s *Schema) error {
 		}
 	}
 
+	if s.PropertyNames != nil {
+		if err := l.resolveSchema(s.PropertyNames); err != nil {
+			return &errpath.ErrField{Field: "propertyNames", Err: err}
+		}
+	}
+
+	if s.Discriminator != nil {
+		if err := l.resolveDiscriminator(s.Discriminator); err != nil {
+			return &errpath.ErrField{Field: "discriminator", Err: err}
+		}
+	}
+
 	return nil
 }
 
@@ -714,11 +768,11 @@ func (s *Schema) isEmpty() bool {
 	return s == nil ||
 		(s.Ref == nil && s.Type == "" && !s.Nullable && s.Format == "" &&
 			len(s.AllOf) == 0 && len(s.OneOf) == 0 && len(s.AnyOf) == 0 && s.Not == nil &&
-			s.Min == nil && s.Max == nil && s.ExclusiveMin == nil && s.ExclusiveMax == nil &&
+			s.Min == nil && s.Max == nil && s.ExclusiveMin == nil && s.ExclusiveMax == nil && s.MultipleOf == nil &&
 			s.MinLength == 0 && s.MaxLength == nil && s.Pattern == nil &&
 			s.MinItems == 0 && s.MaxItems == nil && !s.UniqueItems && len(s.PrefixItems) == 0 && s.Items == nil &&
 			s.Properties == nil && s.Required == nil &&
-			s.AdditionalProperties == nil && s.MaxProperties == nil && s.Discriminator == nil &&
+			s.AdditionalProperties == nil && s.MaxProperties == nil && s.PropertyNames == nil && s.Discriminator == nil &&
 			len(s.Examples) == 0 && !s.Deprecated &&
 			s.ContentMediaType == "" && s.ContentEncoding == "" &&
 			s.Const == nil &&

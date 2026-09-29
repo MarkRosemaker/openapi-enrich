@@ -5,6 +5,7 @@ package edit
 import (
 	"fmt"
 	"regexp"
+	"slices"
 
 	"github.com/MarkRosemaker/openapi"
 )
@@ -86,7 +87,9 @@ func RenameSchema(doc *openapi.Document, oldName, newName string) error {
 	delete(schemas, oldName)
 	schemas[newName] = s
 
+	keepImplicitMappings(doc, s, oldName, newName)
 	renameRefs(doc, schemaRefPrefix+oldName, schemaRefPrefix+newName)
+	rewriteMappings(doc, oldName, newName)
 
 	return nil
 }
@@ -97,5 +100,55 @@ func renameRefs(doc *openapi.Document, old, new string) {
 		if s.Ref != nil && s.Ref.Identifier == old {
 			s.Ref.Identifier = new
 		}
+	})
+}
+
+// rewriteMappings points every discriminator mapping value that stands for oldName at newName, keeping the value's form: a name or a reference.
+func rewriteMappings(doc *openapi.Document, oldName, newName string) {
+	walkSchemas(doc, func(s *openapi.Schema) {
+		if s.Discriminator == nil {
+			return
+		}
+
+		for key, v := range s.Discriminator.Mapping {
+			if openapi.MappingRef(v.Value) != schemaRefPrefix+oldName {
+				continue
+			}
+
+			if v.Value == oldName {
+				v.Value = newName
+			} else {
+				v.Value = schemaRefPrefix + newName
+			}
+
+			// a copy of the entry keeps its place in the mapping
+			s.Discriminator.Mapping[key] = v
+		}
+	})
+}
+
+// keepImplicitMappings maps oldName to newName in every discriminator that selected old by its name alone, which the rename would break.
+//
+// Without a mapping entry, a discriminator value names a component schema: one its oneOf or anyOf refers to, or one that extends it through allOf.
+// See https://spec.openapis.org/oas/v3.1.0#discriminator-object
+func keepImplicitMappings(doc *openapi.Document, old *openapi.Schema, oldName, newName string) {
+	isOld := func(e *openapi.Schema) bool { return e.Ref != nil && e.Ref.Identifier == schemaRefPrefix+oldName }
+
+	walkSchemas(doc, func(s *openapi.Schema) {
+		d := s.Discriminator
+		if d == nil {
+			return
+		}
+
+		if _, mapped := d.Mapping[oldName]; mapped {
+			return // an explicit entry wins over the implicit one
+		}
+
+		extends := slices.ContainsFunc(old.AllOf, func(e *openapi.Schema) bool { return e.Ref != nil && e.Ref.Value == s })
+		if !extends && !slices.ContainsFunc(s.OneOf, isOld) && !slices.ContainsFunc(s.AnyOf, isOld) {
+			return
+		}
+
+		d.Mapping.Set(oldName, openapi.String{Value: newName})
 	})
 }
