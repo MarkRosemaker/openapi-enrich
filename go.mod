@@ -5,9 +5,9 @@ go 1.27
 require (
 	github.com/MarkRosemaker/errpath v0.0.0-20260927120109-a8204594eddb
 	github.com/MarkRosemaker/jsonutil v0.0.0-20260927120110-8df582685e7f
-	github.com/MarkRosemaker/openapi v0.0.0-20260929005841-90ea61316d9a
-	github.com/MarkRosemaker/openapi-edit v0.0.0-20260929005421-3d589805cd72
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20260929010002-b8ee235a0e48
+	github.com/MarkRosemaker/openapi v0.0.0-20260929010704-42b9a170aba2
+	github.com/MarkRosemaker/openapi-edit v0.0.0-20260929010811-bbe27721eba5
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20260929010809-619f91455648
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
