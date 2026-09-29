@@ -23,6 +23,11 @@ What it infers:
 - **Enums** — an `enum` already declared in the given document grows with
   every value observed for it. An object's keys count too, when its
   `propertyNames` declares an enum. A recording never starts an enum of its own.
+- **Shared components** — a schema several operations refer to is enriched
+  by any of them, since sharing says they have the same shape. Where that is
+  wrong, the generated client fails to decode the other operations'
+  responses; recording those widens the schema to fit all of them, and
+  giving each operation its own schema in the input makes it precise.
 
 The module also ships the pieces needed to *obtain* that traffic:
 
