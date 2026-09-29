@@ -112,8 +112,8 @@ func TestAnalyzeInteraction_QueryParam(t *testing.T) {
 		t.Error("expected offset param")
 	}
 
-	if limitParam != nil && limitParam.Schema.Value.Type != openapi.TypeInteger {
-		t.Errorf("limit type: got %q, want integer", limitParam.Schema.Value.Type)
+	if limitParam != nil && limitParam.Schema.Type != openapi.TypeInteger {
+		t.Errorf("limit type: got %q, want integer", limitParam.Schema.Type)
 	}
 }
 
@@ -146,8 +146,8 @@ func TestAnalyzeInteraction_CommaSeparatedParam(t *testing.T) {
 		t.Fatal("expected tags param")
 	}
 
-	if tagsParam.Schema.Value.Type != openapi.TypeArray {
-		t.Errorf("tags type: got %q, want array", tagsParam.Schema.Value.Type)
+	if tagsParam.Schema.Type != openapi.TypeArray {
+		t.Errorf("tags type: got %q, want array", tagsParam.Schema.Type)
 	}
 
 	if tagsParam.Explode == nil || *tagsParam.Explode {
@@ -223,7 +223,7 @@ func TestAnalyzeInteraction_RequestBody(t *testing.T) {
 		t.Fatal("expected JSON schema in request body")
 	}
 
-	schema := mt.Schema.Value
+	schema := mt.Schema
 	if schema.Type != openapi.TypeObject {
 		t.Errorf("schema type: got %q, want object", schema.Type)
 	}
@@ -264,8 +264,8 @@ func TestAnalyzeInteraction_Response(t *testing.T) {
 		t.Fatal("expected JSON schema in response")
 	}
 
-	if mt.Schema.Value.Type != openapi.TypeArray {
-		t.Errorf("response schema type: got %q, want array", mt.Schema.Value.Type)
+	if mt.Schema.Type != openapi.TypeArray {
+		t.Errorf("response schema type: got %q, want array", mt.Schema.Type)
 	}
 }
 
@@ -317,7 +317,7 @@ func TestAnalyzeInteraction_PathParamDetection(t *testing.T) {
 		t.Error("path parameter must be required")
 	}
 
-	if idParam.Schema == nil || idParam.Schema.Value.Type != openapi.TypeInteger {
+	if idParam.Schema == nil || idParam.Schema.Type != openapi.TypeInteger {
 		t.Errorf("userId schema: got %v, want integer", idParam.Schema)
 	}
 }
@@ -353,8 +353,8 @@ func TestAnalyzeInteraction_UUIDPathParam(t *testing.T) {
 		t.Fatal("expected path parameter")
 	}
 	// UUID segment is not numeric, so schema should be string
-	if idParam.Schema.Value.Type != openapi.TypeString {
-		t.Errorf("UUID param schema: got %q, want string", idParam.Schema.Value.Type)
+	if idParam.Schema.Type != openapi.TypeString {
+		t.Errorf("UUID param schema: got %q, want string", idParam.Schema.Type)
 	}
 }
 
@@ -666,12 +666,12 @@ func TestAnalyzeInteraction_CommaSeparatedIntParams(t *testing.T) {
 		t.Fatal("expected ids param")
 	}
 
-	if idsParam.Schema.Value.Type != openapi.TypeArray {
-		t.Errorf("type: got %q, want array", idsParam.Schema.Value.Type)
+	if idsParam.Schema.Type != openapi.TypeArray {
+		t.Errorf("type: got %q, want array", idsParam.Schema.Type)
 	}
 
-	if idsParam.Schema.Value.Items.Value.Type != openapi.TypeInteger {
-		t.Errorf("items type: got %q, want integer", idsParam.Schema.Value.Items.Value.Type)
+	if idsParam.Schema.Items.Type != openapi.TypeInteger {
+		t.Errorf("items type: got %q, want integer", idsParam.Schema.Items.Type)
 	}
 }
 

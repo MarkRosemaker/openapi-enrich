@@ -195,8 +195,7 @@
                                         "example": "Example Page"
                                       },
                                       "link": {
-                                        "type": "object",
-                                        "example": null
+                                        "type": "null"
                                       }
                                     },
                                     "required": [
@@ -241,8 +240,7 @@
                                     "example": "Example Page"
                                   },
                                   "href": {
-                                    "type": "object",
-                                    "example": null
+                                    "type": "null"
                                   }
                                 },
                                 "required": [
@@ -455,8 +453,7 @@
                                           "example": "This is a simple paragraph."
                                         },
                                         "link": {
-                                          "type": "object",
-                                          "example": null
+                                          "type": "null"
                                         }
                                       },
                                       "required": [
@@ -501,16 +498,20 @@
                                       "example": "This is a simple paragraph."
                                     },
                                     "href": {
-                                      "type": "object",
-                                      "example": null
+                                      "type": "null"
                                     }
                                   },
-                                  "example": null
+                                  "required": [
+                                    "type",
+                                    "text",
+                                    "annotations",
+                                    "plain_text",
+                                    "href"
+                                  ]
                                 }
                               },
                               "icon": {
-                                "type": "object",
-                                "example": null
+                                "type": "null"
                               },
                               "color": {
                                 "type": "string",

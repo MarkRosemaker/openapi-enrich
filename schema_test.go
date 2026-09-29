@@ -27,7 +27,7 @@ func TestNewSchemaFromJSON(t *testing.T) {
 		{"bool true", `true`, openapi.TypeBoolean, ""},
 		{"bool false", `false`, openapi.TypeBoolean, ""},
 		// null → object placeholder
-		{"null", `null`, openapi.TypeObject, ""},
+		{"null", `null`, openapi.TypeNull, ""},
 		// Composite
 		{"empty object", `{}`, openapi.TypeObject, ""},
 		{"empty array", `[]`, openapi.TypeArray, ""},
@@ -69,16 +69,16 @@ func TestNewSchemaFromJSON_Object(t *testing.T) {
 		t.Fatalf("required: got %d, want 3", len(s.Required))
 	}
 
-	if s.Properties["id"].Value.Type != openapi.TypeInteger {
-		t.Errorf("id type: got %q, want integer", s.Properties["id"].Value.Type)
+	if s.Properties["id"].Type != openapi.TypeInteger {
+		t.Errorf("id type: got %q, want integer", s.Properties["id"].Type)
 	}
 
-	if s.Properties["name"].Value.Type != openapi.TypeString {
-		t.Errorf("name type: got %q, want string", s.Properties["name"].Value.Type)
+	if s.Properties["name"].Type != openapi.TypeString {
+		t.Errorf("name type: got %q, want string", s.Properties["name"].Type)
 	}
 
-	if s.Properties["active"].Value.Type != openapi.TypeBoolean {
-		t.Errorf("active type: got %q, want boolean", s.Properties["active"].Value.Type)
+	if s.Properties["active"].Type != openapi.TypeBoolean {
+		t.Errorf("active type: got %q, want boolean", s.Properties["active"].Type)
 	}
 }
 
@@ -96,8 +96,8 @@ func TestNewSchemaFromJSON_Array(t *testing.T) {
 		t.Fatal("items is nil")
 	}
 
-	if s.Items.Value.Type != openapi.TypeInteger {
-		t.Errorf("items type: got %q, want integer", s.Items.Value.Type)
+	if s.Items.Type != openapi.TypeInteger {
+		t.Errorf("items type: got %q, want integer", s.Items.Type)
 	}
 }
 
@@ -111,12 +111,13 @@ func TestNewSchemaFromJSON_EmptyArray(t *testing.T) {
 		t.Fatalf("type: got %q, want array", s.Type)
 	}
 
-	if s.Items == nil {
-		t.Fatal("items is nil for empty array")
+	// nothing is known of the items of an array only ever seen empty
+	if s.Items != nil {
+		t.Errorf("items for empty array: got %+v, want none", s.Items)
 	}
 
-	if s.Items.Value.Type != openapi.TypeObject {
-		t.Errorf("items type for empty array: got %q, want object", s.Items.Value.Type)
+	if s.MaxItems == nil || *s.MaxItems != 0 {
+		t.Errorf("maxItems for empty array: got %v, want 0", s.MaxItems)
 	}
 }
 
@@ -146,7 +147,7 @@ func TestNewSchemaFromJSON_TupleArray(t *testing.T) {
 	}
 
 	for i, want := range wantTypes {
-		if got := s.PrefixItems[i].Value.Type; got != want {
+		if got := s.PrefixItems[i].Type; got != want {
 			t.Errorf("prefixItems[%d] type: got %q, want %q", i, got, want)
 		}
 	}
@@ -170,15 +171,15 @@ func TestNewSchemaFromJSON_TupleArray_NoPartialMutation(t *testing.T) {
 	// position 0 must still be the plain integer it was decoded as, not the
 	// number it would have widened to had the merge attempt's mutation of it
 	// leaked out of the abandoned attempt.
-	if got, want := s.PrefixItems[0].Value.Type, openapi.TypeInteger; got != want {
+	if got, want := s.PrefixItems[0].Type, openapi.TypeInteger; got != want {
 		t.Errorf("prefixItems[0] type: got %q, want %q", got, want)
 	}
 
-	if got, want := s.PrefixItems[1].Value.Type, openapi.TypeNumber; got != want {
+	if got, want := s.PrefixItems[1].Type, openapi.TypeNumber; got != want {
 		t.Errorf("prefixItems[1] type: got %q, want %q", got, want)
 	}
 
-	if got, want := s.PrefixItems[2].Value.Type, openapi.TypeString; got != want {
+	if got, want := s.PrefixItems[2].Type, openapi.TypeString; got != want {
 		t.Errorf("prefixItems[2] type: got %q, want %q", got, want)
 	}
 }
@@ -207,12 +208,12 @@ func TestNewSchemaFromJSON_NumericKeyObject(t *testing.T) {
 		t.Error("expected no required for numeric-keyed object")
 	}
 	// The value schema should be the merged entry schema.
-	v := s.AdditionalProperties.Schema.Value
+	v := s.AdditionalProperties.Schema
 	if v.Type != openapi.TypeObject {
 		t.Errorf("additionalProperties type: got %q, want object", v.Type)
 	}
 
-	if v.Properties["ticker"] == nil || v.Properties["ticker"].Value.Type != openapi.TypeString {
+	if v.Properties["ticker"] == nil || v.Properties["ticker"].Type != openapi.TypeString {
 		t.Error("expected ticker:string in additionalProperties value schema")
 	}
 }
@@ -237,14 +238,15 @@ func TestIsNumericKey(t *testing.T) {
 	}
 }
 
-func TestNewSchemaFromJSON_NullExample(t *testing.T) {
+func TestNewSchemaFromJSON_Null(t *testing.T) {
 	s, err := newSchemaFromJSON([]byte(`null`))
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if string(s.Example) != "null" {
-		t.Errorf("null schema example: got %q, want \"null\"", string(s.Example))
+	// the null type says it all, so there is no example to give
+	if s.Type != openapi.TypeNull || s.Example != nil {
+		t.Errorf("got type %q and example %s, want the null type and no example", s.Type, s.Example)
 	}
 }
 

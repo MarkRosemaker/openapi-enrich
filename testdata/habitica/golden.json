@@ -79,10 +79,7 @@
                           },
                           "tags": {
                             "type": "array",
-                            "items": {
-                              "type": "object",
-                              "example": null
-                            }
+                            "maxItems": 0
                           },
                           "value": {
                             "type": "integer",
@@ -104,10 +101,7 @@
                             "properties": {
                               "assignedUsers": {
                                 "type": "array",
-                                "items": {
-                                  "type": "object",
-                                  "example": null
-                                }
+                                "maxItems": 0
                               },
                               "approval": {
                                 "type": "object",
@@ -154,7 +148,11 @@
                                   "format": "uuid"
                                 }
                               },
-                              "example": null
+                              "required": [
+                                "time",
+                                "startDate",
+                                "id"
+                              ]
                             }
                           },
                           "createdAt": {
@@ -177,10 +175,7 @@
                           },
                           "checklist": {
                             "type": "array",
-                            "items": {
-                              "type": "object",
-                              "example": null
-                            }
+                            "maxItems": 0
                           },
                           "collapseChecklist": {
                             "type": "boolean"
@@ -190,10 +185,7 @@
                           },
                           "history": {
                             "type": "array",
-                            "items": {
-                              "type": "object",
-                              "example": null
-                            }
+                            "maxItems": 0
                           },
                           "streak": {
                             "type": "integer",
@@ -269,10 +261,7 @@
                     },
                     "notifications": {
                       "type": "array",
-                      "items": {
-                        "type": "object",
-                        "example": null
-                      }
+                      "maxItems": 0
                     }
                   },
                   "required": [
@@ -368,10 +357,7 @@
                         },
                         "tags": {
                           "type": "array",
-                          "items": {
-                            "type": "object",
-                            "example": null
-                          }
+                          "maxItems": 0
                         },
                         "value": {
                           "type": "number",
@@ -410,10 +396,7 @@
                           "properties": {
                             "assignedUsers": {
                               "type": "array",
-                              "items": {
-                                "type": "object",
-                                "example": null
-                              }
+                              "maxItems": 0
                             },
                             "approval": {
                               "type": "object",
@@ -442,10 +425,7 @@
                         },
                         "reminders": {
                           "type": "array",
-                          "items": {
-                            "type": "object",
-                            "example": null
-                          }
+                          "maxItems": 0
                         },
                         "createdAt": {
                           "type": "string",
@@ -513,10 +493,7 @@
                     },
                     "notifications": {
                       "type": "array",
-                      "items": {
-                        "type": "object",
-                        "example": null
-                      }
+                      "maxItems": 0
                     }
                   },
                   "required": [
@@ -768,10 +745,7 @@
                             },
                             "challenges": {
                               "type": "array",
-                              "items": {
-                                "type": "object",
-                                "example": null
-                              }
+                              "maxItems": 0
                             },
                             "partyUp": {
                               "type": "boolean"
@@ -912,10 +886,7 @@
                                 },
                                 "mysteryItems": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "gemsBought": {
                                   "type": "integer",
@@ -1349,7 +1320,10 @@
                                         "example": "2026-05-06T02:26:43.371Z"
                                       },
                                       {
-                                        "type": "integer",
+                                        "type": [
+                                          "integer",
+                                          "null"
+                                        ],
                                         "example": 1485487350827
                                       }
                                     ]
@@ -1379,7 +1353,10 @@
                                         "example": "2026-05-06T02:26:43.371Z"
                                       },
                                       {
-                                        "type": "integer",
+                                        "type": [
+                                          "integer",
+                                          "null"
+                                        ],
                                         "example": 1485487350827
                                       }
                                     ]
@@ -1999,10 +1976,7 @@
                               "properties": {
                                 "birthdayReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "birthday": {
                                   "type": "integer",
@@ -2010,10 +1984,7 @@
                                 },
                                 "thankyouReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "thankyou": {
                                   "type": "integer",
@@ -2021,10 +1992,7 @@
                                 },
                                 "greetingReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "greeting": {
                                   "type": "integer",
@@ -2032,10 +2000,7 @@
                                 },
                                 "nyeReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "nye": {
                                   "type": "integer",
@@ -2043,10 +2008,7 @@
                                 },
                                 "valentineReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "valentine": {
                                   "type": "integer",
@@ -2070,24 +2032,15 @@
                                 },
                                 "congratsReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "getwellReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "goodluckReceived": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 },
                                 "congrats": {
                                   "type": "integer",
@@ -3456,17 +3409,11 @@
                             },
                             "guilds": {
                               "type": "array",
-                              "items": {
-                                "type": "object",
-                                "example": null
-                              }
+                              "maxItems": 0
                             },
                             "parties": {
                               "type": "array",
-                              "items": {
-                                "type": "object",
-                                "example": null
-                              }
+                              "maxItems": 0
                             }
                           },
                           "required": [
@@ -3776,10 +3723,7 @@
                                 },
                                 "mirrorGroupTasks": {
                                   "type": "array",
-                                  "items": {
-                                    "type": "object",
-                                    "example": null
-                                  }
+                                  "maxItems": 0
                                 }
                               },
                               "required": [
@@ -3866,10 +3810,7 @@
                             },
                             "improvementCategories": {
                               "type": "array",
-                              "items": {
-                                "type": "object",
-                                "example": null
-                              }
+                              "maxItems": 0
                             },
                             "automaticAllocation": {
                               "type": "boolean"
@@ -4460,10 +4401,7 @@
                             },
                             "blocks": {
                               "type": "array",
-                              "items": {
-                                "type": "object",
-                                "example": null
-                              }
+                              "maxItems": 0
                             },
                             "newMessages": {
                               "type": "integer",
@@ -4534,10 +4472,7 @@
                         },
                         "webhooks": {
                           "type": "array",
-                          "items": {
-                            "type": "object",
-                            "example": null
-                          }
+                          "maxItems": 0
                         },
                         "pushDevices": {
                           "type": "array",
@@ -4599,10 +4534,7 @@
                         },
                         "notifications": {
                           "type": "array",
-                          "items": {
-                            "type": "object",
-                            "example": null
-                          }
+                          "maxItems": 0
                         },
                         "guilds": {
                           "type": "array",
@@ -4662,10 +4594,7 @@
                         },
                         "unpinnedItems": {
                           "type": "array",
-                          "items": {
-                            "type": "object",
-                            "example": null
-                          }
+                          "maxItems": 0
                         },
                         "invitesSent": {
                           "type": "integer",
@@ -4673,10 +4602,7 @@
                         },
                         "pinnedItemsOrder": {
                           "type": "array",
-                          "items": {
-                            "type": "object",
-                            "example": null
-                          }
+                          "maxItems": 0
                         },
                         "_subSignature": {
                           "type": "string",
@@ -4733,10 +4659,7 @@
                     },
                     "notifications": {
                       "type": "array",
-                      "items": {
-                        "type": "object",
-                        "example": null
-                      }
+                      "maxItems": 0
                     },
                     "userV": {
                       "type": "integer",
@@ -5038,10 +4961,7 @@
                     },
                     "notifications": {
                       "type": "array",
-                      "items": {
-                        "type": "object",
-                        "example": null
-                      }
+                      "maxItems": 0
                     },
                     "userV": {
                       "type": "integer",

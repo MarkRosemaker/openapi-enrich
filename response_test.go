@@ -33,12 +33,12 @@ func TestBuildResponse_JSON(t *testing.T) {
 		t.Fatal("expected application/json content")
 	}
 
-	if mt.Schema == nil || mt.Schema.Value == nil {
+	if mt.Schema == nil {
 		t.Fatal("expected schema")
 	}
 
-	if mt.Schema.Value.Type != openapi.TypeObject {
-		t.Errorf("schema type: got %q, want object", mt.Schema.Value.Type)
+	if mt.Schema.Type != openapi.TypeObject {
+		t.Errorf("schema type: got %q, want object", mt.Schema.Type)
 	}
 }
 
@@ -84,8 +84,8 @@ func TestBuildResponse_TextPlain(t *testing.T) {
 		t.Fatal("expected text/plain schema")
 	}
 
-	if mt.Schema.Value.Type != openapi.TypeString {
-		t.Errorf("schema type: got %q, want string", mt.Schema.Value.Type)
+	if mt.Schema.Type != openapi.TypeString {
+		t.Errorf("schema type: got %q, want string", mt.Schema.Type)
 	}
 }
 

@@ -107,7 +107,8 @@ func TestInferTypes(t *testing.T) {
 	walkSchemas(doc, func(s *openapi.Schema) {
 		visited++
 
-		if s.Type == "" {
+		// a reference takes its type from the schema it points to
+		if s.Type == "" && s.Ref == nil {
 			untyped++
 		}
 	})
@@ -116,7 +117,8 @@ func TestInferTypes(t *testing.T) {
 		t.Fatalf("%d schemas are left without a type", untyped)
 	}
 
-	if visited != 20 {
-		t.Fatalf("visited %d schemas, want 20", visited)
+	// 20 schemas, plus the two that are references to Body
+	if visited != 22 {
+		t.Fatalf("visited %d schemas, want 22", visited)
 	}
 }
