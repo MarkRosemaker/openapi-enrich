@@ -343,7 +343,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
+                  "$ref": "#/components/schemas/PaginatedSearchResult"
                 }
               }
             }
@@ -483,7 +483,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
+                  "$ref": "#/components/schemas/PaginatedModuleVersion"
                 }
               }
             }
@@ -553,7 +553,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/PaginatedResponse"
+                  "$ref": "#/components/schemas/PaginatedVulnerability"
                 }
               }
             }
@@ -669,13 +669,15 @@
         "properties": {
           "commitTime": {
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2026-02-11T19:14:29Z"
           },
           "deprecated": {
             "type": "boolean"
           },
           "deprecationReason": {
-            "type": "string"
+            "type": "string",
+            "example": ""
           },
           "hasGoMod": {
             "description": "Whether the module has a go.mod file.",
@@ -687,19 +689,23 @@
           },
           "latestVersion": {
             "description": "latest unretracted version",
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           },
           "modulePath": {
-            "type": "string"
+            "type": "string",
+            "example": "golang.org/x/time"
           },
           "retracted": {
             "type": "boolean"
           },
           "retractionReason": {
-            "type": "string"
+            "type": "string",
+            "example": ""
           },
           "version": {
-            "type": "string"
+            "type": "string",
+            "example": "v0.15.0"
           }
         }
       },
@@ -764,7 +770,7 @@
         "type": "object",
         "properties": {
           "importedBy": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedString"
           },
           "modulePath": {
             "type": "string"
@@ -799,7 +805,7 @@
             "type": "string"
           },
           "symbols": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedSymbol"
           },
           "version": {
             "type": "string"
@@ -816,7 +822,7 @@
             "type": "string"
           },
           "packages": {
-            "$ref": "#/components/schemas/PaginatedResponse"
+            "$ref": "#/components/schemas/PaginatedPackageInfo"
           },
           "version": {
             "type": "string"
@@ -838,52 +844,13 @@
           }
         }
       },
-      "PaginatedResponse": {
+      "PaginatedModuleVersion": {
         "type": "object",
         "properties": {
           "items": {
             "type": "array",
             "items": {
-              "type": "object",
-              "properties": {
-                "modulePath": {
-                  "type": "string",
-                  "example": "golang.org/x/time"
-                },
-                "version": {
-                  "type": "string",
-                  "example": "v0.15.0"
-                },
-                "commitTime": {
-                  "type": "string",
-                  "format": "date-time",
-                  "example": "2026-02-11T19:14:29Z"
-                },
-                "isRedistributable": {
-                  "type": "boolean"
-                },
-                "hasGoMod": {
-                  "type": "boolean"
-                },
-                "latestVersion": {
-                  "type": "string",
-                  "example": "v0.15.0"
-                },
-                "deprecated": {
-                  "type": "boolean"
-                },
-                "deprecationReason": {
-                  "type": "string",
-                  "example": ""
-                },
-                "retracted": {
-                  "type": "boolean"
-                },
-                "retractionReason": {
-                  "type": "string",
-                  "example": ""
-                }
-              }
+              "$ref": "#/components/schemas/ModuleVersion"
             }
           },
           "nextPageToken": {
@@ -893,6 +860,91 @@
           "total": {
             "type": "integer",
             "example": 15
+          }
+        }
+      },
+      "PaginatedPackageInfo": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PackageInfo"
+            }
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedSearchResult": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchResult"
+            }
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedString": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedSymbol": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Symbol"
+            }
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
+          }
+        }
+      },
+      "PaginatedVulnerability": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Vulnerability"
+            }
+          },
+          "nextPageToken": {
+            "type": "string"
+          },
+          "total": {
+            "type": "integer"
           }
         }
       },
