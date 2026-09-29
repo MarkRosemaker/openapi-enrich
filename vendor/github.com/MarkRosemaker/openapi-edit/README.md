@@ -98,7 +98,10 @@ combination of content:
    traversal `RenameSchema` uses) and rewrites each one to
    `"#/components/schemas/Pet"`, now resolving to `Pet`. A discriminator's
    `mapping` value naming `GetPetOkResponse`, by name or by reference, is
-   rewritten the same way, and so it is by `RenameSchema`.
+   rewritten the same way, and so it is by `RenameSchema`. A discriminator
+   that selected `GetPetOkResponse` by its name alone, with no `mapping`
+   entry, gains one (`GetPetOkResponse: Pet`), so a payload naming it still
+   selects the schema it meant. Both functions do this.
 2. It deletes the `"GetPetOkResponse"` entry from `components.schemas`.
 3. It does not look at, merge, or otherwise change the *content* of either
    schema. `Pet`'s definition (its properties, its bounds, its wording) is
