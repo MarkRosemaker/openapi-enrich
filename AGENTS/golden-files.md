@@ -6,11 +6,10 @@ It then enriches the document with `interactions.json` three times over and
 compares each result with `golden.json`. A folder without `golden.json`
 fails, and a changed result fails at the first differing byte.
 
-There is no flag or make target that writes a golden file. To create or
-update one, temporarily make the test write `gotDoc` to the golden path
-instead of comparing it. Create an empty `golden.json` first if the folder
-has none, because the test reads the file before it enriches anything. Run
-the test once, revert the change, and run it again: the second run must
-pass, which shows that enriching is stable across repeated passes. Review
-the diff of `golden.json` as part of the change, because it is the
-behaviour under test.
+`make ready` rewrites every `golden.json`, through `go generate` and
+`tools/generate.go`: it enriches each folder's document once with its
+interactions and writes the result. It also masks and rewrites
+`interactions.json`, and sends any recorded request that has no response
+yet, which needs the network. A new folder needs only `interactions.json`
+and, optionally, `openapi.json`. Review the diff of `golden.json` as part of
+the change, because it is the behaviour under test.
