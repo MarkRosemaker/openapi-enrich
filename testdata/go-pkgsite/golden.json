@@ -589,8 +589,8 @@
             "type": "integer"
           },
           "err": {
-            "$ref": "#/components/schemas/Error",
-            "description": "Unexported field for internal tracking"
+            "description": "Unexported field for internal tracking",
+            "$ref": "#/components/schemas/Error"
           },
           "fixes": {
             "description": "suggestions for how to fix",

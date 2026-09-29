@@ -45,7 +45,10 @@
         "type": "array",
         "prefixItems": [
           {
-            "type": "array",
+            "type": [
+              "array",
+              "null"
+            ],
             "items": {
               "type": "integer"
             },

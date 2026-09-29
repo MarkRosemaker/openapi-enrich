@@ -61,8 +61,7 @@
                             "example": "RD Animation"
                           },
                           "required_model": {
-                            "type": "object",
-                            "example": null
+                            "type": "null"
                           },
                           "required_tab": {
                             "type": "string",
@@ -89,14 +88,16 @@
                             "example": 1
                           },
                           "require_input_image": {
-                            "type": "object",
-                            "example": null
+                            "type": "null"
                           },
                           "supports_reference_images": {
                             "type": "boolean"
                           },
                           "example_prompt": {
-                            "type": "string",
+                            "type": [
+                              "string",
+                              "null"
+                            ],
                             "example": "An orange cat playing with a blue ball of yarn"
                           }
                         },
@@ -256,24 +257,15 @@
                     },
                     "output_images": {
                       "type": "array",
-                      "items": {
-                        "type": "object",
-                        "example": null
-                      }
+                      "maxItems": 0
                     },
                     "base64_images": {
                       "type": "array",
-                      "items": {
-                        "type": "object",
-                        "example": null
-                      }
+                      "maxItems": 0
                     },
                     "output_urls": {
                       "type": "array",
-                      "items": {
-                        "type": "object",
-                        "example": null
-                      }
+                      "maxItems": 0
                     },
                     "model": {
                       "type": "string",

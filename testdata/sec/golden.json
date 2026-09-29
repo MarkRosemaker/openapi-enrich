@@ -1463,11 +1463,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -2301,11 +2307,17 @@
                                             "example": "0001193125-14-277160"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q3"
                                           },
                                           "form": {
@@ -2376,11 +2388,17 @@
                                             "example": "0001193125-14-277160"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q3"
                                           },
                                           "form": {
@@ -5208,11 +5226,17 @@
                                             "example": "0001193125-14-277160"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q3"
                                           },
                                           "form": {
@@ -5594,11 +5618,17 @@
                                             "example": "0001193125-14-157311"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q2"
                                           },
                                           "form": {
@@ -5894,11 +5924,17 @@
                                             "example": "0001193125-14-157311"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q2"
                                           },
                                           "form": {
@@ -8073,11 +8109,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -10365,11 +10407,17 @@
                                             "example": "0001193125-13-416534"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2013
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -10841,11 +10889,17 @@
                                             "example": "0001193125-14-024487"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q1"
                                           },
                                           "form": {
@@ -11648,11 +11702,17 @@
                                             "example": "0001193125-13-416534"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2013
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -14121,11 +14181,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -16501,11 +16567,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -17793,11 +17865,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -18511,11 +18589,17 @@
                                             "example": "0001193125-14-157311"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q2"
                                           },
                                           "form": {
@@ -18982,11 +19066,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -21821,11 +21911,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -21981,11 +22077,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -22141,11 +22243,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -22297,11 +22405,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -28939,11 +29053,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -29019,11 +29139,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -29099,11 +29225,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -29179,11 +29311,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -29501,11 +29639,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -30452,11 +30596,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -35705,11 +35855,17 @@
                                             "example": "0001193125-14-277160"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q3"
                                           },
                                           "form": {
@@ -36265,11 +36421,17 @@
                                             "example": "0001193125-14-277160"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "Q3"
                                           },
                                           "form": {
@@ -36576,11 +36738,17 @@
                                             "example": "0001193125-13-416534"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2013
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -36806,11 +36974,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -37042,11 +37216,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -37122,11 +37302,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -37202,11 +37388,17 @@
                                             "example": "0001193125-14-383437"
                                           },
                                           "fy": {
-                                            "type": "integer",
+                                            "type": [
+                                              "integer",
+                                              "null"
+                                            ],
                                             "example": 2014
                                           },
                                           "fp": {
-                                            "type": "string",
+                                            "type": [
+                                              "string",
+                                              "null"
+                                            ],
                                             "example": "FY"
                                           },
                                           "form": {
@@ -38417,12 +38609,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -57184,12 +57374,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -57347,12 +57535,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -58535,12 +58721,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -58610,12 +58794,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -58685,12 +58867,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -58760,12 +58940,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -58916,12 +59094,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -58997,12 +59173,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -59565,12 +59739,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -59646,12 +59818,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -59727,12 +59897,10 @@
                               "type": "object",
                               "properties": {
                                 "label": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "description": {
-                                  "type": "object",
-                                  "example": null
+                                  "type": "null"
                                 },
                                 "units": {
                                   "type": "object",
@@ -60837,12 +61005,10 @@
                                             "example": "0001308179-26-000342"
                                           },
                                           "fy": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "fp": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "form": {
                                             "type": "string",
@@ -60918,12 +61084,10 @@
                                             "example": "0001308179-26-000342"
                                           },
                                           "fy": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "fp": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "form": {
                                             "type": "string",
@@ -60999,12 +61163,10 @@
                                             "example": "0001308179-26-000342"
                                           },
                                           "fy": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "fp": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "form": {
                                             "type": "string",
@@ -61081,12 +61243,10 @@
                                             "example": "0001308179-26-000342"
                                           },
                                           "fy": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "fp": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "form": {
                                             "type": "string",
@@ -61162,12 +61322,10 @@
                                             "example": "0001308179-26-000342"
                                           },
                                           "fy": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "fp": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "form": {
                                             "type": "string",
@@ -61243,12 +61401,10 @@
                                             "example": "0001308179-26-000342"
                                           },
                                           "fy": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "fp": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "form": {
                                             "type": "string",
@@ -61325,12 +61481,10 @@
                                             "example": "0001308179-26-000342"
                                           },
                                           "fy": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "fp": {
-                                            "type": "object",
-                                            "example": null
+                                            "type": "null"
                                           },
                                           "form": {
                                             "type": "string",

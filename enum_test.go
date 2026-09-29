@@ -15,7 +15,7 @@ func TestEnum(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	promptStyle := doc.Paths["/v1/styles/selector"].Get.Responses["200"].Value.Content["application/json"].Schema.Value.Properties["styles"].Value.Items.Value.Properties["prompt_style"].Value
+	promptStyle := doc.Paths["/v1/styles/selector"].Get.Responses["200"].Value.Content["application/json"].Schema.Properties["styles"].Items.Properties["prompt_style"]
 	if len(promptStyle.Enum) > 0 {
 		t.Fatalf("initially, prompt style has no enum")
 	}
