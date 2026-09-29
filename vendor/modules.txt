@@ -10,13 +10,13 @@ github.com/MarkRosemaker/json2yaml
 # github.com/MarkRosemaker/jsonutil v0.0.0-20260927120110-8df582685e7f
 ## explicit; go 1.27
 github.com/MarkRosemaker/jsonutil
-# github.com/MarkRosemaker/openapi v0.0.0-20260929010704-42b9a170aba2
+# github.com/MarkRosemaker/openapi v0.0.0-20260929040129-dd68a0d980ee
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-edit v0.0.0-20260929011344-50cc726cd08b
+# github.com/MarkRosemaker/openapi-edit v0.0.0-20260929040151-6b47ce70a6f9
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-edit
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20260929010809-619f91455648
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20260929040151-247bfdadb0eb
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-merge
 # github.com/MarkRosemaker/ordmap v0.0.0-20260927120128-34682a8f96cc
