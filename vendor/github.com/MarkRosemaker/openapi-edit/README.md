@@ -102,8 +102,14 @@ combination of content:
    that selected `GetPetOkResponse` by its name alone, with no `mapping`
    entry, gains one (`GetPetOkResponse: Pet`), so a payload naming it still
    selects the schema it meant. Both functions do this.
-2. It deletes the `"GetPetOkResponse"` entry from `components.schemas`.
-3. It does not look at, merge, or otherwise change the *content* of either
+2. A `oneOf` or `anyOf` that listed both `GetPetOkResponse` and `Pet` now
+   lists `Pet` twice, so it keeps only the first of those plain references.
+   Two alternatives of the same schema are no alternative at all: a value
+   matching one matches the other, so a `oneOf` could never hold for it. A
+   reference with keywords of its own beside the `$ref` is kept, and a union
+   the redirect did not change is left alone.
+3. It deletes the `"GetPetOkResponse"` entry from `components.schemas`.
+4. It does not look at, merge, or otherwise change the *content* of either
    schema. `Pet`'s definition (its properties, its bounds, its wording) is
    whatever it already was, byte for byte; `GetPetOkResponse`'s definition is
    simply gone, not folded into `Pet`'s.
@@ -113,7 +119,7 @@ If `GetPetOkResponse` carried bounds or wording worth keeping, pass it as
 beside the `$ref` of every reference this repoints, replacing whatever
 description that reference already had. That's the one piece of
 `GetPetOkResponse` this function can carry forward — everything else about
-its definition is discarded the moment step 2 above runs, so this is the
+its definition is discarded the moment step 3 above runs, so this is the
 last chance to keep any of it on the sites that used it.
 
 Redirecting a schema onto itself does nothing and reports no error.
