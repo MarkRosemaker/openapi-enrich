@@ -6,7 +6,7 @@ require (
 	github.com/MarkRosemaker/errpath v0.0.0-20260929233333-1f3585d128eb
 	github.com/MarkRosemaker/jsonutil v0.0.0-20260929233335-a0222d53b745
 	github.com/MarkRosemaker/openapi v0.0.0-20261001203346-42d50de94f07
-	github.com/MarkRosemaker/openapi-edit v0.0.0-20261002084608-32f8b4643215
+	github.com/MarkRosemaker/openapi-edit v0.0.0-20261003172112-8dcaaaf4db37
 	github.com/MarkRosemaker/openapi-merge v0.0.0-20261001204032-a7db179ce542
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
