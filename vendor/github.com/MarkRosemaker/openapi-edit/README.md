@@ -182,6 +182,28 @@ drop the one that lost. See [Scope](#scope) below.
 
 [`openapi-merge`]: https://github.com/MarkRosemaker/openapi-merge
 
+### Counting and describing references
+
+`CountReferences` counts the references to each component schema, wherever in
+the document they occur.
+
+`DescribeReferences` gives every reference to the named schemas a description
+beside the `$ref`, unless the reference has one of its own. A description says
+what a schema is used for in one place, so before redirecting schemas that
+describe the same shape onto one, describing the references to each keeps what
+each meant where it was used:
+
+```go
+if err := edit.DescribeReferences(doc, map[string]string{
+    "BotWorkspaceName": "The name of the bot's workspace.",
+}); err != nil {
+    log.Fatal(err)
+}
+```
+
+It fails, changing nothing, if a name is not in `components.schemas`
+(`ErrSchemaNotFound`).
+
 ## Scope
 
 Operations belong here when they satisfy two conditions: they **mutate** a
@@ -195,7 +217,8 @@ node being changed.
 - ✅ Repointing every reference to a duplicate component onto the one that
   survives, and removing the duplicate (`RedirectSchema`, `RedirectSchemas`)
 - ✅ Moving inline definitions into `components`, replacing each with a reference (`ExtractSchema`)
-- Moving a definition from `components` back inline
+- ✅ Counting the references to each component (`CountReferences`), and
+  describing them where they are used (`DescribeReferences`)
 
 **Out of scope**
 
