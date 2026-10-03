@@ -6,8 +6,8 @@ require (
 	github.com/MarkRosemaker/errpath v0.0.0-20260929233333-1f3585d128eb
 	github.com/MarkRosemaker/jsonutil v0.0.0-20260929233335-a0222d53b745
 	github.com/MarkRosemaker/openapi v0.0.0-20261001203346-42d50de94f07
-	github.com/MarkRosemaker/openapi-edit v0.0.0-20261003175504-6ad2de9da4e2
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20261003173029-9da177fe57df
+	github.com/MarkRosemaker/openapi-edit v0.0.0-20261003182522-ad6005f55d2c
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20261003182522-5d44c7c5c5f5
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
