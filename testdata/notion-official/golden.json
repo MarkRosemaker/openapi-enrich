@@ -30706,7 +30706,8 @@
           "purple_background",
           "pink_background",
           "red_background"
-        ]
+        ],
+        "example": "default"
       },
       "apiTranscriptionStatus": {
         "type": "string",
@@ -37303,7 +37304,8 @@
           },
           "name": {
             "description": "The name of the data source.",
-            "type": "string"
+            "type": "string",
+            "example": "Intentions"
           }
         },
         "required": [
@@ -37786,7 +37788,6 @@
           "title": {
             "description": "The title of the database.",
             "type": "array",
-            "maxItems": 100,
             "items": {
               "$ref": "#/components/schemas/richTextItemResponse"
             }
@@ -37794,7 +37795,6 @@
           "description": {
             "description": "The description of the database.",
             "type": "array",
-            "maxItems": 100,
             "items": {
               "$ref": "#/components/schemas/richTextItemResponse"
             }
@@ -37841,17 +37841,18 @@
           "created_time": {
             "description": "The time when the database was created.",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2024-03-19T08:28:01.083+00:00"
           },
           "last_edited_time": {
             "description": "The time when the database was last edited.",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2026-08-12T20:15:11.370+00:00"
           },
           "data_sources": {
             "description": "The data sources of the database.",
             "type": "array",
-            "maxItems": 100,
             "items": {
               "$ref": "#/components/schemas/dataSourceReferenceResponse"
             }
@@ -37880,7 +37881,8 @@
           },
           "url": {
             "description": "The URL of the database.",
-            "type": "string"
+            "type": "string",
+            "example": "https://app.notion.com/p/457d00dcfc3a4ddba42ffe376530bee0"
           },
           "public_url": {
             "description": "The public URL of the database if it is publicly accessible.",
@@ -37892,6 +37894,11 @@
                 "type": "null"
               }
             ]
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "c5c61591-fc21-49ab-8d61-d6d84b37147d"
           }
         },
         "required": [
@@ -39908,7 +39915,8 @@
             "properties": {
               "url": {
                 "description": "The URL of the external file or resource.",
-                "type": "string"
+                "type": "string",
+                "example": "https://www.notion.so/images/page-cover/nasa_space_shuttle_columbia_and_sunrise.jpg"
               }
             },
             "required": [
@@ -42054,7 +42062,8 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "string"
+            "type": "string",
+            "example": "title"
           }
         },
         "required": [
@@ -42067,7 +42076,8 @@
       },
       "idResponse": {
         "type": "string",
-        "format": "uuid"
+        "format": "uuid",
+        "example": "11f88fcd-daf4-802e-b645-eb2d041a759b"
       },
       "imageBlockObjectResponse": {
         "title": "Image",
@@ -44505,12 +44515,14 @@
           "created_time": {
             "description": "Date and time when this page was created.",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2022-07-14T05:31:00.000Z"
           },
           "last_edited_time": {
             "description": "Date and time when this page was last edited.",
             "type": "string",
-            "format": "date-time"
+            "format": "date-time",
+            "example": "2025-02-02T19:54:00.000Z"
           },
           "in_trash": {
             "description": "Whether the page is in trash.",
@@ -44526,13 +44538,15 @@
           },
           "url": {
             "description": "The URL of the Notion page.",
-            "type": "string"
+            "type": "string",
+            "example": "https://www.notion.so/Example-Page-96245c8f178444a482ad1941127c3ec3"
           },
           "public_url": {
             "description": "The public URL of the Notion page, if it has been published to the web.",
             "oneOf": [
               {
-                "type": "string"
+                "type": "string",
+                "example": "https://fae-tools.notion.site/Example-Page-96245c8f178444a482ad1941127c3ec3"
               },
               {
                 "type": "null"
@@ -44579,6 +44593,11 @@
           "last_edited_by": {
             "description": "User who last edited the page.",
             "$ref": "#/components/schemas/partialUserObjectResponse"
+          },
+          "request_id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "0e8c8b8e-1997-46ca-93ec-118b19ba69e1"
           }
         },
         "required": [
@@ -45135,267 +45154,6 @@
           "id": {
             "description": "The ID of the database.",
             "$ref": "#/components/schemas/idResponse"
-          },
-          "title": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "text"
-                },
-                "text": {
-                  "type": "object",
-                  "properties": {
-                    "content": {
-                      "type": "string",
-                      "example": "Intentions"
-                    },
-                    "link": {
-                      "type": "null"
-                    }
-                  },
-                  "required": [
-                    "content",
-                    "link"
-                  ]
-                },
-                "annotations": {
-                  "type": "object",
-                  "properties": {
-                    "bold": {
-                      "type": "boolean"
-                    },
-                    "italic": {
-                      "type": "boolean"
-                    },
-                    "strikethrough": {
-                      "type": "boolean"
-                    },
-                    "underline": {
-                      "type": "boolean"
-                    },
-                    "code": {
-                      "type": "boolean"
-                    },
-                    "color": {
-                      "type": "string",
-                      "example": "default"
-                    }
-                  },
-                  "required": [
-                    "bold",
-                    "italic",
-                    "strikethrough",
-                    "underline",
-                    "code",
-                    "color"
-                  ]
-                },
-                "plain_text": {
-                  "type": "string",
-                  "example": "Intentions"
-                },
-                "href": {
-                  "type": "null"
-                }
-              },
-              "required": [
-                "type",
-                "text",
-                "annotations",
-                "plain_text",
-                "href"
-              ]
-            }
-          },
-          "description": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "example": "text"
-                },
-                "text": {
-                  "type": "object",
-                  "properties": {
-                    "content": {
-                      "type": "string",
-                      "example": "some content here"
-                    },
-                    "link": {
-                      "type": "null"
-                    }
-                  },
-                  "required": [
-                    "content",
-                    "link"
-                  ]
-                },
-                "annotations": {
-                  "type": "object",
-                  "properties": {
-                    "bold": {
-                      "type": "boolean"
-                    },
-                    "italic": {
-                      "type": "boolean"
-                    },
-                    "strikethrough": {
-                      "type": "boolean"
-                    },
-                    "underline": {
-                      "type": "boolean"
-                    },
-                    "code": {
-                      "type": "boolean"
-                    },
-                    "color": {
-                      "type": "string",
-                      "example": "default"
-                    }
-                  },
-                  "required": [
-                    "bold",
-                    "italic",
-                    "strikethrough",
-                    "underline",
-                    "code",
-                    "color"
-                  ]
-                },
-                "plain_text": {
-                  "type": "string",
-                  "example": "some content here"
-                },
-                "href": {
-                  "type": "null"
-                }
-              },
-              "required": [
-                "type",
-                "text",
-                "annotations",
-                "plain_text",
-                "href"
-              ]
-            }
-          },
-          "parent": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "example": "page_id"
-              },
-              "page_id": {
-                "type": "string",
-                "format": "uuid",
-                "example": "11788fcd-daf4-80e7-a530-c2e25a86328e"
-              }
-            },
-            "required": [
-              "type",
-              "page_id"
-            ]
-          },
-          "is_inline": {
-            "type": "boolean"
-          },
-          "in_trash": {
-            "type": "boolean"
-          },
-          "is_locked": {
-            "type": "boolean"
-          },
-          "created_time": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2024-03-19T08:28:01.083+00:00"
-          },
-          "last_edited_time": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2026-08-12T20:15:11.370+00:00"
-          },
-          "data_sources": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string",
-                  "format": "uuid"
-                },
-                "name": {
-                  "type": "string",
-                  "example": "Intentions"
-                }
-              },
-              "required": [
-                "id",
-                "name"
-              ]
-            }
-          },
-          "icon": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "example": "emoji"
-              },
-              "emoji": {
-                "type": "string",
-                "example": "🤹"
-              }
-            },
-            "required": [
-              "type",
-              "emoji"
-            ]
-          },
-          "cover": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "example": "external"
-              },
-              "external": {
-                "type": "object",
-                "properties": {
-                  "url": {
-                    "type": "string",
-                    "format": "uri",
-                    "example": "https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb"
-                  }
-                },
-                "required": [
-                  "url"
-                ]
-              }
-            },
-            "required": [
-              "type",
-              "external"
-            ]
-          },
-          "url": {
-            "type": "string",
-            "format": "uri",
-            "example": "https://app.notion.com/p/457d00dcfc3a4ddba42ffe376530bee0"
-          },
-          "public_url": {
-            "type": "null"
-          },
-          "request_id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "c5c61591-fc21-49ab-8d61-d6d84b37147d"
           }
         },
         "required": [
@@ -45415,235 +45173,6 @@
           "id": {
             "description": "The ID of the page.",
             "$ref": "#/components/schemas/idResponse"
-          },
-          "created_time": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2022-07-14T05:31:00.000Z"
-          },
-          "last_edited_time": {
-            "type": "string",
-            "format": "date-time",
-            "example": "2025-02-02T19:54:00.000Z"
-          },
-          "created_by": {
-            "type": "object",
-            "properties": {
-              "object": {
-                "type": "string",
-                "example": "user"
-              },
-              "id": {
-                "type": "string",
-                "format": "uuid"
-              }
-            },
-            "required": [
-              "object",
-              "id"
-            ]
-          },
-          "last_edited_by": {
-            "type": "object",
-            "properties": {
-              "object": {
-                "type": "string",
-                "example": "user"
-              },
-              "id": {
-                "type": "string",
-                "format": "uuid"
-              }
-            },
-            "required": [
-              "object",
-              "id"
-            ]
-          },
-          "cover": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "example": "external"
-              },
-              "external": {
-                "type": "object",
-                "properties": {
-                  "url": {
-                    "type": "string",
-                    "format": "uri",
-                    "example": "https://www.notion.so/images/page-cover/nasa_space_shuttle_columbia_and_sunrise.jpg"
-                  }
-                },
-                "required": [
-                  "url"
-                ]
-              }
-            },
-            "required": [
-              "type",
-              "external"
-            ]
-          },
-          "icon": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "example": "emoji"
-              },
-              "emoji": {
-                "type": "string",
-                "example": "🌄"
-              }
-            },
-            "required": [
-              "type",
-              "emoji"
-            ]
-          },
-          "parent": {
-            "type": "object",
-            "properties": {
-              "type": {
-                "type": "string",
-                "example": "page_id"
-              },
-              "page_id": {
-                "type": "string",
-                "format": "uuid",
-                "example": "11f88fcd-daf4-802e-b645-eb2d041a759b"
-              }
-            },
-            "required": [
-              "type",
-              "page_id"
-            ]
-          },
-          "in_trash": {
-            "type": "boolean"
-          },
-          "is_archived": {
-            "type": "boolean"
-          },
-          "is_locked": {
-            "type": "boolean"
-          },
-          "properties": {
-            "type": "object",
-            "properties": {
-              "title": {
-                "type": "object",
-                "properties": {
-                  "id": {
-                    "type": "string",
-                    "example": "title"
-                  },
-                  "type": {
-                    "type": "string",
-                    "example": "title"
-                  },
-                  "title": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "example": "text"
-                        },
-                        "text": {
-                          "type": "object",
-                          "properties": {
-                            "content": {
-                              "type": "string",
-                              "example": "Example Page"
-                            },
-                            "link": {
-                              "type": "null"
-                            }
-                          },
-                          "required": [
-                            "content",
-                            "link"
-                          ]
-                        },
-                        "annotations": {
-                          "type": "object",
-                          "properties": {
-                            "bold": {
-                              "type": "boolean"
-                            },
-                            "italic": {
-                              "type": "boolean"
-                            },
-                            "strikethrough": {
-                              "type": "boolean"
-                            },
-                            "underline": {
-                              "type": "boolean"
-                            },
-                            "code": {
-                              "type": "boolean"
-                            },
-                            "color": {
-                              "type": "string",
-                              "example": "default"
-                            }
-                          },
-                          "required": [
-                            "bold",
-                            "italic",
-                            "strikethrough",
-                            "underline",
-                            "code",
-                            "color"
-                          ]
-                        },
-                        "plain_text": {
-                          "type": "string",
-                          "example": "Example Page"
-                        },
-                        "href": {
-                          "type": "null"
-                        }
-                      },
-                      "required": [
-                        "type",
-                        "text",
-                        "annotations",
-                        "plain_text",
-                        "href"
-                      ]
-                    }
-                  }
-                },
-                "required": [
-                  "id",
-                  "type",
-                  "title"
-                ]
-              }
-            },
-            "required": [
-              "title"
-            ]
-          },
-          "url": {
-            "type": "string",
-            "format": "uri",
-            "example": "https://www.notion.so/Example-Page-96245c8f178444a482ad1941127c3ec3"
-          },
-          "public_url": {
-            "type": "string",
-            "format": "uri",
-            "example": "https://fae-tools.notion.site/Example-Page-96245c8f178444a482ad1941127c3ec3"
-          },
-          "request_id": {
-            "type": "string",
-            "format": "uuid",
-            "example": "0e8c8b8e-1997-46ca-93ec-118b19ba69e1"
           }
         },
         "required": [
@@ -47853,7 +47382,8 @@
         "properties": {
           "plain_text": {
             "description": "The plain text content of the rich text object, without any styling.",
-            "type": "string"
+            "type": "string",
+            "example": "Example Page"
           },
           "href": {
             "description": "A URL that the rich text object links to or mentions.",
@@ -50308,7 +49838,8 @@
               "content": {
                 "description": "The actual text content of the text.",
                 "type": "string",
-                "maxLength": 2000
+                "maxLength": 2000,
+                "example": "Example Page"
               },
               "link": {
                 "description": "An object with information about any inline link in this text, if included.",
@@ -50695,7 +50226,6 @@
           },
           "title": {
             "type": "array",
-            "maxItems": 100,
             "items": {
               "$ref": "#/components/schemas/richTextItemResponse"
             }
