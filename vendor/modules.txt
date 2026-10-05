@@ -10,16 +10,16 @@ github.com/MarkRosemaker/json2yaml
 # github.com/MarkRosemaker/jsonutil v0.0.0-20261004011215-c1eff28436f6
 ## explicit; go 1.27
 github.com/MarkRosemaker/jsonutil
-# github.com/MarkRosemaker/openapi v0.0.0-20261004011306-be02f94d99b2
+# github.com/MarkRosemaker/openapi v0.0.0-20261005183413-2a3bd56f42a1
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-edit v0.0.0-20261005040225-2437a6c91347
+# github.com/MarkRosemaker/openapi-edit v0.0.0-20261005183438-5084b9673f29
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-edit
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20261005171738-f4c53297deec
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20261005183438-645ed02a2c89
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-merge
-# github.com/MarkRosemaker/ordmap v0.0.0-20261004011225-24f826464615
+# github.com/MarkRosemaker/ordmap v0.0.0-20261005183330-99e2b69a0bc0
 ## explicit; go 1.27
 github.com/MarkRosemaker/ordmap
 # github.com/MarkRosemaker/yaml v0.0.0-20261004011229-302f2a2e75b5
@@ -34,7 +34,7 @@ github.com/ettle/strcase
 # github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 ## explicit; go 1.27
 github.com/go-api-libs/types
-# golang.org/x/exp v0.0.0-20260908205506-85c1c2202aba
+# golang.org/x/exp v0.0.0-20261005173118-76772065c9b0
 ## explicit; go 1.26.0
 golang.org/x/exp/maps
 # gopkg.in/dnaeon/go-vcr.v3 v3.2.0
