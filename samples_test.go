@@ -76,3 +76,19 @@ func TestEnrich_ArrayOfObjectsWithoutSpec(t *testing.T) {
 		t.Errorf("got items %+v, want one object of both", items)
 	}
 }
+
+func TestEnrich_DateOrDateTime(t *testing.T) {
+	// Notion's date start is a date or a date-time, as the property has a time or not
+	doc := NewDocument()
+	if err := Enrich(doc, cassette.Interactions{
+		blocksInteraction(`{"start":"2026-10-05"}`),
+		blocksInteraction(`{"start":"2026-10-05T10:00:00.000+00:00"}`),
+	}); err != nil {
+		t.Fatal(err)
+	}
+
+	start := doc.Paths["/blocks"].Get.Responses["200"].Value.Content["application/json"].Schema.Properties["start"]
+	if len(start.OneOf) != 2 || start.OneOf[0].Format != openapi.FormatDate || start.OneOf[1].Format != openapi.FormatDateTime {
+		t.Errorf("got %+v, want a date or a date-time", start)
+	}
+}

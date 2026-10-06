@@ -260,6 +260,8 @@ func TestStringFormat(t *testing.T) {
 		{"http://api.example.org/v1", openapi.FormatURI},
 		{"user@example.com", openapi.FormatEmail},
 		{"2024-01-15T10:30:00Z", openapi.FormatDateTime},
+		{"2026-10-05", openapi.FormatDate},
+		{"2026-13-05", ""},
 		{"192.168.0.1", openapi.FormatIPv4},
 		{"::1", openapi.FormatIPv6},
 		{"hello world", ""},
