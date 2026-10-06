@@ -7,7 +7,7 @@ require (
 	github.com/MarkRosemaker/jsonutil v0.0.0-20261004011215-c1eff28436f6
 	github.com/MarkRosemaker/openapi v0.0.0-20261006170304-55e0a87dfa74
 	github.com/MarkRosemaker/openapi-edit v0.0.0-20261006170628-7d8379d5a60a
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20261006185915-34714385a10c
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20261006202601-52d812cd2e36
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
