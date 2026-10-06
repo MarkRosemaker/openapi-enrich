@@ -42064,7 +42064,10 @@
             "type": "string",
             "example": "title"
           }
-        }
+        },
+        "required": [
+          "id"
+        ]
       },
       "idRequest": {
         "type": "string",
@@ -47397,6 +47400,11 @@
             "$ref": "#/components/schemas/annotationResponse"
           }
         },
+        "required": [
+          "plain_text",
+          "href",
+          "annotations"
+        ],
         "additionalProperties": false
       },
       "richTextPropertyConfigurationRequest": {
@@ -49863,7 +49871,11 @@
             ],
             "additionalProperties": false
           }
-        }
+        },
+        "required": [
+          "type",
+          "text"
+        ]
       },
       "timeZoneRequest": {
         "type": "string",
@@ -50218,6 +50230,10 @@
             }
           }
         },
+        "required": [
+          "type",
+          "title"
+        ],
         "additionalProperties": false
       },
       "titleDatabasePropertyConfigResponse": {
