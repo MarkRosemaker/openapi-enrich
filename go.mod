@@ -5,9 +5,9 @@ go 1.27
 require (
 	github.com/MarkRosemaker/errpath v0.0.0-20261004011213-d39d7f96c8f4
 	github.com/MarkRosemaker/jsonutil v0.0.0-20261004011215-c1eff28436f6
-	github.com/MarkRosemaker/openapi v0.0.0-20261006170304-55e0a87dfa74
-	github.com/MarkRosemaker/openapi-edit v0.0.0-20261006170628-7d8379d5a60a
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20261006202601-52d812cd2e36
+	github.com/MarkRosemaker/openapi v0.0.0-20261007220209-16c898b2f3bf
+	github.com/MarkRosemaker/openapi-edit v0.0.0-20261007220241-54bae15d3361
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20261007220241-839660c18956
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20260821232109-0cf45378823e
 	gopkg.in/dnaeon/go-vcr.v3 v3.2.0
@@ -16,9 +16,9 @@ require (
 require (
 	cloud.google.com/go v0.123.0 // indirect
 	github.com/MarkRosemaker/json2yaml v0.0.0-20261004011213-3850e046f118 // indirect
-	github.com/MarkRosemaker/ordmap v0.0.0-20261005183330-99e2b69a0bc0 // indirect
+	github.com/MarkRosemaker/ordmap v0.0.0-20261007220122-6960b8cdcc3e // indirect
 	github.com/MarkRosemaker/yaml v0.0.0-20261004011229-302f2a2e75b5 // indirect
 	github.com/MarkRosemaker/yaml2json v0.0.0-20261004011213-bbdd737b26f4 // indirect
-	golang.org/x/exp v0.0.0-20261005173118-76772065c9b0 // indirect
+	golang.org/x/exp v0.0.0-20261007192929-f45ad48fbe92 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
