@@ -1,0 +1,715 @@
+[
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/users?limit=10&offset=0",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": [
+				{
+					"id": 1,
+					"name": "Alice",
+					"email": "alice@example.com",
+					"website": "https://alice.example.com",
+					"created": "2026-01-02T03:04:05Z",
+					"birthday": "1990-05-06",
+					"ip": "192.168.0.1",
+					"ip6": "::1",
+					"uid": "550e8400-e29b-41d4-a716-446655440000",
+					"nickname": null,
+					"tags": [],
+					"password": "hunter2",
+					"score": 12.5
+				}
+			]
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/users/1",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"id": 1,
+				"name": "Alice",
+				"email": "alice@example.com",
+				"website": "https://alice.example.com",
+				"created": "2026-01-02T03:04:05Z",
+				"birthday": "1990-05-06",
+				"ip": "192.168.0.1",
+				"ip6": "::1",
+				"uid": "550e8400-e29b-41d4-a716-446655440000",
+				"nickname": null,
+				"tags": [],
+				"password": "hunter2",
+				"score": 12.5
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/users/42",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"id": 42,
+				"name": "Bob",
+				"email": "alice@example.com",
+				"website": "https://alice.example.com",
+				"created": "2026-01-02T03:04:05Z",
+				"birthday": "1990-05-06",
+				"ip": "192.168.0.1",
+				"ip6": "::1",
+				"uid": "550e8400-e29b-41d4-a716-446655440000",
+				"nickname": "Bobby",
+				"tags": [
+					"a",
+					"b"
+				],
+				"password": "hunter2",
+				"score": 12.5
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "POST",
+			"url": "https://api.example.com/v1/users",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"Content-Type": "application/json; charset=utf-8",
+				"X-Request-Source": "web"
+			},
+			"body": {
+				"name": "Bob"
+			}
+		},
+		"response": {
+			"statusCode": 201,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"id": 2,
+				"name": "Bob"
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "POST",
+			"url": "https://api.example.com/v1/users",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"Content-Type": "application/json",
+				"X-Request-Source": "app"
+			},
+			"body": {
+				"name": "Carol",
+				"age": 30
+			}
+		},
+		"response": {
+			"statusCode": 201,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"id": 3,
+				"name": "Carol"
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/orders/550e8400-e29b-41d4-a716-446655440000",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"total": 9.99
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/items?tags=a,b,c&ids=1,2,3"
+		},
+		"response": {
+			"statusCode": 200
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/search?q=hello",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"hits": []
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/search?q=world"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"hits": [
+					{
+						"title": "World"
+					}
+				]
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://other.example.com/tickers",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"BTC": 1
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/secure",
+			"header": {
+				"Authorization": "Basic dXNlcjpwYXNz"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"ok": true
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/data",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"User-Agent": "Mozilla/5.0",
+				"Referer": "https://example.com",
+				"Cookie": "session=abc",
+				"Accept": "application/json",
+				"X-Api-Key": "key1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"value": 1
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/data",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"X-Api-Key": "key2"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"value": 2
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "POST",
+			"url": "https://api.example.com/v1/upload",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"filename": "test.txt"
+			}
+		},
+		"response": {
+			"statusCode": 201
+		}
+	},
+	{
+		"request": {
+			"method": "POST",
+			"url": "https://api.example.com/v1/upload",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"Content-Type": "application/vnd.api+json"
+			},
+			"body": {
+				"data": "stuff"
+			}
+		},
+		"response": {
+			"statusCode": 201
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/exports/7",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/zip"
+			},
+			"bodyOmitted": true
+		}
+	},
+	{
+		"request": {
+			"method": "PUT",
+			"url": "https://api.example.com/v1/files/7",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"Content-Type": "application/pdf"
+			},
+			"bodyOmitted": true
+		},
+		"response": {
+			"statusCode": 204
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/hello",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "text/plain; charset=utf-8"
+			},
+			"body": "hello"
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/hello",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 404,
+			"header": {
+				"Content-Type": "text/plain"
+			},
+			"body": "Not Found"
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/page",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "text/html"
+			},
+			"body": "<p>hi</p>"
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/busy",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"retry": false
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/busy",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 529,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"retry": true
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/blocks",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"results": [
+					{
+						"type": "paragraph",
+						"paragraph": "a"
+					},
+					{
+						"type": "heading",
+						"heading": "b"
+					}
+				]
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/notes",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"results": [
+					{
+						"type": "paragraph",
+						"paragraph": "a"
+					},
+					{
+						"type": "heading",
+						"heading": "b"
+					},
+					{
+						"type": "heading",
+						"heading": "b"
+					}
+				]
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/states",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"states": [
+					[
+						"39de4f",
+						2.36,
+						true
+					]
+				],
+				"byIndex": {
+					"0": {
+						"n": 1
+					},
+					"1": {
+						"n": 2
+					}
+				}
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/events",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"start": "2026-10-05"
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/events",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"start": "2026-10-05T10:00:00.000+00:00"
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/styles",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"styles": [
+					{
+						"style": "plain"
+					},
+					{
+						"style": "bold"
+					},
+					{
+						"style": "italic"
+					}
+				]
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/settings",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"status": "active",
+				"limits": {
+					"north": 1
+				},
+				"code": 401
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/settings",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"status": "paused",
+				"limits": {
+					"west": 2,
+					"south": 3
+				},
+				"code": 401,
+				"level": null
+			}
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/pages/96245c8f-1784-44a4-82ad-1941127c3ec3",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"Api-Version": "2026-03-11"
+			}
+		},
+		"response": {
+			"statusCode": 200
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/databases?page_size=10",
+			"header": {
+				"Authorization": "Bearer tok1",
+				"Api-Version": "2026-03-11"
+			}
+		},
+		"response": {
+			"statusCode": 200
+		}
+	},
+	{
+		"request": {
+			"method": "POST",
+			"url": "https://api.example.com/v1/things/a/start",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/things/running",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/things/b",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/me",
+			"header": {
+				"Authorization": "Bearer tok1"
+			}
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "application/json"
+			},
+			"body": {
+				"id": "u1",
+				"name": "Alice"
+			}
+		}
+	}
+]

@@ -112,53 +112,6 @@ func TestHoistSecurity_NoSecurity(t *testing.T) {
 	}
 }
 
-func TestEnrich_SecurityHoisted(t *testing.T) {
-	// Integration: Bearer auth observed on every request should be hoisted.
-	doc := NewDocument()
-	interactions := cassette.Interactions{
-		{
-			Request: cassette.Request{
-				Method:  http.MethodGet,
-				URL:     "https://api.example.com/users",
-				Headers: http.Header{"Authorization": {"Bearer tok1"}},
-			},
-			Response: cassette.Response{
-				StatusCode: http.StatusOK,
-				Headers:    http.Header{"Content-Type": {"application/json"}},
-				Body:       []byte(`[]`),
-			},
-		},
-		{
-			Request: cassette.Request{
-				Method:  http.MethodGet,
-				URL:     "https://api.example.com/posts",
-				Headers: http.Header{"Authorization": {"Bearer tok1"}},
-			},
-			Response: cassette.Response{
-				StatusCode: http.StatusOK,
-				Headers:    http.Header{"Content-Type": {"application/json"}},
-				Body:       []byte(`[]`),
-			},
-		},
-	}
-
-	if err := Enrich(doc, interactions); err != nil {
-		t.Fatalf("Enrich error: %v", err)
-	}
-
-	if !doc.Security.Contains(openapi.SecurityRequirement{schemeNameBearer: {}}) {
-		t.Fatalf("expected %s at doc level", schemeNameBearer)
-	}
-
-	for _, pi := range doc.Paths {
-		for _, op := range pi.Operations {
-			if len(op.Security) != 0 {
-				t.Errorf("expected op-level security to be empty after hoisting, got %v", op.Security)
-			}
-		}
-	}
-}
-
 func TestEnrich_Unauthenticated(t *testing.T) {
 	bearer := openapi.SecurityRequirement{schemeNameBearer: {}}
 

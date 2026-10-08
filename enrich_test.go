@@ -2,11 +2,9 @@ package enrich_test
 
 import (
 	"bytes"
-	"embed"
-	"encoding/json/jsontext"
 	"fmt"
 	"net/http"
-	"path/filepath"
+	"os"
 	"testing"
 
 	"github.com/MarkRosemaker/openapi"
@@ -14,183 +12,68 @@ import (
 	"github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
-//go:embed testdata
-var testdata embed.FS
+// TestEnrich_Golden enriches testdata/openapi.json with testdata/interactions.json, three times over, and must get
+// testdata/golden.json each time: enriching again with what was already recorded changes nothing. All three files are
+// edited by hand; the interactions are grouped by what each shows, and the document says what they meet in it.
+func TestEnrich_Golden(t *testing.T) {
+	t.Parallel()
 
-func TestEnrich_TestData(t *testing.T) {
-	entries, err := testdata.ReadDir("testdata")
+	doc, err := openapi.LoadFromFile("testdata/openapi.json")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	for _, tc := range entries {
-		t.Run(tc.Name(), func(t *testing.T) {
-			t.Parallel()
+	interactions, err := cassette.InteractionsReadFile("testdata/interactions.json")
+	if err != nil {
+		t.Fatal(err)
+	}
 
-			path := filepath.Join("testdata", tc.Name(), "interactions.json")
+	want, err := os.ReadFile("testdata/golden.json")
+	if err != nil {
+		t.Fatal(err)
+	}
 
-			f, err := testdata.Open(path)
-			if err != nil {
-				t.Fatal(err)
-			}
-			defer f.Close() //nolint:errcheck
+	for run := range 3 {
+		if err := enrich.Enrich(doc, interactions); err != nil {
+			t.Fatalf("run %d: %v", run+1, err)
+		}
 
-			interactions, err := cassette.InteractionsUnmarshalRead(f)
-			if err != nil {
-				t.Fatal(err)
-			}
+		if err := doc.Validate(); err != nil {
+			t.Fatalf("run %d: %v", run+1, err)
+		}
 
-			wantDoc, err := testdata.ReadFile(filepath.Join("testdata", tc.Name(), "golden.json"))
-			if err != nil {
-				t.Fatal(err)
-			}
+		got, err := doc.ToJSON()
+		if err != nil {
+			t.Fatal(err)
+		}
 
-			doc := enrich.NewDocument()
+		got = append(got, '\n')
 
-			if data, err := testdata.ReadFile(filepath.Join("testdata", tc.Name(), "openapi.json")); err == nil {
-				doc, err = openapi.LoadFromDataJSON(data)
-				if err != nil {
-					t.Fatalf("loading initial spec: %v", err)
-				}
-			}
-
-			for it := range 3 {
-				t.Run(fmt.Sprintf("iteration %d", it+1), func(t *testing.T) {
-					if err := enrich.Enrich(doc, interactions); err != nil {
-						t.Fatal(err)
-					}
-
-					if err := doc.Validate(); err != nil {
-						t.Fatal(err)
-					}
-
-					// Sort responses and components (but not paths to keep the order)
-					for _, path := range doc.Paths {
-						for _, op := range path.Operations {
-							op.Responses.Sort()
-						}
-					}
-
-					doc.Components.SortMaps()
-
-					gotDoc, err := doc.ToJSON()
-					if err != nil {
-						t.Fatal(err)
-					}
-
-					compareBytes(t, wantDoc, gotDoc)
-				})
-			}
-		})
+		if line, ok := firstDifference(got, want); !ok {
+			t.Fatalf("run %d: golden.json %s", run+1, line)
+		}
 	}
 }
 
-// compareBytes prints a compact diff of two byte slices
-func compareBytes(t *testing.T, expected, actual []byte) {
-	t.Helper()
-
-	if bytes.Equal(expected, actual) {
-		return
+// firstDifference describes the first line in which got and want differ, if any.
+func firstDifference(got, want []byte) (string, bool) {
+	if bytes.Equal(got, want) {
+		return "", true
 	}
 
-	// Find first difference
-	i := 0
-	for i < len(expected) && i < len(actual) && expected[i] == actual[i] {
-		i++
-	}
-
-	t.Errorf("\n┌─ Diff at offset %d\n│ Expected: %q\n│ Actual:   %q\n└─ %s",
-		i, expected[i:min(len(expected), i+20)], actual[i:min(len(actual), i+20)],
-		func() string {
-			if len(expected) != len(actual) {
-				return fmt.Sprintf("length %d vs %d", len(expected), len(actual))
-			}
-			return fmt.Sprintf("0x%02x vs 0x%02x", expected[i], actual[i])
-		}())
-}
-
-func TestEnrich_Basic(t *testing.T) {
-	doc := enrich.NewDocument()
-	interactions := cassette.Interactions{
-		{
-			Request: cassette.Request{
-				Method:  http.MethodGet,
-				URL:     "https://api.example.com/users",
-				Headers: http.Header{},
-			},
-			Response: cassette.Response{
-				StatusCode: http.StatusOK,
-				Headers:    http.Header{"Content-Type": {"application/json"}},
-				Body:       []byte(`[{"id":1,"name":"Alice"}]`),
-			},
-		},
-		{
-			Request: cassette.Request{
-				Method: http.MethodPost,
-				URL:    "https://api.example.com/users",
-				Headers: http.Header{
-					"Content-Type":  {"application/json"},
-					"Authorization": {"Bearer token123"},
-				},
-				Body: []byte(`{"name":"Bob"}`),
-			},
-			Response: cassette.Response{
-				StatusCode: 201,
-				Headers:    http.Header{"Content-Type": {"application/json"}},
-				Body:       []byte(`{"id":2,"name":"Bob"}`),
-			},
-		},
-		{
-			Request: cassette.Request{
-				Method:  http.MethodGet,
-				URL:     "https://api.example.com/users/42",
-				Headers: http.Header{},
-			},
-			Response: cassette.Response{
-				StatusCode: http.StatusOK,
-				Headers:    http.Header{"Content-Type": {"application/json"}},
-				Body:       []byte(`{"id":42,"name":"Carol"}`),
-			},
-		},
-	}
-
-	if err := enrich.Enrich(doc, interactions); err != nil {
-		t.Fatalf("Enrich error: %v", err)
-	}
-
-	if len(doc.Paths) == 0 {
-		t.Error("expected paths to be populated")
-	}
-
-	// /users should exist
-	users := doc.Paths["/users"]
-	if users == nil {
-		t.Fatal("expected /users path")
-	}
-
-	if users.Get == nil {
-		t.Error("expected GET /users")
-	}
-
-	if users.Post == nil {
-		t.Error("expected POST /users")
-	}
-
-	// /users/{id} (or similar) should exist
-	found := false
-	for path := range doc.Paths {
-		if path != "/users" {
-			found = true
-			break
+	gotLines, wantLines := bytes.Split(got, []byte("\n")), bytes.Split(want, []byte("\n"))
+	for i := range min(len(gotLines), len(wantLines)) {
+		if !bytes.Equal(gotLines[i], wantLines[i]) {
+			return fmt.Sprintf("line %d: got %s, want %s", i+1, bytes.TrimSpace(gotLines[i]), bytes.TrimSpace(wantLines[i])), false
 		}
 	}
 
-	if !found {
-		t.Error("expected a parametric path for /users/{id}")
-	}
+	return fmt.Sprintf("has %d lines, got %d", len(wantLines), len(gotLines)), false
 }
 
 func TestEnrich_Empty(t *testing.T) {
+	t.Parallel()
+
 	doc := enrich.NewDocument()
 	if err := enrich.Enrich(doc, nil); err != nil {
 		t.Fatalf("Enrich(nil) error: %v", err)
@@ -202,239 +85,54 @@ func TestEnrich_Empty(t *testing.T) {
 }
 
 func TestEnrich_InvalidURL(t *testing.T) {
-	doc := enrich.NewDocument()
-	interactions := cassette.Interactions{
-		{
-			Request: cassette.Request{
-				Method:  http.MethodGet,
-				URL:     "://bad-url",
-				Headers: http.Header{},
-			},
-			Response: cassette.Response{StatusCode: http.StatusOK, Headers: http.Header{}},
-		},
-	}
+	t.Parallel()
 
-	err := enrich.Enrich(doc, interactions)
-	if err == nil {
+	if err := enrich.Enrich(enrich.NewDocument(), cassette.Interactions{{
+		Request:  cassette.Request{Method: http.MethodGet, URL: "://bad-url"},
+		Response: cassette.Response{StatusCode: http.StatusOK},
+	}}); err == nil {
 		t.Error("expected error for invalid URL")
 	}
 }
 
-func TestEnrich_ExistingParameter(t *testing.T) {
-	doc := enrich.NewDocument()
-
-	doc.Servers = append(doc.Servers, openapi.Server{
-		URL: "https://api.notion.com/v1",
-	})
-
-	header := &openapi.Parameter{
-		Name:     "Notion-Version",
-		In:       openapi.ParameterLocationHeader,
-		Required: true,
-		Schema: &openapi.Schema{
-			Type:    openapi.TypeString,
-			Example: jsontext.Value(`"2026-03-11"`),
-		},
-	}
-	doc.Components.Parameters.Set("NotionVersionHeader", &openapi.ParameterRef{
-		Value: header,
-	})
-	doc.Paths.Set("/pages/{id}", &openapi.PathItem{
-		Parameters: openapi.ParameterList{
-			{
-				Ref:   &openapi.Reference{Identifier: "#/components/parameters/NotionVersionHeader"},
-				Value: header,
-			},
-			{Value: &openapi.Parameter{
-				Name:     "id",
-				In:       openapi.ParameterLocationPath,
-				Required: true,
-				Schema: &openapi.Schema{
-					Type:   openapi.TypeString,
-					Format: openapi.FormatUUID,
-				},
-			}},
-		},
-		Get: &openapi.Operation{
-			OperationID: "GetPage",
-			Responses: openapi.OperationResponses{ //nolint:exhaustive
-				"200": &openapi.ResponseRef{
-					Value: &openapi.Response{
-						Description: "some description",
-					},
-				},
-			},
-		},
-	})
-
-	if err := doc.Validate(); err != nil {
-		t.Fatal(err)
-	}
-
-	wantDoc, err := doc.ToJSON()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	interactions := cassette.Interactions{
-		{
-			Request: cassette.Request{
-				Method: http.MethodGet,
-				URL:    "https://api.notion.com/v1/pages/96245c8f-1784-44a4-82ad-1941127c3ec3",
-				Headers: http.Header{
-					"Notion-Version": []string{"2026-03-11"},
-				},
-			},
-			Response: cassette.Response{StatusCode: http.StatusOK},
-		},
-	}
-
-	if err := enrich.Enrich(doc, interactions); err != nil {
-		t.Fatalf("Enrich error: %v", err)
-	}
-
-	gotDoc, err := doc.ToJSON()
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	compareBytes(t, wantDoc, gotDoc)
-}
-
-// TestEnrich_PathTemplateSegmentMatch_Deterministic guards against a
-// regression where a request could match a shorter path template with a
-// trailing {param} absorbing extra segments (e.g. /things/{thingID}
-// swallowing "a/start"), instead of the same-length template that actually
-// describes it (/things/{thingID}/start). Since that choice used to fall out
-// of map iteration order, it only failed some of the time -- so this rebuilds
-// the document from scratch and re-runs Enrich many times, fresh each time,
-// to make the flakiness reliably visible if the matching logic regresses.
+// TestEnrich_PathTemplateSegmentMatch_Deterministic guards against a request matching a shorter path template whose
+// trailing {param} absorbs extra segments (/things/{thingId} swallowing "a/start") instead of the template of its
+// length (/things/{thingId}/start). That choice once fell out of map iteration order and failed only some of the time,
+// which one run, as the golden test makes, could miss; so this runs many times, fresh each time.
 func TestEnrich_PathTemplateSegmentMatch_Deterministic(t *testing.T) {
-	specData, err := testdata.ReadFile(filepath.Join("testdata", "things", "openapi.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
+	t.Parallel()
 
-	iaData, err := testdata.ReadFile(filepath.Join("testdata", "things", "interactions.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	wantDoc, err := testdata.ReadFile(filepath.Join("testdata", "things", "golden.json"))
-	if err != nil {
-		t.Fatal(err)
-	}
+	const spec = `{
+  "openapi": "3.1.0",
+  "info": {"title": "things", "version": "1"},
+  "servers": [{"url": "http://localhost:8083/api"}],
+  "paths": {
+    "/things/{thingId}": {
+      "parameters": [{"name": "thingId", "in": "path", "required": true, "schema": {"type": "string"}}],
+      "get": {"operationId": "GetThing", "responses": {"200": {"description": "OK"}}}
+    },
+    "/things/{thingId}/start": {
+      "parameters": [{"name": "thingId", "in": "path", "required": true, "schema": {"type": "string"}}],
+      "post": {"operationId": "StartThing", "responses": {"200": {"description": "OK"}}}
+    }
+  }
+}`
 
 	for i := range 200 {
-		doc, err := openapi.LoadFromDataJSON(specData)
+		doc, err := openapi.LoadFromDataJSON([]byte(spec))
 		if err != nil {
 			t.Fatal(err)
 		}
 
-		interactions, err := cassette.InteractionsUnmarshalRead(bytes.NewReader(iaData))
-		if err != nil {
-			t.Fatal(err)
-		}
-
-		if err := enrich.Enrich(doc, interactions); err != nil {
-			t.Fatalf("run %d: Enrich error: %v", i, err)
-		}
-
-		if err := doc.Validate(); err != nil {
+		if err := enrich.Enrich(doc, cassette.Interactions{{
+			Request:  cassette.Request{Method: http.MethodPost, URL: "http://localhost:8083/api/things/a/start"},
+			Response: cassette.Response{StatusCode: http.StatusOK},
+		}}); err != nil {
 			t.Fatalf("run %d: %v", i, err)
 		}
 
-		gotDoc, err := doc.ToJSON()
-		if err != nil {
-			t.Fatalf("run %d: %v", i, err)
+		if len(doc.Paths) != 2 || doc.Paths["/things/{thingId}"].Post != nil {
+			t.Fatalf("run %d: the call reached GetThing's template", i)
 		}
-
-		if !bytes.Equal(wantDoc, gotDoc) {
-			t.Fatalf("run %d: result differs from golden.json (nondeterministic path match)", i)
-		}
-	}
-}
-
-// TestEnrich_ReusesComponentParameter covers a header (and a query param)
-// that the specification already declares under components.parameters, keyed
-// by a name other than the parameter's own (NotionVersionHeader for
-// Notion-Version). A request to an endpoint the specification doesn't know yet
-// must reference that component, not declare a second, inline Notion-Version.
-func TestEnrich_ReusesComponentParameter(t *testing.T) {
-	doc, err := openapi.LoadFromDataJSON([]byte(`{
-		"openapi": "3.1.0",
-		"info": {"title": "Notion", "version": "1"},
-		"servers": [{"url": "https://api.notion.com/v1"}],
-		"paths": {
-			"/users": {
-				"get": {
-					"operationId": "ListUsers",
-					"parameters": [{"$ref": "#/components/parameters/NotionVersionHeader"}],
-					"responses": {"200": {"description": "OK"}}
-				}
-			}
-		},
-		"components": {
-			"parameters": {
-				"NotionVersionHeader": {
-					"name": "Notion-Version",
-					"in": "header",
-					"description": "Specifies the Notion API version",
-					"required": true,
-					"schema": {"type": "string", "example": "2026-03-11"}
-				},
-				"PageSize": {
-					"name": "page_size",
-					"in": "query",
-					"schema": {"type": "integer"}
-				}
-			}
-		}
-	}`))
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if err := enrich.Enrich(doc, cassette.Interactions{{
-		Request: cassette.Request{
-			Method:  http.MethodGet,
-			URL:     "https://api.notion.com/v1/pages?page_size=10",
-			Headers: http.Header{"Notion-Version": {"2026-03-11"}},
-		},
-		Response: cassette.Response{StatusCode: http.StatusOK},
-	}}); err != nil {
-		t.Fatal(err)
-	}
-
-	if err := doc.Validate(); err != nil {
-		t.Fatal(err)
-	}
-
-	op := doc.Paths["/pages"].Get
-	if op == nil {
-		t.Fatal("GET /pages was not added")
-	}
-
-	want := map[string]string{
-		"Notion-Version": "#/components/parameters/NotionVersionHeader",
-		"page_size":      "#/components/parameters/PageSize",
-	}
-	if len(op.Parameters) != len(want) {
-		t.Fatalf("got %d parameters, want %d", len(op.Parameters), len(want))
-	}
-
-	for _, p := range op.Parameters {
-		if p.Ref == nil {
-			t.Errorf("%s: declared inline, want a $ref to %s", p.Value.Name, want[p.Value.Name])
-			continue
-		}
-
-		if p.Ref.Identifier != want[p.Value.Name] {
-			t.Errorf("%s: $ref %q, want %q", p.Value.Name, p.Ref.Identifier, want[p.Value.Name])
-		}
-	}
-
-	if n := len(doc.Components.Parameters); n != 2 {
-		t.Errorf("got %d component parameters, want the original 2", n)
 	}
 }

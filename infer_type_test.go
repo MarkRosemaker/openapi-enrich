@@ -5,6 +5,7 @@ import (
 	"testing"
 
 	"github.com/MarkRosemaker/openapi"
+	edit "github.com/MarkRosemaker/openapi-edit"
 )
 
 func values(vs ...string) []jsontext.Value {
@@ -104,7 +105,7 @@ func TestInferTypes(t *testing.T) {
 	inferTypes(doc)
 
 	visited, untyped := 0, 0
-	walkSchemas(doc, func(s *openapi.Schema) {
+	edit.WalkSchemas(doc, func(s *openapi.Schema) {
 		visited++
 
 		// a reference takes its type from the schema it points to

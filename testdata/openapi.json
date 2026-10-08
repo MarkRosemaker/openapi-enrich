@@ -1,0 +1,310 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Enrich",
+    "description": "TestEnrich_Golden enriches this document with interactions.json, three times over, and must get golden.json each time. What the interactions meet here is described where it is.",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com/v1"
+    }
+  ],
+  "paths": {
+    "/pages/{pageId}": {
+      "get": {
+        "description": "Already documented: a call that tells nothing new adds only the credentials it sent.",
+        "operationId": "GetPage",
+        "responses": {
+          "200": {
+            "description": "the page"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VersionHeader"
+        },
+        {
+          "name": "pageId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ]
+    },
+    "/things/{thingId}": {
+      "get": {
+        "operationId": "GetThing",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "thingId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/things/{thingId}/start": {
+      "post": {
+        "description": "A call to /things/a/start is this one, not GetThing with a thingId of a/start.",
+        "operationId": "StartThing",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "thingId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ]
+    },
+    "/things/running": {
+      "get": {
+        "description": "A literal segment beats a parameter.",
+        "operationId": "ListRunningThings",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/blocks": {
+      "get": {
+        "description": "The elements of a recorded list each reach the alternative of Block they match.",
+        "operationId": "ListBlocks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Block"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/settings": {
+      "get": {
+        "description": "Enums grow with what is recorded, keys under propertyNames too; a schema without a type takes its const's.",
+        "operationId": "GetSettings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active"
+                      ]
+                    },
+                    "limits": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "integer"
+                      },
+                      "propertyNames": {
+                        "type": "string",
+                        "enum": [
+                          "north"
+                        ]
+                      }
+                    },
+                    "code": {
+                      "const": 401
+                    },
+                    "level": {
+                      "enum": [
+                        1,
+                        null
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/styles": {
+      "get": {
+        "description": "An enum grows by every element of a list, not only by the one whose example the merge keeps.",
+        "operationId": "ListStyles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "styles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "style": {
+                            "type": "string",
+                            "enum": [
+                              "plain"
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/me": {
+      "get": {
+        "description": "Profile is shared with GetAccount, which is never recorded: what is recorded here documents both.",
+        "operationId": "GetMe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/accounts/{accountId}": {
+      "get": {
+        "operationId": "GetAccount",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ]
+    }
+  },
+  "components": {
+    "schemas": {
+      "Block": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Paragraph"
+          },
+          {
+            "$ref": "#/components/schemas/Heading"
+          }
+        ]
+      },
+      "Paragraph": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "paragraph"
+          },
+          "paragraph": {
+            "type": "string"
+          }
+        }
+      },
+      "Heading": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "heading"
+          },
+          "heading": {
+            "type": "string"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "VersionHeader": {
+        "name": "Api-Version",
+        "in": "header",
+        "description": "A parameter a new operation sends is referred to here, under a name of its own, not declared again.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "2026-03-11"
+        }
+      },
+      "PageSize": {
+        "name": "page_size",
+        "in": "query",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

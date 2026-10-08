@@ -1,15 +1,15 @@
-# Golden files in testdata
+# The golden files
 
-`TestEnrich_TestData` runs every folder in `testdata/`. It loads
-`openapi.json` if the folder has one, otherwise it starts from `NewDocument`.
-It then enriches the document with `interactions.json` three times over and
-compares each result with `golden.json`. A folder without `golden.json`
-fails, and a changed result fails at the first differing byte.
+`TestEnrich_Golden` enriches `testdata/openapi.json` with
+`testdata/interactions.json`, three times over, and must get
+`testdata/golden.json` each time. Nothing regenerates them: a feature is a
+case in them, edited in by hand.
 
-`make ready` rewrites every `golden.json`, through `go generate` and
-`tools/generate.go`: it enriches each folder's document once with its
-interactions and writes the result. It also masks and rewrites
-`interactions.json`, and sends any recorded request that has no response
-yet, which needs the network. A new folder needs only `interactions.json`
-and, optionally, `openapi.json`. Review the diff of `golden.json` as part of
-the change, because it is the behaviour under test.
+- A new behaviour is a recording in `interactions.json`, next to the ones of
+  its kind, and, where it needs the specification to know something first, a
+  part of `openapi.json` whose `description` says what it is there for.
+- `golden.json` changes with it, by hand, so the diff is read before it is
+  accepted. Write the expected result; the failure names the first line that
+  differs.
+- The recordings are made up, not recorded: there is nothing to mask, and no
+  account behind them.
