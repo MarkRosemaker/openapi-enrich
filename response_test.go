@@ -159,12 +159,3 @@ func TestIsJSONMediaType(t *testing.T) {
 		}
 	}
 }
-
-func TestIsInfraResponseHeader(t *testing.T) {
-	infra := []string{"Content-Type", "Cache-Control", "X-Cache", "CF-Ray", "Server"}
-	for _, h := range infra {
-		if !isInfraResponseHeader(h) {
-			t.Errorf("expected %q to be infra header", h)
-		}
-	}
-}

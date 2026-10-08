@@ -1,0 +1,1311 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Enrich",
+    "description": "TestEnrich_Golden enriches this document with interactions.json, three times over, and must get golden.json each time. What the interactions meet here is described where it is.",
+    "version": "1"
+  },
+  "servers": [
+    {
+      "url": "https://api.example.com/v1"
+    }
+  ],
+  "paths": {
+    "/pages/{pageId}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/VersionHeader"
+        },
+        {
+          "name": "pageId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "description": "Already documented: a call that tells nothing new adds only the credentials it sent.",
+        "operationId": "GetPage",
+        "responses": {
+          "200": {
+            "description": "the page"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/things/{thingId}": {
+      "parameters": [
+        {
+          "name": "thingId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetThing",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/things/{thingId}/start": {
+      "parameters": [
+        {
+          "name": "thingId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "post": {
+        "description": "A call to /things/a/start is this one, not GetThing with a thingId of a/start.",
+        "operationId": "StartThing",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/things/running": {
+      "get": {
+        "description": "A literal segment beats a parameter.",
+        "operationId": "ListRunningThings",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/blocks": {
+      "get": {
+        "description": "The elements of a recorded list each reach the alternative of Block they match.",
+        "operationId": "ListBlocks",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Block"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/settings": {
+      "get": {
+        "description": "Enums grow with what is recorded, keys under propertyNames too; a schema without a type takes its const's.",
+        "operationId": "GetSettings",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "active",
+                        "paused"
+                      ],
+                      "example": "active"
+                    },
+                    "limits": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "propertyNames": {
+                        "type": "string",
+                        "enum": [
+                          "north",
+                          "south",
+                          "west"
+                        ]
+                      }
+                    },
+                    "code": {
+                      "type": "integer",
+                      "const": 401
+                    },
+                    "level": {
+                      "type": [
+                        "integer",
+                        "null"
+                      ],
+                      "enum": [
+                        1,
+                        null
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/styles": {
+      "get": {
+        "description": "An enum grows by every element of a list, not only by the one whose example the merge keeps.",
+        "operationId": "ListStyles",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "styles": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "style": {
+                            "type": "string",
+                            "enum": [
+                              "plain",
+                              "bold",
+                              "italic"
+                            ],
+                            "example": "plain"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/me": {
+      "get": {
+        "description": "Profile is shared with GetAccount, which is never recorded: what is recorded here documents both.",
+        "operationId": "GetMe",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/accounts/{accountId}": {
+      "parameters": [
+        {
+          "name": "accountId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetAccount",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Profile"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "operationId": "ListUsers",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer",
+                        "example": 1
+                      },
+                      "name": {
+                        "type": "string",
+                        "example": "Alice"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email",
+                        "example": "alice@example.com"
+                      },
+                      "website": {
+                        "type": "string",
+                        "format": "uri",
+                        "example": "https://alice.example.com"
+                      },
+                      "created": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-01-02T03:04:05Z"
+                      },
+                      "birthday": {
+                        "type": "string",
+                        "format": "date",
+                        "example": "1990-05-06"
+                      },
+                      "ip": {
+                        "type": "string",
+                        "format": "ipv4",
+                        "example": "192.168.0.1"
+                      },
+                      "ip6": {
+                        "type": "string",
+                        "format": "ipv6",
+                        "example": "::1"
+                      },
+                      "uid": {
+                        "type": "string",
+                        "format": "uuid",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                      },
+                      "nickname": {
+                        "type": "null"
+                      },
+                      "tags": {
+                        "type": "array",
+                        "maxItems": 0
+                      },
+                      "password": {
+                        "type": "string"
+                      },
+                      "score": {
+                        "type": "number",
+                        "format": "double",
+                        "example": 12.5
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "email",
+                      "website",
+                      "created",
+                      "birthday",
+                      "ip",
+                      "ip6",
+                      "uid",
+                      "nickname",
+                      "tags",
+                      "password",
+                      "score"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "PostUsers",
+        "parameters": [
+          {
+            "name": "X-Request-Source",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "web"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "example": "Bob"
+                  },
+                  "age": {
+                    "type": "integer",
+                    "example": 30
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Bob"
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/users/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetUserByUserID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "example": 1
+                    },
+                    "name": {
+                      "type": "string",
+                      "example": "Alice"
+                    },
+                    "email": {
+                      "type": "string",
+                      "format": "email",
+                      "example": "alice@example.com"
+                    },
+                    "website": {
+                      "type": "string",
+                      "format": "uri",
+                      "example": "https://alice.example.com"
+                    },
+                    "created": {
+                      "type": "string",
+                      "format": "date-time",
+                      "example": "2026-01-02T03:04:05Z"
+                    },
+                    "birthday": {
+                      "type": "string",
+                      "format": "date",
+                      "example": "1990-05-06"
+                    },
+                    "ip": {
+                      "type": "string",
+                      "format": "ipv4",
+                      "example": "192.168.0.1"
+                    },
+                    "ip6": {
+                      "type": "string",
+                      "format": "ipv6",
+                      "example": "::1"
+                    },
+                    "uid": {
+                      "type": "string",
+                      "format": "uuid",
+                      "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "nickname": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "example": "Bobby"
+                    },
+                    "tags": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "a"
+                      }
+                    },
+                    "password": {
+                      "type": "string"
+                    },
+                    "score": {
+                      "type": "number",
+                      "format": "double",
+                      "example": 12.5
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "name",
+                    "email",
+                    "website",
+                    "created",
+                    "birthday",
+                    "ip",
+                    "ip6",
+                    "uid",
+                    "nickname",
+                    "tags",
+                    "password",
+                    "score"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/orders/{orderId}": {
+      "parameters": [
+        {
+          "name": "orderId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetOrderByOrderID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "total": {
+                      "type": "number",
+                      "format": "double",
+                      "example": 9.99
+                    }
+                  },
+                  "required": [
+                    "total"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/items": {
+      "get": {
+        "operationId": "ListItems",
+        "parameters": [
+          {
+            "name": "ids",
+            "in": "query",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "integer"
+              }
+            }
+          },
+          {
+            "name": "tags",
+            "in": "query",
+            "style": "form",
+            "explode": false,
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "a"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": []
+      }
+    },
+    "/search": {
+      "get": {
+        "operationId": "ListSearch",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "example": "hello"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hits": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "title": {
+                            "type": "string",
+                            "example": "World"
+                          }
+                        },
+                        "required": [
+                          "title"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "hits"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {},
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/tickers": {
+      "servers": [
+        {
+          "url": "https://other.example.com"
+        }
+      ],
+      "get": {
+        "operationId": "ListTickers",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "BTC": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  },
+                  "required": [
+                    "BTC"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/secure": {
+      "get": {
+        "operationId": "ListSecure",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "ok"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "BasicAuth": []
+          }
+        ]
+      }
+    },
+    "/data": {
+      "get": {
+        "operationId": "ListData",
+        "parameters": [
+          {
+            "name": "X-Api-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "key1"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "integer",
+                      "example": 1
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/upload": {
+      "post": {
+        "operationId": "PostUpload",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "filename": {
+                    "type": "string",
+                    "example": "test.txt"
+                  }
+                },
+                "required": [
+                  "filename"
+                ]
+              }
+            },
+            "application/vnd.api+json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "data": {
+                    "type": "string",
+                    "example": "stuff"
+                  }
+                },
+                "required": [
+                  "data"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/exports/{exportId}": {
+      "parameters": [
+        {
+          "name": "exportId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "get": {
+        "operationId": "GetExportByExportID",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/files/{fileId}": {
+      "parameters": [
+        {
+          "name": "fileId",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "integer"
+          }
+        }
+      ],
+      "put": {
+        "operationId": "PutFileByFileID",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/pdf": {
+              "schema": {
+                "type": "string",
+                "format": "binary"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "No Content"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/hello": {
+      "get": {
+        "operationId": "ListHello",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/page": {
+      "get": {
+        "operationId": "ListPage",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/html": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/busy": {
+      "get": {
+        "operationId": "ListBusy",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "retry": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "retry"
+                  ]
+                }
+              }
+            }
+          },
+          "529": {
+            "description": "response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "retry": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": [
+                    "retry"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/notes": {
+      "get": {
+        "operationId": "ListNotes",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "type": {
+                            "type": "string",
+                            "example": "paragraph"
+                          },
+                          "paragraph": {
+                            "type": "string",
+                            "example": "a"
+                          },
+                          "heading": {
+                            "type": "string",
+                            "example": "b"
+                          }
+                        },
+                        "required": [
+                          "type"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "results"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/states": {
+      "get": {
+        "operationId": "ListStates",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "states": {
+                      "type": "array",
+                      "items": {
+                        "type": "array",
+                        "prefixItems": [
+                          {
+                            "type": "string",
+                            "example": "39de4f"
+                          },
+                          {
+                            "type": "number",
+                            "format": "double",
+                            "example": 2.36
+                          },
+                          {
+                            "type": "boolean"
+                          }
+                        ]
+                      }
+                    },
+                    "byIndex": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "object",
+                        "properties": {
+                          "n": {
+                            "type": "integer",
+                            "example": 1
+                          }
+                        },
+                        "required": [
+                          "n"
+                        ]
+                      }
+                    }
+                  },
+                  "required": [
+                    "states",
+                    "byIndex"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/events": {
+      "get": {
+        "operationId": "ListEvents",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "start": {
+                      "oneOf": [
+                        {
+                          "type": "string",
+                          "format": "date",
+                          "example": "2026-10-05"
+                        },
+                        {
+                          "type": "string",
+                          "format": "date-time",
+                          "example": "2026-10-05T10:00:00.000+00:00"
+                        }
+                      ]
+                    }
+                  },
+                  "required": [
+                    "start"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/databases": {
+      "get": {
+        "operationId": "ListDatabases",
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/PageSize"
+          },
+          {
+            "$ref": "#/components/parameters/VersionHeader"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Block": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/Paragraph"
+          },
+          {
+            "$ref": "#/components/schemas/Heading"
+          }
+        ]
+      },
+      "Paragraph": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "paragraph"
+          },
+          "paragraph": {
+            "type": "string",
+            "example": "a"
+          }
+        }
+      },
+      "Heading": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "const": "heading"
+          },
+          "heading": {
+            "type": "string",
+            "example": "b"
+          }
+        }
+      },
+      "Profile": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "u1"
+          },
+          "name": {
+            "type": "string",
+            "example": "Alice"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "VersionHeader": {
+        "name": "Api-Version",
+        "in": "header",
+        "description": "A parameter a new operation sends is referred to here, under a name of its own, not declared again.",
+        "required": true,
+        "schema": {
+          "type": "string",
+          "example": "2026-03-11"
+        }
+      },
+      "PageSize": {
+        "name": "page_size",
+        "in": "query",
+        "schema": {
+          "type": "integer"
+        }
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer"
+      },
+      "BasicAuth": {
+        "type": "http",
+        "scheme": "basic"
+      }
+    }
+  }
+}

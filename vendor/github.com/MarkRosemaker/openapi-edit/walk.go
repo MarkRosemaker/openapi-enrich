@@ -1,13 +1,8 @@
 package edit
 
-import (
-	"maps"
-	"slices"
+import "github.com/MarkRosemaker/openapi"
 
-	"github.com/MarkRosemaker/openapi"
-)
-
-// walkSchemas calls fn once for every schema reachable from doc: through
+// WalkSchemas calls fn once for every schema reachable from doc: through
 // components (schemas, responses, parameters, request bodies, headers,
 // callbacks, path items), through every path, operation, and webhook, and
 // through the schemas each one contains or refers to.
@@ -20,11 +15,9 @@ import (
 // freely edit what it is given without risking infinite recursion on a
 // self-referential schema.
 //
-// This is the traversal RenameSchema uses to find every occurrence of a
-// reference; it's shared because other structural edits need the same
-// walk with a different fn, e.g. finding every reference to a schema that's
-// about to be redirected onto another with [RedirectSchema].
-func walkSchemas(doc *openapi.Document, fn func(*openapi.Schema)) {
+// It is the traversal every edit here makes, and is exported for any other
+// change that has to reach every schema of a document.
+func WalkSchemas(doc *openapi.Document, fn func(*openapi.Schema)) {
 	w := &schemaWalker{fn: fn, visited: map[*openapi.Schema]bool{}}
 
 	for _, s := range doc.Components.Schemas.ByIndex() {
@@ -99,22 +92,17 @@ func (w *schemaWalker) operation(op *openapi.Operation) {
 		w.response(r)
 	}
 
-	// an operation's callbacks keep no order of their own
-	for _, name := range slices.Sorted(maps.Keys(op.Callbacks)) {
-		w.callback(op.Callbacks[name])
+	for _, c := range op.Callbacks.ByIndex() {
+		w.callbackRef(c)
 	}
 }
 
-// callbackRef covers components.callbacks, which holds references, whereas an
-// operation holds callbacks by value.
 func (w *schemaWalker) callbackRef(r *openapi.CallbackRef) {
-	if r != nil && r.Value != nil {
-		w.callback(*r.Value)
+	if r == nil || r.Value == nil {
+		return
 	}
-}
 
-func (w *schemaWalker) callback(c openapi.Callback) {
-	for _, p := range c.ByIndex() {
+	for _, p := range r.Value.ByIndex() {
 		w.pathItemRef(p)
 	}
 }
@@ -175,12 +163,6 @@ func (w *schemaWalker) content(c openapi.Content) {
 				w.headers(e.Headers)
 			}
 		}
-	}
-}
-
-func (w *schemaWalker) schemaList(l openapi.SchemaList) {
-	for _, s := range l {
-		w.schema(s)
 	}
 }
 
