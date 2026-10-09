@@ -10,8 +10,8 @@ github.com/MarkRosemaker/openapi v0.0.0-20261008160205-6fa860efe36e h1:0RkYVOkNf
 github.com/MarkRosemaker/openapi v0.0.0-20261008160205-6fa860efe36e/go.mod h1:RcEjbxD+KZGx/vKwk0s/+Pll+S5okqa9BVgb4DR4XtA=
 github.com/MarkRosemaker/openapi-edit v0.0.0-20261008160230-e0aad33a8e1a h1:5Kw1GjmsVO9nRkBjcdESSGFTZQI2tRxQ+JXPOiElFsI=
 github.com/MarkRosemaker/openapi-edit v0.0.0-20261008160230-e0aad33a8e1a/go.mod h1:xU48Wno0FTe+42GTQwbko30e8gC9H2wTOG/gIoHWbdc=
-github.com/MarkRosemaker/openapi-merge v0.0.0-20261009090536-d922ddf8adc4 h1:VRi8mk9os5M+/gSguQg+VYTZXqpSJihi9pAhRDWCnMc=
-github.com/MarkRosemaker/openapi-merge v0.0.0-20261009090536-d922ddf8adc4/go.mod h1:YPN/bMWGHEZfFEtsanL788wq+iFFSCrBrlLBZKlajp0=
+github.com/MarkRosemaker/openapi-merge v0.0.0-20261009091825-cb3e2f02392d h1:XsVceOZpKU5h1orUxCwFZcxn6LInCZGXiuKXLzpQmSs=
+github.com/MarkRosemaker/openapi-merge v0.0.0-20261009091825-cb3e2f02392d/go.mod h1:YPN/bMWGHEZfFEtsanL788wq+iFFSCrBrlLBZKlajp0=
 github.com/MarkRosemaker/ordmap v0.0.0-20261007220122-6960b8cdcc3e h1:5yWgxrM7KbGFKyWSbLyd0o6dGekKEykrOdZvJyw90KY=
 github.com/MarkRosemaker/ordmap v0.0.0-20261007220122-6960b8cdcc3e/go.mod h1:Cy5850VCnJ6/inTrECL7/DOUnOwcCIRiW+rbOT8aDCE=
 github.com/MarkRosemaker/yaml v0.0.0-20261004011229-302f2a2e75b5 h1:vJWwunjkKI6K3UdeY+RAIUbMZdj5dZKgKbz5btusM8o=
