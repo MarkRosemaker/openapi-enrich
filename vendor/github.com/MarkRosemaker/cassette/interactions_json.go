@@ -30,14 +30,14 @@ var jsonOpts = json.JoinOptions(
 	)),
 )
 
-// urlUnmarshal reads a URL as [jsonutil.URLUnmarshal] does, normalized as [NormalizeURL] does, so that recordings
+// urlUnmarshal reads a URL as [jsonutil.URLUnmarshal] does, its query parameters sorted by name, so that recordings
 // made before requests were normalized match those made after.
 func urlUnmarshal(dec *jsontext.Decoder, u *url.URL) error {
 	if err := jsonutil.URLUnmarshal(dec, u); err != nil {
 		return err
 	}
 
-	*u = NormalizeURL(*u)
+	*u = normalizeURL(*u)
 
 	return nil
 }
@@ -47,26 +47,11 @@ func InteractionsReadFile(path string) (Interactions, error) {
 	return jsonutil.ReadFile[Interactions](path, jsonOpts)
 }
 
-// InteractionsUnmarshal decodes interactions from JSON.
-func InteractionsUnmarshal(data []byte) (Interactions, error) {
-	out := Interactions{}
-	return out, json.Unmarshal(data, &out, jsonOpts)
-}
-
-// InteractionsUnmarshalRead decodes interactions from the JSON r holds.
-func InteractionsUnmarshalRead(r io.Reader) (Interactions, error) {
-	out := Interactions{}
-	return out, json.UnmarshalRead(r, &out, jsonOpts)
-}
-
-// WriteFile writes the interactions as JSON to the file at path, masked with [DefaultMasker]; ias are left as they
-// are.
-func (ias Interactions) WriteFile(path string) error { return DefaultMasker().WriteFile(path, ias) }
-
-// WriteFile writes the interactions as JSON to the file at path, masked with m; ias are left as they are.
-func (m Masker) WriteFile(path string, ias Interactions) error {
-	masked := ias.Clone()
-	masked.MaskWith(m)
+// WriteFile writes the interactions as JSON to the file at path, masked as [Interactions.Mask] does; ias are left as
+// they are.
+func (ias Interactions) WriteFile(path string) error {
+	masked := ias.clone()
+	masked.Mask()
 
 	return jsonutil.WriteFile(path, masked, jsonOpts)
 }
@@ -79,20 +64,14 @@ func (ias Interactions) MarshalWrite(w io.Writer) error {
 
 var mu sync.Mutex
 
-// AddInteraction adds ia to the interactions in the file at path, as [Masker.AddInteraction] does with
-// [DefaultMasker].
-func AddInteraction(path string, ia *Interaction) error {
-	return DefaultMasker().AddInteraction(path, ia)
-}
-
-// AddInteraction adds ia to the interactions in the file at path, masked with m and with its bodies trimmed as
+// AddInteraction adds ia to the interactions in the file at path, masked as [Interactions.Mask] does and with its bodies trimmed as
 // [Interactions.TrimBodies] does with [MaxStringLen], writing the file right away; ia is left as it is. A call the
 // file holds already, the same request answered with the same status and body, is not added again: a client retrying
 // a call, or polling one, records it once.
-func (m Masker) AddInteraction(path string, ia *Interaction) error {
-	ia = ia.Clone()
+func AddInteraction(path string, ia *Interaction) error {
+	ia = ia.clone()
 	ia.trimBodies(MaxStringLen)
-	ia.MaskWith(m)
+	ia.maskWith(defaultMasker())
 
 	mu.Lock()
 	defer mu.Unlock()
@@ -110,7 +89,7 @@ func (m Masker) AddInteraction(path string, ia *Interaction) error {
 		return nil
 	}
 
-	if err := m.WriteFile(path, append(ias, ia)); err != nil {
+	if err := append(ias, ia).WriteFile(path); err != nil {
 		return fmt.Errorf("writing interactions file: %w", err)
 	}
 
@@ -142,18 +121,18 @@ func canonical(b Body) []byte {
 	return v
 }
 
-// Clone returns a deep copy of ias.
-func (ias Interactions) Clone() Interactions {
+// clone returns a deep copy of ias.
+func (ias Interactions) clone() Interactions {
 	out := make(Interactions, len(ias))
 	for i, ia := range ias {
-		out[i] = ia.Clone()
+		out[i] = ia.clone()
 	}
 
 	return out
 }
 
-// Clone returns a deep copy of ia.
-func (ia *Interaction) Clone() *Interaction {
+// clone returns a deep copy of ia.
+func (ia *Interaction) clone() *Interaction {
 	c := *ia
 	c.Request.Headers = ia.Request.Headers.Clone()
 	c.Request.Body = bytes.Clone(ia.Request.Body)

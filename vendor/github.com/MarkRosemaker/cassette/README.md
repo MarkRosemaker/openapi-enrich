@@ -30,7 +30,7 @@ on it, and offer it to its users, at no cost.
   every call must match the next recording, headers included, and
   `Recorder.Unused` tells which recordings were never called.
 - **Masking**: writing a file always masks credentials first, in headers, bodies
-  and query values. `Masker` says which, and `Masker.Keep` spares a header.
+  and query values, as `Interactions.Mask` does.
 - **Once per call**: `AddInteraction` writes a call to a file only if it is not
   in it yet, so a failure that recurs is recorded once.
 - **Large bodies**: a body that is not text is never read or written, only

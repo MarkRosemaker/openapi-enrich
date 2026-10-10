@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"os"
 	"slices"
-	"strings"
 
 	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/openapi"
@@ -97,13 +96,7 @@ func run(ctx context.Context) error {
 		}
 	}
 
-	m := cassette.DefaultMasker()
-	if strings.HasPrefix(doc.Info.Title, "Habitica") {
-		// for them, "X-Client" is more like a user agent - they're weird that way
-		m = m.Keep("X-Client")
-	}
-
-	ias.MaskWith(m)
+	ias.Mask()
 
 	ias.TrimResponseHeaders()
 	ias.TrimBodies(cassette.MaxStringLen)
@@ -118,7 +111,7 @@ func run(ctx context.Context) error {
 		ias = append(ias, &cassette.Interaction{})
 	}
 
-	if err := m.WriteFile(iaPath, ias); err != nil {
+	if err := ias.WriteFile(iaPath); err != nil {
 		return err
 	}
 

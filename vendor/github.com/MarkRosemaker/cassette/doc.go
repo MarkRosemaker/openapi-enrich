@@ -10,5 +10,5 @@
 //   - Test strictly: [InOrder] and [CompareHeaders] check every call against its recording in turn, and
 //     [Recorder.Unused] tells what was never called.
 //
-// Writing to a file always masks credentials first, see [Masker].
+// Writing to a file always masks credentials first, see [Interactions.Mask].
 package cassette

@@ -213,7 +213,7 @@ type matcher struct {
 }
 
 // MatchRequest returns the [Matcher] a [Recorder] uses unless told otherwise: a request matches a recording with the
-// same method, the same URL, its query parameters in any order (see [NormalizeURL]), and the same body, compared as
+// same method, the same URL, its query parameters in any order, and the same body, compared as
 // JSON where both are, so that the order of members does not matter. Headers are not compared, unless
 // [CompareHeaders] says so.
 func MatchRequest(opts ...MatchOption) Matcher {
@@ -256,7 +256,7 @@ func (m *matcher) match(req *http.Request, rec Request) error {
 		return fmt.Errorf("got method %s, want %s", got.Method, rec.Method)
 	}
 
-	if want := NormalizeURL(rec.URL); got.URL.String() != want.String() {
+	if want := normalizeURL(rec.URL); got.URL.String() != want.String() {
 		return fmt.Errorf("got URL %s, want %s", &got.URL, &want)
 	}
 

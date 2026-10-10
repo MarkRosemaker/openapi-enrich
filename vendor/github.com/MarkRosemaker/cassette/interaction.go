@@ -24,7 +24,7 @@ type Interaction struct {
 // Request represents an observed HTTP request.
 type Request struct {
 	Method string `json:"method"`
-	// URL is the URL requested, its query parameters sorted by name; see [NormalizeURL]. A scaffold, a request yet to
+	// URL is the URL requested, its query parameters sorted by name. A scaffold, a request yet to
 	// be made, has none.
 	URL     url.URL     `json:"url"`
 	Headers http.Header `json:"header,omitempty"`
@@ -38,7 +38,7 @@ type Request struct {
 func NewRequest(req *http.Request) (Request, error) {
 	r := Request{
 		Method:  req.Method,
-		URL:     NormalizeURL(*req.URL),
+		URL:     normalizeURL(*req.URL),
 		Headers: req.Header.Clone(),
 	}
 
@@ -88,10 +88,10 @@ func (r Request) Create(ctx context.Context) (*http.Request, error) {
 // IsScaffold reports whether r is a request yet to be made: one without a URL.
 func (r Request) IsScaffold() bool { return r.URL == (url.URL{}) }
 
-// NormalizeURL returns u with its query parameters stably sorted by name, so that two requests that differ only in
+// normalizeURL returns u with its query parameters stably sorted by name, so that two requests that differ only in
 // their order are recorded alike. Each parameter is kept as it was written: re-escaping it, as [url.Values.Encode]
 // does, would turn a delimiter such as the comma of ids=1,2 into %2C.
-func NormalizeURL(u url.URL) url.URL {
+func normalizeURL(u url.URL) url.URL {
 	if u.RawQuery == "" {
 		return u
 	}
