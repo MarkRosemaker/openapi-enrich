@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"testing"
 
+	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/openapi"
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 func TestBuildResponse_JSON(t *testing.T) {

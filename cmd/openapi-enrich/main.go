@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"crypto/tls"
+	"encoding/json/jsontext"
 	"errors"
 	"flag"
 	"fmt"
@@ -12,9 +13,10 @@ import (
 	"slices"
 	"strings"
 
+	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/openapi"
+	edit "github.com/MarkRosemaker/openapi-edit"
 	enrich "github.com/MarkRosemaker/openapi-enrich"
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 func main() {
@@ -107,7 +109,7 @@ func run(ctx context.Context) error {
 	ias.TrimBodies(cassette.MaxStringLen)
 
 	if trimExamples > 0 {
-		ias.TrimResponseBodies(trimExamples)
+		trimResponseBodies(ias, trimExamples)
 	}
 
 	recorded := ias
@@ -144,6 +146,20 @@ func run(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+// trimResponseBodies cuts every response body's own arrays down to at most maxItems representative elements, at any
+// depth, see [edit.TrimExample]. A body that is empty or not valid JSON is left as it is.
+func trimResponseBodies(ias cassette.Interactions, maxItems int) {
+	for _, ia := range ias {
+		if len(ia.Response.Body) == 0 {
+			continue
+		}
+
+		if trimmed, err := edit.TrimExample(jsontext.Value(ia.Response.Body), maxItems); err == nil {
+			ia.Response.Body = cassette.Body(trimmed)
+		}
+	}
 }
 
 // localhostInsecureTransport is [http.DefaultTransport], but for localhost, whose certificate is self-signed.

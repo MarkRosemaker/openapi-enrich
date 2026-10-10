@@ -5,8 +5,8 @@ import (
 	"net/url"
 	"testing"
 
+	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/openapi"
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 func TestHoistSecurity_AllOpsHaveSameReq(t *testing.T) {

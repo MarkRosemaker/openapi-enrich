@@ -12,9 +12,9 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/errpath"
 	"github.com/MarkRosemaker/openapi"
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 	merge "github.com/MarkRosemaker/openapi-merge"
 )
 

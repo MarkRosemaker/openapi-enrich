@@ -6,8 +6,8 @@ package enrich
 import (
 	"fmt"
 
+	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/openapi"
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 // Enrich updates doc in place based on observed HTTP interactions.

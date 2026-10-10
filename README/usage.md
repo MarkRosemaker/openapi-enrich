@@ -11,8 +11,8 @@ go get github.com/MarkRosemaker/openapi-enrich
 
 ```go
 import (
+    "github.com/MarkRosemaker/cassette"
     enrich "github.com/MarkRosemaker/openapi-enrich"
-    "github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 // Start from a minimal document or load an existing spec.

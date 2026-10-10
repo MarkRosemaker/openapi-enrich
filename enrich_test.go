@@ -8,9 +8,9 @@ import (
 	"os"
 	"testing"
 
+	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/openapi"
 	enrich "github.com/MarkRosemaker/openapi-enrich"
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 // TestEnrich_Golden enriches testdata/openapi.json with testdata/interactions.json, three times over, and must get
