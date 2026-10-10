@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"io"
 	"net/http"
+	"net/url"
 	"strings"
 	"testing"
 
@@ -38,14 +39,14 @@ func TestTrimBodies(t *testing.T) {
 	key := strings.Repeat("k", cassette.MaxStringLen+1)
 
 	ias := cassette.Interactions{{
-		Request: cassette.Request{Method: http.MethodGet, URL: "https://api.example.com"},
+		Request: cassette.Request{Method: http.MethodGet, URL: url.URL{Scheme: "https", Host: "api.example.com"}},
 		Response: cassette.Response{
 			StatusCode: http.StatusOK,
 			Headers:    http.Header{"Content-Type": {"application/json"}},
 			Body:       cassette.Body(`{"image":"` + long + `","` + key + `":"short","list":["` + long + `"]}`),
 		},
 	}, {
-		Request: cassette.Request{Method: http.MethodGet, URL: "https://api.example.com/report"},
+		Request: cassette.Request{Method: http.MethodGet, URL: url.URL{Scheme: "https", Host: "api.example.com", Path: "/report"}},
 		Response: cassette.Response{
 			StatusCode: http.StatusOK,
 			Headers:    http.Header{"Content-Type": {"application/pdf"}},

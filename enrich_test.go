@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"net/url"
 	"os"
 	"testing"
 
@@ -84,17 +85,6 @@ func TestEnrich_Empty(t *testing.T) {
 	}
 }
 
-func TestEnrich_InvalidURL(t *testing.T) {
-	t.Parallel()
-
-	if err := enrich.Enrich(enrich.NewDocument(), cassette.Interactions{{
-		Request:  cassette.Request{Method: http.MethodGet, URL: "://bad-url"},
-		Response: cassette.Response{StatusCode: http.StatusOK},
-	}}); err == nil {
-		t.Error("expected error for invalid URL")
-	}
-}
-
 // TestEnrich_PathTemplateSegmentMatch_Deterministic guards against a request matching a shorter path template whose
 // trailing {param} absorbs extra segments (/things/{thingId} swallowing "a/start") instead of the template of its
 // length (/things/{thingId}/start). That choice once fell out of map iteration order and failed only some of the time,
@@ -125,7 +115,7 @@ func TestEnrich_PathTemplateSegmentMatch_Deterministic(t *testing.T) {
 		}
 
 		if err := enrich.Enrich(doc, cassette.Interactions{{
-			Request:  cassette.Request{Method: http.MethodPost, URL: "http://localhost:8083/api/things/a/start"},
+			Request:  cassette.Request{Method: http.MethodPost, URL: url.URL{Scheme: "http", Host: "localhost:8083", Path: "/api/things/a/start"}},
 			Response: cassette.Response{StatusCode: http.StatusOK},
 		}}); err != nil {
 			t.Fatalf("run %d: %v", i, err)

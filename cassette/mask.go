@@ -3,7 +3,9 @@ package cassette
 import (
 	"bytes"
 	"encoding/json/jsontext"
+	"net/url"
 	"regexp"
+	"slices"
 	"strings"
 	"unicode"
 )
@@ -116,6 +118,16 @@ func DefaultMasker() Masker {
 	}
 }
 
+// Keep returns m without the headers named among its HeaderKeys: an API may use one such as X-Client to name the tool
+// calling it, which recordings keep.
+func (m Masker) Keep(headers ...string) Masker {
+	m.HeaderKeys = slices.DeleteFunc(slices.Clone(m.HeaderKeys), func(k string) bool {
+		return slices.ContainsFunc(headers, func(h string) bool { return strings.EqualFold(h, k) })
+	})
+
+	return m
+}
+
 // rules is the compiled form of a [Masker]: key sets rather than slices.
 type rules struct {
 	headers, keys, ids, names, usernames map[string]bool
@@ -152,6 +164,8 @@ func (ia *Interaction) mask(r rules) {
 	maskHeaders(ia.Request.Headers, r.headers)
 	maskHeaders(ia.Response.Headers, r.headers)
 
+	ia.Request.URL.RawQuery = maskQuery(ia.Request.URL.RawQuery, r.keys)
+
 	ia.Request.Body = maskBody(ia.Request.Body, r)
 	ia.Response.Body = maskBody(ia.Response.Body, r)
 }
@@ -178,6 +192,31 @@ func maskHeaders(h map[string][]string, keys map[string]bool) {
 
 		h[k] = masked
 	}
+}
+
+// maskQuery masks the values of the query parameters raw holds whose names are among keys, as it does the members of a
+// body; every other parameter is kept as it was written.
+func maskQuery(raw string, keys map[string]bool) string {
+	if raw == "" {
+		return raw
+	}
+
+	params := strings.Split(raw, "&")
+	for i, param := range params {
+		name, value, ok := strings.Cut(param, "=")
+		if !ok || !keys[strings.ToLower(queryName(param))] {
+			continue
+		}
+
+		if unescaped, err := url.QueryUnescape(value); err == nil {
+			value = unescaped
+		}
+
+		// the asterisks of a masked value need no escaping, and read better without
+		params[i] = name + "=" + strings.ReplaceAll(url.QueryEscape(maskString(value)), "%2A", "*")
+	}
+
+	return strings.Join(params, "&")
 }
 
 // maskBody rewrites b according to r. A body that is not valid JSON is returned

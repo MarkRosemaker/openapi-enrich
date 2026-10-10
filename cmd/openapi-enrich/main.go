@@ -2,10 +2,12 @@ package main
 
 import (
 	"context"
+	"crypto/tls"
 	"errors"
 	"flag"
 	"fmt"
 	"io/fs"
+	"net/http"
 	"os"
 	"slices"
 	"strings"
@@ -13,7 +15,6 @@ import (
 	"github.com/MarkRosemaker/openapi"
 	enrich "github.com/MarkRosemaker/openapi-enrich"
 	"github.com/MarkRosemaker/openapi-enrich/cassette"
-	"github.com/MarkRosemaker/openapi-enrich/recorder"
 )
 
 func main() {
@@ -53,7 +54,8 @@ func run(ctx context.Context) error {
 		return err
 	}
 
-	tr := recorder.NewTransport(nil, prevIas)
+	// send what has no response yet, and keep what has
+	tr := cassette.Replay(prevIas, cassette.RecordMisses(&localhostInsecureTransport{}))
 
 	scaffoldNext := len(prevIas) == 0
 
@@ -63,7 +65,7 @@ func run(ctx context.Context) error {
 			continue // we have a response
 		}
 
-		if ia.Request.URL == "" {
+		if ia.Request.IsScaffold() {
 			scaffoldNext = true
 			continue
 		}
@@ -77,24 +79,29 @@ func run(ctx context.Context) error {
 			req.Header.Set("Authorization", auth)
 		}
 
-		if _, err := tr.RoundTrip(req); err != nil {
+		rsp, err := tr.RoundTrip(req)
+		if err != nil {
 			return err
 		}
+
+		rsp.Body.Close()
 	}
 
-	ias := tr.Interactions
+	// what was recorded before, then what was recorded now; a request answered from a recording is that recording
+	ias := slices.DeleteFunc(slices.Clone(prevIas), func(ia *cassette.Interaction) bool { return ia.Response.StatusCode == 0 })
+	for _, ia := range tr.Interactions() {
+		if !slices.Contains(prevIas, ia) {
+			ias = append(ias, ia)
+		}
+	}
 
+	m := cassette.DefaultMasker()
 	if strings.HasPrefix(doc.Info.Title, "Habitica") {
 		// for them, "X-Client" is more like a user agent - they're weird that way
-		m := cassette.DefaultMasker()
-		if i := slices.Index(m.HeaderKeys, "X-Client"); i > -1 {
-			m.HeaderKeys = slices.Delete(m.HeaderKeys, i, i+1)
-		}
-
-		ias.MaskWith(m)
-	} else {
-		ias.Mask()
+		m = m.Keep("X-Client")
 	}
+
+	ias.MaskWith(m)
 
 	ias.TrimResponseHeaders()
 	ias.TrimBodies(cassette.MaxStringLen)
@@ -103,15 +110,17 @@ func run(ctx context.Context) error {
 		ias.TrimResponseBodies(trimExamples)
 	}
 
+	recorded := ias
+
 	if scaffoldNext {
 		ias = append(ias, &cassette.Interaction{})
 	}
 
-	if err := ias.WriteFile(iaPath); err != nil {
+	if err := m.WriteFile(iaPath, ias); err != nil {
 		return err
 	}
 
-	if err := enrich.Enrich(doc, tr.Interactions); err != nil {
+	if err := enrich.Enrich(doc, recorded); err != nil {
 		return err
 	}
 
@@ -135,4 +144,21 @@ func run(ctx context.Context) error {
 	}
 
 	return nil
+}
+
+// localhostInsecureTransport is [http.DefaultTransport], but for localhost, whose certificate is self-signed.
+type localhostInsecureTransport struct{}
+
+var insecureTransport = &http.Transport{
+	// self-signed cert; safe because it's localhost only
+	TLSClientConfig: &tls.Config{InsecureSkipVerify: true}, //nolint:gosec
+}
+
+// RoundTrip implements [http.RoundTripper].
+func (localhostInsecureTransport) RoundTrip(req *http.Request) (*http.Response, error) {
+	if req.URL.Hostname() == "localhost" {
+		return insecureTransport.RoundTrip(req)
+	}
+
+	return http.DefaultTransport.RoundTrip(req)
 }

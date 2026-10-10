@@ -21,7 +21,7 @@ func Enrich(doc *openapi.Document, interactions cassette.Interactions) error {
 
 	for _, ia := range interactions {
 		if err := analyzeInteraction(doc, ia); err != nil {
-			return fmt.Errorf("%s %s: %w", ia.Request.Method, ia.Request.URL, err)
+			return fmt.Errorf("%s %s: %w", ia.Request.Method, &ia.Request.URL, err)
 		}
 	}
 
