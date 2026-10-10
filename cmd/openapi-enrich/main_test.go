@@ -1,9 +1,9 @@
-package cassette_test
+package main
 
 import (
 	"testing"
 
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
+	"github.com/MarkRosemaker/cassette"
 )
 
 func TestTrimResponseBodies(t *testing.T) {
@@ -15,7 +15,7 @@ func TestTrimResponseBodies(t *testing.T) {
 		{Response: cassette.Response{}},
 	}
 
-	ias.TrimResponseBodies(2)
+	trimResponseBodies(ias, 2)
 
 	if got, want := string(ias[0].Response.Body), `[1,2]`; got != want {
 		t.Errorf("body 0 = %s, want %s", got, want)

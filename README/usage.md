@@ -11,18 +11,18 @@ go get github.com/MarkRosemaker/openapi-enrich
 
 ```go
 import (
+    "github.com/MarkRosemaker/cassette"
     enrich "github.com/MarkRosemaker/openapi-enrich"
-    "github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 // Start from a minimal document or load an existing spec.
 doc := enrich.NewDocument()
 
-interactions := []cassette.Interaction{
+interactions := cassette.Interactions{
     {
         Request: cassette.Request{
             Method:  "GET",
-            URL:     "https://api.example.com/users",
+            URL:     url.URL{Scheme: "https", Host: "api.example.com", Path: "/users"},
             Headers: http.Header{},
         },
         Response: cassette.Response{

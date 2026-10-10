@@ -2,10 +2,11 @@ package enrich
 
 import (
 	"net/http"
+	"net/url"
 	"testing"
 
+	"github.com/MarkRosemaker/cassette"
 	"github.com/MarkRosemaker/openapi"
-	"github.com/MarkRosemaker/openapi-enrich/cassette"
 )
 
 func TestHoistSecurity_AllOpsHaveSameReq(t *testing.T) {
@@ -122,7 +123,7 @@ func TestEnrich_Unauthenticated(t *testing.T) {
 		}
 
 		return &cassette.Interaction{
-			Request: cassette.Request{Method: http.MethodGet, URL: "https://api.example.com" + path, Headers: h},
+			Request: cassette.Request{Method: http.MethodGet, URL: url.URL{Scheme: "https", Host: "api.example.com", Path: path}, Headers: h},
 			Response: cassette.Response{
 				StatusCode: http.StatusOK,
 				Headers:    http.Header{"Content-Type": {"application/json"}},
@@ -188,7 +189,7 @@ func TestEnrich_UnauthenticatedAfterHoisting(t *testing.T) {
 	}})
 
 	if err := Enrich(doc, cassette.Interactions{{
-		Request:  cassette.Request{Method: http.MethodGet, URL: "https://api.example.com/health", Headers: http.Header{}},
+		Request:  cassette.Request{Method: http.MethodGet, URL: url.URL{Scheme: "https", Host: "api.example.com", Path: "/health"}, Headers: http.Header{}},
 		Response: cassette.Response{StatusCode: http.StatusNoContent},
 	}}); err != nil {
 		t.Fatal(err)
@@ -204,7 +205,7 @@ func TestEnrich_UnauthenticatedAfterHoisting(t *testing.T) {
 
 	// the other operation held bearerAuth from before, so a call without credentials makes them optional
 	if err := Enrich(doc, cassette.Interactions{{
-		Request:  cassette.Request{Method: http.MethodGet, URL: "https://api.example.com/a", Headers: http.Header{}},
+		Request:  cassette.Request{Method: http.MethodGet, URL: url.URL{Scheme: "https", Host: "api.example.com", Path: "/a"}, Headers: http.Header{}},
 		Response: cassette.Response{StatusCode: http.StatusNoContent},
 	}}); err != nil {
 		t.Fatal(err)

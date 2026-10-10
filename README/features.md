@@ -39,12 +39,9 @@ What it infers:
   shape. Recording the others widens it to fit all of them. Where the sharing
   itself is wrong, give each operation its own schema in the input.
 
-The module also ships the pieces needed to *obtain* that traffic:
-
-- `cassette` — self-contained HTTP interaction types, with JSON persistence,
-  bearer-token masking, and header trimming before anything is written to disk.
-  A body that is not text is never read or written, only marked `bodyOmitted`,
-  so a large download streams to its caller as it is. A JSON string longer than
-  2,048 bytes, such as an image in base64, is cut to that and ends in `…`.
-- `recorder` — an `http.RoundTripper` that records live traffic into a cassette,
-  so you can capture interactions by pointing an existing client at it.
+The traffic is read as interactions of
+[cassette](https://github.com/MarkRosemaker/cassette), which records and replays
+HTTP calls: `cassette.Replay(ias, cassette.RecordMisses(nil))` records a
+client's calls, with credentials masked before anything is written. The CLI
+records through it too, and cuts long arrays in response bodies down to a few
+representative elements with `-trim-examples`.
