@@ -115,13 +115,13 @@ func TestHoistSecurity_NoSecurity(t *testing.T) {
 func TestEnrich_Unauthenticated(t *testing.T) {
 	bearer := openapi.SecurityRequirement{schemeNameBearer: {}}
 
-	call := func(path string, auth bool) cassette.Interaction {
+	call := func(path string, auth bool) *cassette.Interaction {
 		h := http.Header{}
 		if auth {
 			h.Set("Authorization", "Bearer tok1")
 		}
 
-		return cassette.Interaction{
+		return &cassette.Interaction{
 			Request: cassette.Request{Method: http.MethodGet, URL: "https://api.example.com" + path, Headers: h},
 			Response: cassette.Response{
 				StatusCode: http.StatusOK,

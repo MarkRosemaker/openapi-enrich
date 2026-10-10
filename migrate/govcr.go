@@ -25,7 +25,7 @@ func FromGoVCRFile(path string) (cassette.Interactions, error) {
 
 	out := make(cassette.Interactions, len(c.Interactions))
 	for i, ia := range c.Interactions {
-		out[i] = cassette.Interaction{
+		out[i] = &cassette.Interaction{
 			Request: cassette.Request{
 				Method:  ia.Request.Method,
 				URL:     ia.Request.URL,
