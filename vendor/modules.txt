@@ -1,7 +1,7 @@
 # cloud.google.com/go v0.123.0
 ## explicit; go 1.24.0
 cloud.google.com/go/civil
-# github.com/MarkRosemaker/cassette v0.0.0-20261010201242-8987ec5d7a80
+# github.com/MarkRosemaker/cassette v0.0.0-20261010202055-e84f8b533f6a
 ## explicit; go 1.27
 github.com/MarkRosemaker/cassette
 # github.com/MarkRosemaker/errpath v0.0.0-20261004011213-d39d7f96c8f4

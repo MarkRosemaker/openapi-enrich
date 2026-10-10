@@ -9,7 +9,7 @@
 		"testing",
 		"vcr"
 	],
-	"coverage": 85.2,
+	"coverage": 85.8,
 	"devtoolVersion": "v0.0.0-20261009220557-8ed3e708a99f",
 	"kind": "library"
 }
