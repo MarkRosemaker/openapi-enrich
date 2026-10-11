@@ -1,34 +1,34 @@
 # cloud.google.com/go v0.123.0
 ## explicit; go 1.24.0
 cloud.google.com/go/civil
-# github.com/MarkRosemaker/cassette v0.0.0-20261011020226-10c8bf4dc827
+# github.com/MarkRosemaker/cassette v0.0.0-20261011040139-e316990cc6e5
 ## explicit; go 1.27
 github.com/MarkRosemaker/cassette
-# github.com/MarkRosemaker/errpath v0.0.0-20261011020208-f8e59e480181
+# github.com/MarkRosemaker/errpath v0.0.0-20261011040119-b7f72306f6e2
 ## explicit; go 1.23.2
 github.com/MarkRosemaker/errpath
-# github.com/MarkRosemaker/json2yaml v0.0.0-20261011020208-8cc101278eb5
+# github.com/MarkRosemaker/json2yaml v0.0.0-20261011040119-29b043b432f7
 ## explicit; go 1.27
 github.com/MarkRosemaker/json2yaml
-# github.com/MarkRosemaker/jsonutil v0.0.0-20261011020208-ff52d385d3c8
+# github.com/MarkRosemaker/jsonutil v0.0.0-20261011040119-f57ddd64aa3a
 ## explicit; go 1.27
 github.com/MarkRosemaker/jsonutil
-# github.com/MarkRosemaker/openapi v0.0.0-20261011020241-8962b2e591ba
+# github.com/MarkRosemaker/openapi v0.0.0-20261011040153-08d82c38c26e
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-edit v0.0.0-20261011020322-8158af79c061
+# github.com/MarkRosemaker/openapi-edit v0.0.0-20261011040250-afa17d819585
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-edit
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20261011020321-8f6de2598f86
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20261011040249-53aa02f205de
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-merge
-# github.com/MarkRosemaker/ordmap v0.0.0-20261011020221-a054ebac895d
+# github.com/MarkRosemaker/ordmap v0.0.0-20261011040134-cc3be73c6490
 ## explicit; go 1.27
 github.com/MarkRosemaker/ordmap
-# github.com/MarkRosemaker/yaml v0.0.0-20261011020224-4c099f72bcd6
+# github.com/MarkRosemaker/yaml v0.0.0-20261011040135-5590f4603fd8
 ## explicit; go 1.27
 github.com/MarkRosemaker/yaml
-# github.com/MarkRosemaker/yaml2json v0.0.0-20261011020208-0ec4c35ef945
+# github.com/MarkRosemaker/yaml2json v0.0.0-20261011040119-d8a11300a833
 ## explicit; go 1.27
 github.com/MarkRosemaker/yaml2json
 # github.com/ettle/strcase v0.2.0
