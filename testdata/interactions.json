@@ -603,7 +603,9 @@
 				"limits": {
 					"north": 1
 				},
-				"code": 401
+				"code": 401,
+				"quota": 7,
+				"bytes": 5000000000
 			}
 		}
 	},
