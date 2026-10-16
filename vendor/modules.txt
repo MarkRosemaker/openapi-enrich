@@ -1,7 +1,7 @@
 # cloud.google.com/go v0.123.0
 ## explicit; go 1.24.0
 cloud.google.com/go/civil
-# github.com/MarkRosemaker/cassette v0.0.0-20261016040141-470096571ee8
+# github.com/MarkRosemaker/cassette v0.0.0-20261016100221-68e478a1272e
 ## explicit; go 1.27
 github.com/MarkRosemaker/cassette
 # github.com/MarkRosemaker/errpath v0.0.0-20261011100139-0f973ba10436
@@ -10,16 +10,16 @@ github.com/MarkRosemaker/errpath
 # github.com/MarkRosemaker/json2yaml v0.0.0-20261011100139-2d7c8ec80f68
 ## explicit; go 1.27
 github.com/MarkRosemaker/json2yaml
-# github.com/MarkRosemaker/jsonutil v0.0.0-20261015233346-026192cb8989
+# github.com/MarkRosemaker/jsonutil v0.0.0-20261016100147-71b5e319deaa
 ## explicit; go 1.27
 github.com/MarkRosemaker/jsonutil
-# github.com/MarkRosemaker/openapi v0.0.0-20261016040148-ee917e6f18e9
+# github.com/MarkRosemaker/openapi v0.0.0-20261016100238-2360b5dc7df6
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-edit v0.0.0-20261016040231-29f295d132ee
+# github.com/MarkRosemaker/openapi-edit v0.0.0-20261016100319-827cf16500b1
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-edit
-# github.com/MarkRosemaker/openapi-merge v0.0.0-20261016040230-9b5496dc735a
+# github.com/MarkRosemaker/openapi-merge v0.0.0-20261016100319-fce0d20d4aaf
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-merge
 # github.com/MarkRosemaker/ordmap v0.0.0-20261014160122-d6113d0a91f7
