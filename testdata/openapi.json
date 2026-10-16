@@ -116,7 +116,7 @@
     },
     "/settings": {
       "get": {
-        "description": "Enums grow with what is recorded, keys under propertyNames too; a schema without a type takes its const's.",
+        "description": "Enums grow with what is recorded, keys under propertyNames too; a schema without a type takes its const's. An integer keeps its format, and one too big for 32 bits is an int64.",
         "operationId": "GetSettings",
         "responses": {
           "200": {
@@ -152,6 +152,11 @@
                         1,
                         null
                       ]
+                    },
+                    "quota": {
+                      "description": "Declared int64: a small value recorded for it keeps the format.",
+                      "type": "integer",
+                      "format": "int64"
                     }
                   }
                 }
