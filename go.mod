@@ -5,9 +5,9 @@ go 1.27
 require (
 	github.com/MarkRosemaker/cassette v0.0.0-20261017150245-0c5e435b873d
 	github.com/MarkRosemaker/errpath v0.0.0-20261016110315-f418d8a9c89d
-	github.com/MarkRosemaker/openapi v0.0.0-20261017150252-4bbc7369ca87
-	github.com/MarkRosemaker/openapi-edit v0.0.0-20261017150329-09b2e1211d44
-	github.com/MarkRosemaker/openapi-merge v0.0.0-20261017150327-19fbd28f86ec
+	github.com/MarkRosemaker/openapi v0.0.0-20261017153128-a560a6189531
+	github.com/MarkRosemaker/openapi-edit v0.0.0-20261017153506-638c08596dd0
+	github.com/MarkRosemaker/openapi-merge v0.0.0-20261017153504-95ce46c76db4
 	github.com/ettle/strcase v0.2.0
 	github.com/go-api-libs/types v0.0.0-20261016110315-ed8249d46e89
 )
