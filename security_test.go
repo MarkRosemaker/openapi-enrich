@@ -246,3 +246,31 @@ func allOperations(doc *openapi.Document) []*openapi.Operation {
 
 	return ops
 }
+
+func TestEnrich_ReusesDeclaredScheme(t *testing.T) {
+	// The spec declares its bearer scheme under a name of its own; a recorded bearer token is that scheme.
+	declared := openapi.SecurityRequirement{"HTTPBearer": {}}
+	doc := docWithOps(&openapi.Operation{})
+	doc.Components.SecuritySchemes = openapi.SecuritySchemes{}
+	doc.Components.SecuritySchemes.Set("HTTPBearer", &openapi.SecuritySchemeRef{Value: &openapi.SecurityScheme{
+		Type: openapi.SecuritySchemeTypeHTTP, Scheme: "Bearer",
+	}})
+
+	if err := Enrich(doc, cassette.Interactions{{
+		Request: cassette.Request{
+			Method: http.MethodGet, URL: url.URL{Scheme: "https", Host: "api.example.com", Path: "/a"},
+			Headers: http.Header{"Authorization": {"Bearer ***"}},
+		},
+		Response: cassette.Response{StatusCode: http.StatusNoContent},
+	}}); err != nil {
+		t.Fatal(err)
+	}
+
+	if _, ok := doc.Components.SecuritySchemes[schemeNameBearer]; ok {
+		t.Errorf("added %s beside HTTPBearer", schemeNameBearer)
+	}
+
+	if got := effectiveSecurity(doc, doc.Paths["/a"].Get, false); !sameRequirements(got, openapi.SecurityRequirements{declared}) {
+		t.Errorf("security is %v, want %v", got, declared)
+	}
+}
