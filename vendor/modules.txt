@@ -16,7 +16,7 @@ github.com/MarkRosemaker/jsonutil
 # github.com/MarkRosemaker/openapi v0.0.0-20261113130942-537594635ea6
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi
-# github.com/MarkRosemaker/openapi-edit v0.0.0-20261113131039-6e51bd94c90a
+# github.com/MarkRosemaker/openapi-edit v0.0.0-20261113185459-918b985d04fb
 ## explicit; go 1.27
 github.com/MarkRosemaker/openapi-edit
 # github.com/MarkRosemaker/openapi-merge v0.0.0-20261113131038-22dd52a04744
