@@ -274,3 +274,57 @@ func TestEnrich_ReusesDeclaredScheme(t *testing.T) {
 		t.Errorf("security is %v, want %v", got, declared)
 	}
 }
+
+func TestEnrich_DeclaredAPIKey(t *testing.T) {
+	// A key sent where the spec's apiKey scheme says is that credential, not a parameter of the operation, and the
+	// operation requires it.
+	for _, tc := range []struct {
+		in      openapi.SecuritySchemeIn
+		request func(*cassette.Request)
+	}{
+		{openapi.SecuritySchemeInHeader, func(r *cassette.Request) { r.Headers.Set("X-Finnhub-Token", "****") }},
+		{openapi.SecuritySchemeInQuery, func(r *cassette.Request) { r.URL.RawQuery = "symbol=AA&token=****" }},
+		{openapi.SecuritySchemeInCookie, func(r *cassette.Request) { r.Headers.Set("Cookie", "session=****") }},
+	} {
+		t.Run(string(tc.in), func(t *testing.T) {
+			name := map[openapi.SecuritySchemeIn]string{
+				openapi.SecuritySchemeInHeader: "X-Finnhub-Token",
+				openapi.SecuritySchemeInQuery:  "token",
+				openapi.SecuritySchemeInCookie: "session",
+			}[tc.in]
+
+			apiKey := openapi.SecurityRequirement{"api_key": {}}
+			doc := docWithOps(&openapi.Operation{})
+			doc.Security = openapi.SecurityRequirements{apiKey}
+			doc.Components.SecuritySchemes = openapi.SecuritySchemes{}
+			doc.Components.SecuritySchemes.Set("api_key", &openapi.SecuritySchemeRef{Value: &openapi.SecurityScheme{
+				Type: openapi.SecuritySchemeTypeAPIKey, In: tc.in, Name: name,
+			}})
+
+			req := cassette.Request{
+				Method: http.MethodGet, URL: url.URL{Scheme: "https", Host: "api.example.com", Path: "/a"},
+				Headers: http.Header{},
+			}
+			tc.request(&req)
+
+			if err := Enrich(doc, cassette.Interactions{{Request: req, Response: cassette.Response{StatusCode: http.StatusNoContent}}}); err != nil {
+				t.Fatal(err)
+			}
+
+			op := doc.Paths["/a"].Get
+			if got := effectiveSecurity(doc, op, false); !sameRequirements(got, openapi.SecurityRequirements{apiKey}) {
+				t.Errorf("security is %v, want %v", got, apiKey)
+			}
+
+			for _, p := range op.Parameters {
+				if p.Value != nil && p.Value.Name == name {
+					t.Errorf("the key became a parameter: %+v", p.Value)
+				}
+			}
+
+			if _, ok := doc.Components.Parameters[name]; ok {
+				t.Errorf("the key became a component parameter")
+			}
+		})
+	}
+}
