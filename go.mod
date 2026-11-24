@@ -3,7 +3,7 @@ module github.com/MarkRosemaker/openapi-enrich
 go 1.27
 
 require (
-	github.com/MarkRosemaker/cassette v0.0.0-20261124005723-7b429490730c
+	github.com/MarkRosemaker/cassette v0.0.0-20261124110309-32c9c69cd6ad
 	github.com/MarkRosemaker/errpath v0.0.0-20261118230255-99e20cb3445a
 	github.com/MarkRosemaker/openapi v0.0.0-20261124050252-52a60c76de04
 	github.com/MarkRosemaker/openapi-edit v0.0.0-20261124050336-02af6fa36ba9
