@@ -713,5 +713,31 @@
 				"name": "Alice"
 			}
 		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/statements?q=1"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "text/xml;charset=UTF-8"
+			},
+			"body": "<FlexStatementResponse timestamp='27 November, 2026 10:04 AM EST'>\n<Status>Success</Status>\n<ReferenceCode>0877097094</ReferenceCode>\n<Url>https://example.com/GetStatement</Url>\n<Note>first</Note>\n<Note>second</Note>\n</FlexStatementResponse>"
+		}
+	},
+	{
+		"request": {
+			"method": "GET",
+			"url": "https://api.example.com/v1/statements?q=2"
+		},
+		"response": {
+			"statusCode": 200,
+			"header": {
+				"Content-Type": "text/xml;charset=UTF-8"
+			},
+			"body": "<FlexStatementResponse timestamp='27 November, 2026 10:05 AM EST'>\n<Status>Fail</Status>\n<ErrorCode>1019</ErrorCode>\n<ErrorMessage>Statement generation in progress. Please try again shortly.</ErrorMessage>\n</FlexStatementResponse>"
+		}
 	}
 ]
