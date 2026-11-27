@@ -975,14 +975,7 @@
             }
           },
           "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Not Found"
           }
         },
         "security": [
