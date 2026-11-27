@@ -5,7 +5,7 @@ go 1.27
 require (
 	github.com/MarkRosemaker/cassette v0.0.0-20261127001959-2e9c977b04a7
 	github.com/MarkRosemaker/errpath v0.0.0-20261127001931-41afc0b86075
-	github.com/MarkRosemaker/openapi v0.0.0-20261127002030-cbffd96bf394
+	github.com/MarkRosemaker/openapi v0.0.0-20261127155054-78507e678e58
 	github.com/MarkRosemaker/openapi-edit v0.0.0-20261127002121-4ed97994dce4
 	github.com/MarkRosemaker/openapi-merge v0.0.0-20261127002121-c54b5b9829ad
 	github.com/ettle/strcase v0.2.0

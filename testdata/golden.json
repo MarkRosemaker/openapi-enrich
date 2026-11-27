@@ -1234,6 +1234,76 @@
           }
         ]
       }
+    },
+    "/statements": {
+      "get": {
+        "operationId": "ListStatements",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/xml": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "timestamp": {
+                      "type": "string",
+                      "xml": {
+                        "attribute": true
+                      },
+                      "example": "27 November, 2026 10:04 AM EST"
+                    },
+                    "Status": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "ReferenceCode": {
+                      "type": "string",
+                      "example": "0877097094"
+                    },
+                    "Url": {
+                      "type": "string",
+                      "example": "https://example.com/GetStatement"
+                    },
+                    "Note": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "example": "first"
+                      }
+                    },
+                    "ErrorCode": {
+                      "type": "string",
+                      "example": "1019"
+                    },
+                    "ErrorMessage": {
+                      "type": "string",
+                      "example": "Statement generation in progress. Please try again shortly."
+                    }
+                  },
+                  "required": [
+                    "timestamp",
+                    "Status"
+                  ],
+                  "xml": {
+                    "name": "FlexStatementResponse"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": []
+      }
     }
   },
   "components": {
