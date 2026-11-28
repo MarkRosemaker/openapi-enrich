@@ -23,7 +23,8 @@
           "schema": {
             "type": "string",
             "format": "uuid"
-          }
+          },
+          "x-go-name": "PageID"
         }
       ],
       "get": {
@@ -1365,9 +1366,11 @@
       "PageSize": {
         "name": "page_size",
         "in": "query",
+        "description": "An extension set by hand, such as the name a parameter takes in Go, stays when a recording is merged in.",
         "schema": {
           "type": "integer"
-        }
+        },
+        "x-go-name": "Limit"
       }
     },
     "securitySchemes": {
